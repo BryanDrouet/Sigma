@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Choisir une plateforme</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" type="image/png" href="assets/icon.png" />
+  <link rel="stylesheet" href="styles/styleHome.css" />
+</head>
+<body>
+  <div class="container">
+    <div class="half left" onclick="choosePlatform('pronote')">
+      <img class="logo" src="assets/logoPronote.png" alt="Logo Pronote" />
+      <h2>Accéder à Pronote</h2>
+    </div>
+    <div class="half right" onclick="choosePlatform('ecoledirecte')">
+      <img class="logo" src="assets/logoEcoleDirecte.png" alt="Logo EcoleDirecte" />
+      <h2>Accéder à EcoleDirecte</h2>
+    </div>
+  </div>
+
+  <button class="install-button" id="installButton">Installer l'application</button>
+
+  <div id="accountModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <h2 class="popUp">Choisir un compte</h2>
+      <div id="accountList"></div>
+      <input type="text" id="newAccountName" placeholder="Nouveau compte" />
+      <button onclick="createAccount()">Créer un compte</button>
+    </div>
+  </div>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js').then(function(registration) {
+        console.log('Service Worker enregistré avec succès:', registration);
+      }).catch(function(error) {
+        console.log('L\'enregistrement du Service Worker a échoué:', error);
+      });
+    }
+
+    let deferredPrompt;
+    const installButton = document.getElementById("installButton");
+
+    window.addEventListener("beforeinstallprompt", (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      installButton.style.display = "block";
+    });
+
+    installButton.addEventListener("click", () => {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+          deferredPrompt = null;
+        });
+      }
+    });
+    
+    function saveAccount(platform, accountName) {
+      let accounts = JSON.parse(localStorage.getItem(platform)) || [];
+      if (!accounts.includes(accountName)) {
+        accounts.push(accountName);
+        localStorage.setItem(platform, JSON.stringify(accounts));
+      }
+    }
+    
+    function getAccounts(platform) {
+      return JSON.parse(localStorage.getItem(platform)) || [];
+    }
+
+    function showAccountList(platform) {
+      const accountListDiv = document.getElementById('accountList');
+      const accounts = getAccounts(platform);
+
+      accountListDiv.innerHTML = ''; 
+      accounts.forEach(account => {
+        const accountItem = document.createElement('div');
+        accountItem.textContent = account;
+        accountItem.classList.add('account-item');
+        accountItem.onclick = function() {
+          chooseAccount(account);
+        };
+        accountListDiv.appendChild(accountItem);
+      });
+    }
+    
+    function chooseAccount(accountName) {
+      localStorage.setItem('currentAccount', accountName);
+
+      const platform = localStorage.getItem('currentPlatform');
+      if (platform === 'pronote') {
+        window.location.href = "dashboardPN.html";
+      } else if (platform === 'ecoledirecte') {
+        window.location.href = "dashboardED.html";
+      } else {
+        alert("Plateforme inconnue.");
+      }
+    }
+    
+    function createAccount() {
+      const newAccountName = document.getElementById('newAccountName').value;
+      if (newAccountName) {
+        saveAccount(currentPlatform, newAccountName);
+        chooseAccount(newAccountName); 
+      } else {
+        alert("Veuillez entrer un nom pour le compte.");
+      }
+    }
+    
+    function openModal(platform) {
+      document.getElementById("accountModal").style.display = "block";
+      showAccountList(platform); 
+    }
+    
+    function closeModal() {
+      document.getElementById("accountModal").style.display = "none";
+    }
+
+    let currentPlatform = '';
+
+    function choosePlatform(platform) {
+      currentPlatform = platform;
+      localStorage.setItem('currentPlatform', platform);
+      openModal(platform); 
+    }
+  </script>
+</body>
+</html>

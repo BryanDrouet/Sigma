@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ajouter des Notes</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="styles/styleDashboardED.css" />
+  <link rel="stylesheet" href="styles/styleDashboards.css" />
+</head>
+<body>
+  <div>
+    <h1>Ajouter vos Notes</h1>
+
+    <form id="notesForm">
+      <div class="subject-input">
+        <label for="subject">Matière :</label>
+        <select id="subject" required>
+        </select>
+        <button type="button" id="modalBtn">Gérer les Matières</button>
+      </div>
+      <div class="marks-input">
+        <label for="mark">Note obtenue :</label>
+        <input type="number" id="mark" placeholder="Note obtenue" required />
+      </div>
+      <div class="maxMarks-input">
+        <label for="maxMark">Note maximale :</label>
+        <input type="number" id="maxMark" placeholder="Note maximale" required />
+      </div>
+      <div class="coefficient-input">
+        <label for="coefficient">Coefficient :</label>
+        <input type="number" id="coefficient" step="0.1" min="0.1" placeholder="Coefficient" required />
+      </div>
+      <button type="submit">Ajouter la Note</button>
+    </form>
+
+    <div id="notesList">
+      <h2>Mes Notes :</h2>
+      <ul id="notes"></ul>
+    </div>
+  </div>
+
+  <div id="myModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Gérer les Matières</h2>
+      <div class="modal-body">
+        <button class="btn" id="addSubjectBtn">Ajouter une matière</button>
+
+        <h3>Supprimer une matière :</h3>
+        <select id="subjectsToDelete">
+        </select>
+        <button class="btn" id="deleteSubjectBtn" style="display: none;">Supprimer la matière</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js').then(function(registration) {
+        console.log('Service Worker enregistré avec succès:', registration);
+      }).catch(function(error) {
+        console.log('L\'enregistrement du Service Worker a échoué:', error);
+      });
+    }
+
+    let deferredPrompt;
+    const installButton = document.getElementById("installButton");
+
+    window.addEventListener("beforeinstallprompt", (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      installButton.style.display = "block";
+    });
+
+    installButton.addEventListener("click", () => {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+          deferredPrompt = null;
+        });
+      }
+    });
+    
+    const currentAccount = localStorage.getItem('currentAccount');
+    const currentPlatform = localStorage.getItem('currentPlatform'); 
+
+    if (!currentAccount || !currentPlatform) {
+      alert("Aucun compte sélectionné. Vous devez vous connecter d'abord.");
+      window.location.href = "index.html"; 
+    }
+
+    const accountKey = `${currentPlatform}-${currentAccount}`; 
+    let subjects = JSON.parse(localStorage.getItem(`${accountKey}-subjects`)) || [];
+    let notes = JSON.parse(localStorage.getItem(`${accountKey}-notes`)) || [];
+    
+    const subjectSelect = document.getElementById("subject");
+    const subjectToDeleteSelect = document.getElementById("subjectsToDelete");
+    const deleteSubjectSection = document.querySelector(".modal-body h3");
+    const subjectToDeleteContainer = document.querySelector(".modal-body select");
+
+    function loadSubjects() {
+      subjectSelect.innerHTML = '';
+      subjectToDeleteSelect.innerHTML = '';
+
+      if (subjects.length === 0) {
+        deleteSubjectSection.style.display = 'none';
+        subjectToDeleteContainer.style.display = 'none';
+      } else {
+        deleteSubjectSection.style.display = 'block';
+
+        subjects.forEach(subject => {
+          const option = document.createElement("option");
+          option.value = subject;
+          option.textContent = subject;
+          subjectSelect.appendChild(option);
+
+          const deleteOption = document.createElement("option");
+          deleteOption.value = subject;
+          deleteOption.textContent = subject;
+          subjectToDeleteSelect.appendChild(deleteOption);
+        });
+
+        if (subjectDeleted) {
+          subjectToDeleteContainer.style.display = 'block';
+        }
+      }
+    }
+
+    loadSubjects();
+
+    document.getElementById("addSubjectBtn").addEventListener("click", () => {
+      const newSubject = prompt("Entrez le nom de la nouvelle matière :");
+      if (newSubject && !subjects.includes(newSubject)) {
+        subjects.push(newSubject);
+        localStorage.setItem(`${accountKey}-subjects`, JSON.stringify(subjects)); 
+        subjectDeleted = false;
+        loadSubjects();
+      }
+    });
+
+    document.getElementById("deleteSubjectBtn").addEventListener("click", () => {
+      const subjectToDelete = document.getElementById("subjectsToDelete").value;
+      if (subjectToDelete) {
+        const index = subjects.indexOf(subjectToDelete);
+        if (index > -1) {
+          subjects.splice(index, 1);
+          localStorage.setItem(`${accountKey}-subjects`, JSON.stringify(subjects)); 
+          subjectDeleted = true;
+          loadSubjects();
+        }
+      }
+    });
+
+    const modalBtn = document.getElementById("modalBtn");
+    const modal = document.getElementById("myModal");
+    const closeModal = document.getElementsByClassName("close")[0];
+
+    modalBtn.onclick = () => modal.style.display = "block";
+    closeModal.onclick = () => modal.style.display = "none";
+
+    document.getElementById("notesForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const subject = document.getElementById("subject").value;
+      const mark = parseFloat(document.getElementById("mark").value);
+      const maxMark = parseFloat(document.getElementById("maxMark").value);
+      const coefficient = parseFloat(document.getElementById("coefficient").value);
+
+      if (isNaN(mark) || isNaN(maxMark) || isNaN(coefficient)) {
+        alert("Veuillez remplir tous les champs correctement.");
+        return;
+      }
+
+      const markOutOf20 = (mark / maxMark) * 20;
+
+      notes.push({ subject, mark, maxMark, coefficient, markOutOf20 });
+      localStorage.setItem(`${accountKey}-notes`, JSON.stringify(notes)); 
+
+      document.getElementById("notesForm").reset();
+      updateNotes();
+    });
+    
+    function updateNotes() {
+      const notesList = document.getElementById("notes");
+      notesList.innerHTML = '';
+
+      notes.forEach((note, index) => {
+        const li = document.createElement("li");
+        li.textContent = `${note.subject}: ${note.mark}/${note.maxMark} (Coef: ${note.coefficient}) - Note sur 20: ${note.markOutOf20.toFixed(2)}`;
+
+        const deleteButton = document.createElement("button");
+        deleteButton.textContent = "Supprimer";
+        deleteButton.classList.add("delete-button");
+        deleteButton.onclick = () => deleteNote(index);
+
+        li.appendChild(deleteButton);
+        notesList.appendChild(li);
+      });
+    }
+
+    function deleteNote(index) {
+      notes.splice(index, 1);
+      localStorage.setItem(`${accountKey}-notes`, JSON.stringify(notes)); 
+      updateNotes();
+    }
+  </script>
+</body>
+</html>
