@@ -1,0 +1,180 @@
+/* Général / Page d'accueil */
+body {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100%;
+  overflow: hidden;
+  font-family: "Segoe UI", sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.container {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+}
+
+.half {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.half:hover {
+  transform: scale(1.02);
+}
+
+.left {
+  background-color: #007052; /* Complémentaire de violet Pronote */
+}
+
+.right {
+  background-color: #257DBC; /* Complémentaire de bleu EcoleDirecte */
+}
+
+.logo {
+  width: 120px;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+h2 {
+  color: rgb(255, 255, 255);
+  font-size: 1.6rem;
+  text-align: center;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+
+h2.popUp {
+  color: rgb(0, 0, 0);
+  margin-top: 0px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  h2 {
+    font-size: 1.2rem;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
+  .logo {
+    width: 90px;
+  }
+}
+
+/* Bouton d'installation */
+.install-button {
+  background-color: white;
+  color: #1976D2;
+  padding: 12px 24px;
+  font-size: 0.9rem;
+  border: 2px solid #1976D2;
+  border-radius: 30px;
+  cursor: pointer;
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.install-button:hover {
+  background-color: #1976D2;
+  color: white;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Modale */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+  position: relative;
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  width: 80%;
+  max-width: 400px;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.modal h2 {
+  font-size: 1.5em;
+  margin-bottom: 20px;
+}
+
+.modal input {
+  padding: 10px;
+  width: 80%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+.modal button {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.modal button:hover {
+  background-color: #45a049;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  color: #aaa;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Sélection compte */
+.account-item {
+  padding: 10px;
+  cursor: pointer;
+  background-color: #e2e2e2;
+  margin-top: 0px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
+.account-item:hover {
+  background-color: #cecece;
+}
+
