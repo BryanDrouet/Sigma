@@ -1,0 +1,142 @@
+* {
+    box-sizing: border-box;
+  }
+
+  body {
+    height: 100vh;
+    font-family: "Segoe UI", sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+
+  #mainContent {
+    margin: 50px 15%;
+  }
+
+  .modal-content {
+    font-family: "Segoe UI", sans-serif;
+  }
+    
+  h1, h2 {
+    text-align: center;
+  }
+
+  h2.popUp {
+    margin-top: 0%;
+  }
+
+  .close {
+    float: right;
+    top: 10px;
+    right: 15px;
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    line-height: 1;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  
+  form {
+    border-radius: 8px;
+    padding: 20px;
+  }
+  
+  input, select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  button[type="submit"], button[type="button"] {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  button.delete-button {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  /* Notes List */
+  #notesList ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  #notesList li {
+    padding: 12px;
+    border-radius: 8px;
+  }
+  
+  #notesList li span {
+    display: block;
+    font-weight: bold;
+  }
+  
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .modal-content {
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 500px;
+    width: 90%;
+  }
+  
+  .modal-content h2 {
+    text-align: center;
+  }
+  
+  .btn {
+    padding: 12px 20px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+  }
+
+  .install-button {
+    padding: 12px 24px;
+    font-size: 0.9rem;
+    border-radius: 30px;
+    cursor: pointer;
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: none;
+    transition: all 0.3s ease;
+  }
+  
+  @media screen and (max-width: 768px) {
+    body {
+      margin: 50px 30px;
+    }
+  }
+  
