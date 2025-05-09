@@ -23,21 +23,25 @@
       </div>
       <div class="marks-input">
         <label for="mark">Note obtenue :</label>
-        <input type="number" id="mark" placeholder="Note obtenue" required />
+        <input type="number" id="mark" placeholder="Note obtenue" required step="any" />
       </div>
       <div class="maxMarks-input">
         <label for="maxMark">Note maximale :</label>
-        <input type="number" id="maxMark" placeholder="Note maximale" required />
+        <input type="number" id="maxMark" placeholder="Note maximale" required step="any" />
       </div>
       <div class="coefficient-input">
         <label for="coefficient">Coefficient :</label>
-        <input type="number" id="coefficient" step="0.1" min="0.1" placeholder="Coefficient" required />
+        <input type="number" id="coefficient" step="0.1" placeholder="Coefficient" required />
+      </div>
+      <div class="description-input">
+        <label for="description">Description (optionnel) :</label>
+        <input id="description" placeholder="Ajoutez une description à la note (facultatif)"></input>
       </div>
       <button type="submit">Ajouter la Note</button>
     </form>
 
     <div id="notesList">
-      <h2>Mes Notes :</h2>
+      <h2 id="notesTitle">Mes Notes :</h2>
       <ul id="notes"></ul>
     </div>
   </div>
@@ -58,8 +62,35 @@
       </div>
     </div>
   </div>
+
+  <div id="editModal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <span class="close" id="closeEditModal">&times;</span>
+      <h2 class="popUp">Modifier la Note</h2>
+      <form id="editNoteForm">
+        <label for="editSubject">Matière :</label>
+        <select id="editSubject"></select>
+
+        <label for="editMark">Note obtenue :</label>
+        <input type="number" step="0.01" id="editMark" required>
+
+        <label for="editMaxMark">Note maximale :</label>
+        <input type="number" step="0.01" id="editMaxMark" required>
+
+        <label for="editCoefficient">Coefficient :</label>
+        <input type="number" step="0.1" min="0.1" id="editCoefficient" required>
+
+        <label for="editDescription">Description :</label>
+        <textarea id="editDescription"></textarea>
+
+        <button type="submit">Enregistrer les modifications</button>
+      </form>
+    </div>
+  </div>
   
   <script>
+    let editIndex = null;
+
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('service-worker.js').then(function(registration) {
         console.log('Service Worker enregistré avec succès:', registration);
@@ -112,7 +143,9 @@
       if (subjects.length === 0) {
         deleteSubjectSection.style.display = 'none';
         subjectToDeleteContainer.style.display = 'none';
+        subjectToDeleteBtn.style.display = 'none';
       } else {
+        subjectToDeleteContainer.style.display = 'block';
         deleteSubjectSection.style.display = 'block';
         subjectToDeleteBtn.style.display = 'block';
 
@@ -136,6 +169,7 @@
 
     loadSubjects();
 
+    // Ajouter une matière avec vérification des doublons
     document.getElementById("addSubjectBtn").addEventListener("click", () => {
       const newSubject = prompt("Entrez le nom de la nouvelle matière :");
       if (newSubject && !subjects.includes(newSubject)) {
@@ -143,16 +177,28 @@
         localStorage.setItem(`${accountKey}-subjects`, JSON.stringify(subjects)); 
         subjectDeleted = false;
         loadSubjects();
+      } else if (subjects.includes(newSubject)) {
+        alert("Cette matière existe déjà. Veuillez entrer un nom différent.");
       }
     });
 
+    // Suppression d'une matière avec confirmation
     document.getElementById("deleteSubjectBtn").addEventListener("click", () => {
       const subjectToDelete = document.getElementById("subjectsToDelete").value;
       if (subjectToDelete) {
+        const hasNotes = notes.some(note => note.subject === subjectToDelete);
+        
+        if (hasNotes) {
+          const confirmDelete = confirm(`La suppression de cette matière supprimera toutes les notes associées. Êtes-vous sûr de vouloir continuer ?`);
+          if (!confirmDelete) return;
+        }
+
         const index = subjects.indexOf(subjectToDelete);
         if (index > -1) {
           subjects.splice(index, 1);
+          notes = notes.filter(note => note.subject !== subjectToDelete);  // Supprimer aussi les notes associées
           localStorage.setItem(`${accountKey}-subjects`, JSON.stringify(subjects)); 
+          localStorage.setItem(`${accountKey}-notes`, JSON.stringify(notes)); 
           subjectDeleted = true;
           loadSubjects();
         }
@@ -173,6 +219,7 @@
       const mark = parseFloat(document.getElementById("mark").value);
       const maxMark = parseFloat(document.getElementById("maxMark").value);
       const coefficient = parseFloat(document.getElementById("coefficient").value);
+      const description = document.getElementById("description").value.trim();
 
       if (isNaN(mark) || isNaN(maxMark) || isNaN(coefficient)) {
         alert("Veuillez remplir tous les champs correctement.");
@@ -181,7 +228,7 @@
 
       const markOutOf20 = (mark / maxMark) * 20;
 
-      notes.push({ subject, mark, maxMark, coefficient, markOutOf20 });
+      notes.push({ subject, mark, maxMark, coefficient, markOutOf20, description });
       localStorage.setItem(`${accountKey}-notes`, JSON.stringify(notes)); 
 
       document.getElementById("notesForm").reset();
@@ -190,11 +237,109 @@
     
     function updateNotes() {
       const notesList = document.getElementById("notes");
+      const notesTitle = document.getElementById("notesTitle");
+
+      notesList.innerHTML = ''; // Vider l'affichage actuel
+
+      if (notes.length === 0) {
+        notesTitle.style.display = 'none';
+      } else {
+        notesTitle.style.display = 'block';
+
+        notes.forEach((note, index) => {
+          const li = document.createElement("li");
+          li.textContent = `${note.subject}: ${note.mark}/${note.maxMark} (Coef: ${note.coefficient}) - Note sur 20: ${note.markOutOf20.toFixed(2)}`;
+
+          if (note.description) {
+            const desc = document.createElement("p");
+            desc.textContent = `📘 ${note.description}`;
+            li.appendChild(desc);
+          }
+
+          const deleteButton = document.createElement("button");
+          deleteButton.textContent = "Supprimer";
+          deleteButton.classList.add("delete-button");
+          deleteButton.onclick = () => deleteNote(index);
+          li.appendChild(deleteButton);
+
+          const editButton = document.createElement("button");
+          editButton.textContent = "Modifier";
+          editButton.classList.add("edit-button");
+          editButton.onclick = () => openEditModal(index);
+          li.appendChild(editButton);
+
+          notesList.appendChild(li);
+        });
+      }
+    }
+
+    document.getElementById("closeEditModal").onclick = () => {
+      document.getElementById("editModal").style.display = "none";
+    };
+
+    function openEditModal(index) {
+      const note = notes[index];
+      editIndex = index;
+
+      // Remplir les champs du formulaire avec les valeurs existantes
+      const editSubjectSelect = document.getElementById("editSubject");
+      editSubjectSelect.innerHTML = ''; // Vider avant de remplir
+
+      subjects.forEach(subject => {
+        const option = document.createElement("option");
+        option.value = subject;
+        option.textContent = subject;
+        if (subject === note.subject) {
+          option.selected = true;
+        }
+        editSubjectSelect.appendChild(option);
+      });
+
+      document.getElementById("editMark").value = note.mark;
+      document.getElementById("editMaxMark").value = note.maxMark;
+      document.getElementById("editCoefficient").value = note.coefficient;
+      document.getElementById("editDescription").value = note.description;
+
+      document.getElementById("editModal").style.display = "block";
+    }
+
+    document.getElementById("editNoteForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const subject = document.getElementById("editSubject").value;
+      const mark = parseFloat(document.getElementById("editMark").value);
+      const maxMark = parseFloat(document.getElementById("editMaxMark").value);
+      const coefficient = parseFloat(document.getElementById("editCoefficient").value);
+      const description = document.getElementById("editDescription").value.trim();
+
+      if (isNaN(mark) || isNaN(maxMark) || isNaN(coefficient)) {
+        alert("Veuillez remplir tous les champs correctement.");
+        return;
+      }
+
+      const markOutOf20 = (mark / maxMark) * 20;
+
+      notes[editIndex] = { subject, mark, maxMark, coefficient, markOutOf20, description };
+      localStorage.setItem(`${accountKey}-notes`, JSON.stringify(notes));
+      document.getElementById("editModal").style.display = "none";
+      updateNotes();
+    });
+
+      const notesList = document.getElementById("notes");
       notesList.innerHTML = '';
 
       notes.forEach((note, index) => {
         const li = document.createElement("li");
-        li.textContent = `${note.subject}: ${note.mark}/${note.maxMark} (Coef: ${note.coefficient}) - Note sur 20: ${note.markOutOf20.toFixed(2)}`;
+        const noteText = `${note.subject}: ${note.mark}/${note.maxMark} (Coef: ${note.coefficient}) - Note sur 20: ${note.markOutOf20.toFixed(2)}`;
+        li.textContent = noteText;
+
+        if (note.description) {
+          const desc = document.createElement("div");
+          desc.textContent = `📝 ${note.description}`;
+          desc.style.fontStyle = "italic";
+          desc.style.marginTop = "4px";
+          li.appendChild(desc);
+        }
 
         const deleteButton = document.createElement("button");
         deleteButton.textContent = "Supprimer";
@@ -204,7 +349,6 @@
         li.appendChild(deleteButton);
         notesList.appendChild(li);
       });
-    }
 
     function deleteNote(index) {
       notes.splice(index, 1);

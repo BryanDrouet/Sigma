@@ -57,8 +57,16 @@ h2.popUp {
   margin-top: 0px;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
+  .account-item {
+    flex-direction: column;
+  }
+
+  .left, .right {
+    width: 100%;
+    height: 50%;
+  }
+  
   h2 {
     font-size: 1.2rem;
     margin-left: 10px;
