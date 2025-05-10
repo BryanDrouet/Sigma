@@ -243,7 +243,7 @@
         const hasNotes = notes.some(note => note.subject === subjectToDelete);
         
         if (hasNotes) {
-          const confirmDelete = confirm(`La suppression de cette matière supprimera toutes les notes associées. Êtes-vous sûr de vouloir continuer ?`);
+          const confirmDelete = confirm(`La suppression de cette matière supprimera toutes les notes associées une fois la page rechargée. Êtes-vous sûr de vouloir continuer ?`);
           if (!confirmDelete) return;
         }
 
