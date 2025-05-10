@@ -1,5 +1,4 @@
-body {
-  color: #333;
+html {
   background: #88D96D;
   background: linear-gradient(150deg,#0ea57d 0%, #007052 100%);
 }
@@ -8,7 +7,7 @@ h1, h2 {
   color: white;
 }
 
- h2.popUp {
+h2.popUp {
   color: black;
 }
 
@@ -22,12 +21,12 @@ input, select {
 }
 
 button.edit-button {
-  background-color: #2fd219;
+  background-color: #23a013;
   color: white;
 }
 
 button.edit-button:hover {
-  background-color: #15c01d;
+  background-color: #25a714;
 }
   
 button.delete-button {
@@ -67,7 +66,7 @@ button.delete-button:hover {
 }
   
 .btn, button[type="submit"], button[type="button"] {
-  background-color: #4CAF50;
+  background-color: #429945;
   color: white;
   transition: background-color 0.3s ease, opacity 0.3s ease;
 }
@@ -79,19 +78,19 @@ button.delete-button:hover {
 .install-button, #homeButton {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   background-color: white;
-  color: #1e9e12;
+  color: #39833d;
   border: 2px solid #129956;
 }
 
 .install-button:hover, #homeButton:hover {
-  background-color: #21b114;
+  background-color: #39833d;
   color: white;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
 .install-button:active, #homeButton:active {
   background-color: white;
-  color: #1e9e12;
+  color: #39833d;
 }
 
 #homeButton img {

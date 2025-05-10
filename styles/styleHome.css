@@ -77,7 +77,7 @@ h2.popUp {
   }
 }
 
-.install-button {
+.install-button, #showUpdatesButton {
   background-color: white;
   color: #1976D2;
   padding: 12px 24px;
@@ -86,15 +86,24 @@ h2.popUp {
   border-radius: 30px;
   cursor: pointer;
   position: fixed;
-  bottom: 30px;
-  left: 50%;
-  transform: translateX(-50%);
   display: none;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
 }
 
-.install-button:hover {
+.install-button {
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+#showUpdatesButton {
+  display: block !important;
+  bottom: 20px;
+  right: 20px;
+}
+
+.install-button:hover, #showUpdatesButton:hover {
   background-color: #1976D2;
   color: white;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
@@ -123,6 +132,20 @@ h2.popUp {
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
+}
+
+.modal-content.maj {
+  width: 80%;
+  max-width: 80%;
+  text-align: left;
+}
+
+#updateContent h1:first-of-type {
+  margin-top: 0;
+}
+
+#updateContent p:last-of-type {
+  margin-bottom: 0;
 }
 
 .modal h2 {

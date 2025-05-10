@@ -7,6 +7,7 @@
   <link rel="manifest" href="manifest.json" />
   <link rel="icon" type="image/png" href="assets/icon.png" />
   <link rel="stylesheet" href="styles/styleHome.css" />
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
   <div class="container">
@@ -21,6 +22,14 @@
   </div>
 
   <button class="install-button" id="installButton">Installer l'application</button>
+  <button id="showUpdatesButton">📝</button>
+
+  <div id="updateModal" class="modal" style="display:none;">
+    <div class="modal-content maj">
+      <span class="close" onclick="document.getElementById('updateModal').style.display='none'">&times;</span>
+      <div id="updateContent" style="white-space: normal;"></div>
+    </div>
+  </div>
 
   <div id="accountModal" class="modal">
     <div class="modal-content">
@@ -33,6 +42,23 @@
   </div>
 
   <script>
+    document.getElementById("showUpdatesButton").addEventListener("click", () => {
+      fetch("latestMaj.md")
+        .then(response => {
+          if (!response.ok) throw new Error("Fichier introuvable");
+          return response.text();
+        })
+        .then(markdown => {
+          const html = marked.parse(markdown);
+          document.getElementById("updateContent").innerHTML = html;
+          document.getElementById("updateModal").style.display = "block";
+        })
+        .catch(error => {
+          document.getElementById("updateContent").innerHTML = "<p style='color:red;'>Erreur : impossible de charger les mises à jour.</p>";
+          document.getElementById("updateModal").style.display = "block";
+        });
+    });
+
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('service-worker.js').then(function(registration) {
         console.log('Service Worker enregistré avec succès:', registration);
