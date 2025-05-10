@@ -148,6 +148,16 @@ h2.popUp {
   margin-bottom: 0;
 }
 
+#updateContent {
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+#updateModal .modal-content {
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
 .modal h2 {
   font-size: 1.5em;
   margin-bottom: 20px;
