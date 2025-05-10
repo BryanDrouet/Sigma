@@ -169,7 +169,6 @@
 
     loadSubjects();
 
-    // Ajouter une matière avec vérification des doublons
     document.getElementById("addSubjectBtn").addEventListener("click", () => {
       const newSubject = prompt("Entrez le nom de la nouvelle matière :");
       if (newSubject && !subjects.includes(newSubject)) {
@@ -182,7 +181,6 @@
       }
     });
 
-    // Suppression d'une matière avec confirmation
     document.getElementById("deleteSubjectBtn").addEventListener("click", () => {
       const subjectToDelete = document.getElementById("subjectsToDelete").value;
       if (subjectToDelete) {
@@ -196,7 +194,7 @@
         const index = subjects.indexOf(subjectToDelete);
         if (index > -1) {
           subjects.splice(index, 1);
-          notes = notes.filter(note => note.subject !== subjectToDelete);  // Supprimer aussi les notes associées
+          notes = notes.filter(note => note.subject !== subjectToDelete);  
           localStorage.setItem(`${accountKey}-subjects`, JSON.stringify(subjects)); 
           localStorage.setItem(`${accountKey}-notes`, JSON.stringify(notes)); 
           subjectDeleted = true;
@@ -239,7 +237,7 @@
       const notesList = document.getElementById("notes");
       const notesTitle = document.getElementById("notesTitle");
 
-      notesList.innerHTML = ''; // Vider l'affichage actuel
+      notesList.innerHTML = ''; 
 
       if (notes.length === 0) {
         notesTitle.style.display = 'none';
@@ -281,9 +279,8 @@
       const note = notes[index];
       editIndex = index;
 
-      // Remplir les champs du formulaire avec les valeurs existantes
       const editSubjectSelect = document.getElementById("editSubject");
-      editSubjectSelect.innerHTML = ''; // Vider avant de remplir
+      editSubjectSelect.innerHTML = ''; 
 
       subjects.forEach(subject => {
         const option = document.createElement("option");
