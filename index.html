@@ -23,6 +23,7 @@
 
   <button class="install-button" id="installButton">Installer l'application</button>
   <button id="showUpdatesButton">📝</button>
+  <button id="clearDataButton">🗑️</button>
 
   <div id="updateModal" class="modal" style="display:none;">
     <div class="modal-content maj">
@@ -42,6 +43,14 @@
   </div>
 
   <script>
+    document.getElementById("clearDataButton").addEventListener("click", () => {
+      if (confirm("Êtes-vous sûr de vouloir supprimer toutes les données enregistrées ? Cette action est irréversible.")) {
+        localStorage.clear();
+        alert("Toutes les données ont été supprimées.");
+        location.reload(); // recharge la page pour appliquer la réinitialisation
+      }
+    });
+
     document.getElementById("showUpdatesButton").addEventListener("click", () => {
       fetch("latestMaj.md")
         .then(response => {

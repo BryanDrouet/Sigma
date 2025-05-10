@@ -77,7 +77,7 @@ h2.popUp {
   }
 }
 
-.install-button, #showUpdatesButton {
+.install-button, #showUpdatesButton, #clearDataButton {
   background-color: white;
   color: #1976D2;
   padding: 12px 24px;
@@ -101,6 +101,16 @@ h2.popUp {
   display: block !important;
   bottom: 20px;
   right: 20px;
+}
+
+#clearDataButton {
+  display: block !important;
+  bottom: 20px;
+  left: 20px;
+}
+
+#clearDataButton:hover {
+  background-color: #ac2a37;
 }
 
 .install-button:hover, #showUpdatesButton:hover {
