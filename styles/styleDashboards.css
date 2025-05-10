@@ -132,6 +132,7 @@ button.delete-button {
 }
 
 .install-button, #homeButton {
+  text-align: center;
   padding: 12px 24px;
   font-size: 0.9rem;
   border-radius: 30px;
@@ -152,5 +153,13 @@ button.delete-button {
 @media (max-width: 768px) {
   .button-container {
     flex-direction: column;
+  }
+
+  #mainContent {
+    margin: 2% 5%;
+  }
+
+  #homeButton {
+    width: 5%;
   }
 }
