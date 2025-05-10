@@ -314,7 +314,7 @@
             emoji = '🟢';  
           }
 
-          li.textContent = `${emoji} ${note.subject}: ${note.mark}/${note.maxMark} (Coef: ${note.coefficient}) - Note sur 20: ${markOutOf20.toFixed(2)}`;
+          li.innerHTML = `<span>${emoji} ${note.subject}  |  ${note.mark}/${note.maxMark}</span><i class="coef">(Coef: ${note.coefficient})</i><div class="noteSur20">${markOutOf20.toFixed(2)}/20</div>`;
 
           if (note.description) {
             const desc = document.createElement("p");

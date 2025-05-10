@@ -189,6 +189,19 @@ button.delete-button {
   .button-container-inline {
     margin-top: 20px;
   }
+
+  .note-out-of-20::before {
+    content: "";
+    display: block;
+  }
+
+  .noteSur20, .coef {
+    margin-top: 5px;
+  }
+}
+
+.noteSur20 {
+  display: inline;
 }
 
 .marks-input,
