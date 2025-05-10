@@ -314,11 +314,11 @@
             emoji = '🟢';  
           }
 
-          li.innerHTML = `<span>${emoji} ${note.subject}  |  ${note.mark}/${note.maxMark}</span><i class="coef">(Coef: ${note.coefficient})</i><div class="noteSur20">${markOutOf20.toFixed(2)}/20</div>`;
+          li.innerHTML = `<span>${emoji} ${note.subject}</span><i class="coef">(Coef: ${note.coefficient})</i><div class="noteSur20">${note.mark}/${note.maxMark} soit ${markOutOf20.toFixed(2)}/20</div>`;
 
           if (note.description) {
             const desc = document.createElement("p");
-            desc.textContent = `📘 ${note.description}`;
+            desc.textContent = `${note.description}`;
             li.appendChild(desc);
           }
 

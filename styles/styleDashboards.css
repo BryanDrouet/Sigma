@@ -195,7 +195,7 @@ button.delete-button {
     display: block;
   }
 
-  .noteSur20, .coef {
+  .noteSur20, .coef, #notes p {
     margin-top: 5px;
   }
 }
