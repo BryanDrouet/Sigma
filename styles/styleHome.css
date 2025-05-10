@@ -75,6 +75,10 @@ h2.popUp {
   .logo {
     width: 90px;
   }
+
+  .install-button {
+    top: 20px;
+  }
 }
 
 .install-button, #showUpdatesButton, #clearDataButton {
