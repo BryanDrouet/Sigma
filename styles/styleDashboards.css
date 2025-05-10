@@ -63,7 +63,6 @@ button[type="submit"], button[type="button"] {
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s;
 }
   
 button.delete-button {
@@ -118,7 +117,6 @@ button.delete-button {
   border: none;
   cursor: pointer;
   font-size: 16px;
-  transition: background-color 0.3s;
 }
 
 .button-container {
@@ -168,4 +166,26 @@ button.delete-button {
   #homeButton {
     width: auto;
   }
+}
+
+.marks-input,
+.maxMarks-input,
+.coefficient-input,
+.description-input,
+#modalBtn {
+  margin-bottom: 1rem;
+}
+
+#subject {
+  height: 40px;
+  margin-bottom: 0.6rem;
+}
+
+form label {
+  margin-bottom: 0.4rem;
+  display: inline-block; 
+}
+
+h2.notesTitle {
+  margin-top: 100px;
 }

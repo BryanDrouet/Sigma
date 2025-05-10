@@ -10,8 +10,12 @@
   <link rel="icon" type="image/png" href="assets/icon.png" />
 </head>
 <body>
-  <div id="mainContent">
+  <div class="button-container">
+    <button id="homeButton" class="install-button" title="Accueil / Déconnexion">🏠︎</button>
     <button class="install-button" id="installButton">Installer l'application</button>
+  </div>
+
+  <div id="mainContent">
 
     <h1>Ajouter vos Notes</h1>
 
@@ -90,6 +94,12 @@
   </div>
   
   <script>
+    function logoutAndReturnHome() {
+      localStorage.removeItem('currentAccount');
+      localStorage.removeItem('currentPlatform');
+      window.location.href = 'index.html';
+    }
+
     let editIndex = null;
 
     if ('serviceWorker' in navigator) {
@@ -102,12 +112,46 @@
 
     let deferredPrompt;
     const installButton = document.getElementById("installButton");
+    const homeButton = document.getElementById("homeButton");
 
     window.addEventListener("beforeinstallprompt", (e) => {
       e.preventDefault();
       deferredPrompt = e;
       installButton.style.display = "block";
+      homeButton.style.display = "block";
+      updateButtonPosition();
     });
+
+    homeButton.addEventListener("click", () => {
+      localStorage.removeItem("currentAccount");
+      localStorage.removeItem("currentPlatform");
+      window.location.href = "index.html";
+    });
+
+    window.addEventListener("load", () => {
+      const isStandalone =
+        window.matchMedia("(display-mode: standalone)").matches ||
+        window.navigator.standalone === true;
+
+      if (isStandalone) {
+        homeButton.style.display = "block";
+        updateButtonPosition();
+      }
+    });
+
+    function updateButtonPosition() {
+      const installBtn = document.getElementById("installButton");
+      const homeBtn = document.getElementById("homeButton");
+      const bothVisible = installBtn.style.display === "block";
+
+      if (bothVisible) {
+        document.body.classList.add("buttons-visible");
+      } else {
+        document.body.classList.remove("buttons-visible");
+        homeBtn.style.left = "50%";
+        homeBtn.style.transform = "translateX(-50%)";
+      }
+    }
 
     installButton.addEventListener("click", () => {
       if (deferredPrompt) {
@@ -195,7 +239,7 @@
         const index = subjects.indexOf(subjectToDelete);
         if (index > -1) {
           subjects.splice(index, 1);
-          notes = notes.filter(note => note.subject !== subjectToDelete);  
+          notes = notes.filter(note => note.subject !== subjectToDelete); 
           localStorage.setItem(`${accountKey}-subjects`, JSON.stringify(subjects)); 
           localStorage.setItem(`${accountKey}-notes`, JSON.stringify(notes)); 
           subjectDeleted = true;
