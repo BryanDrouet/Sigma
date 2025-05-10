@@ -13,11 +13,11 @@
   <div class="container">
     <div class="half left" onclick="choosePlatform('pronote')">
       <img class="logo" src="assets/logoPronote.png" alt="Logo Pronote" />
-      <h2>Accéder à Pronote</h2>
+      <h2 class="h2HalfText">Accéder à Pronote</h2>
     </div>
     <div class="half right" onclick="choosePlatform('ecoledirecte')">
       <img class="logo" src="assets/logoEcoleDirecte.png" alt="Logo EcoleDirecte" />
-      <h2>Accéder à EcoleDirecte</h2>
+      <h2 class="h2HalfText">Accéder à EcoleDirecte</h2>
     </div>
   </div>
 
@@ -25,14 +25,14 @@
   <button id="showUpdatesButton">📝</button>
   <button id="clearDataButton">🗑️</button>
 
-  <div id="updateModal" class="modal" style="display:none;">
+  <div id="updateModal" class="modal" style="display: none;align-items: center;justify-content: center;">
     <div class="modal-content maj">
       <span class="close" onclick="document.getElementById('updateModal').style.display='none'">&times;</span>
       <div id="updateContent" style="white-space: normal;"></div>
     </div>
   </div>
 
-  <div id="accountModal" class="modal">
+  <div id="accountModal" class="modal" style="display: none;align-items: center;justify-content: center;">
     <div class="modal-content">
       <span class="close" onclick="closeModal()">&times;</span>
       <h2 class="popUp">Choisir un compte</h2>
@@ -47,7 +47,7 @@
       if (confirm("Êtes-vous sûr de vouloir supprimer toutes les données enregistrées ? Cette action est irréversible.")) {
         localStorage.clear();
         alert("Toutes les données ont été supprimées.");
-        location.reload(); // recharge la page pour appliquer la réinitialisation
+        location.reload(); 
       }
     });
 
@@ -60,7 +60,7 @@
         .then(markdown => {
           const html = marked.parse(markdown);
           document.getElementById("updateContent").innerHTML = html;
-          document.getElementById("updateModal").style.display = "block";
+          document.getElementById("updateModal").style.display = "flex";
         })
         .catch(error => {
           document.getElementById("updateContent").innerHTML = "<p style='color:red;'>Erreur : impossible de charger les mises à jour.</p>";
@@ -113,13 +113,82 @@
       accountListDiv.innerHTML = ''; 
       accounts.forEach(account => {
         const accountItem = document.createElement('div');
-        accountItem.textContent = account;
         accountItem.classList.add('account-item');
-        accountItem.onclick = function() {
-          chooseAccount(account);
+        accountItem.style.display = 'flex';
+        accountItem.style.alignItems = 'center';
+        accountItem.style.justifyContent = 'space-between';
+        accountItem.style.gap = '10px';
+
+        const nameSpan = document.createElement('span');
+        nameSpan.textContent = account;
+        nameSpan.style.flex = '1';
+        nameSpan.onclick = () => chooseAccount(account);
+
+        const renameBtn = document.createElement('button');
+        renameBtn.textContent = '✏️';
+        renameBtn.title = 'Renommer';
+        renameBtn.style.paddingLeft = '12px';
+        renameBtn.style.paddingRight = '12px';
+        renameBtn.onclick = (e) => {
+          e.stopPropagation();
+          renameAccount(platform, account);
         };
+
+        const deleteBtn = document.createElement('button');
+        deleteBtn.textContent = '🗑️';
+        deleteBtn.title = 'Supprimer';
+        deleteBtn.style.paddingLeft = '12px';
+        deleteBtn.style.paddingRight = '12px';
+        deleteBtn.onclick = (e) => {
+          e.stopPropagation();
+          deleteAccount(platform, account);
+        };
+
+        accountItem.appendChild(nameSpan);
+        accountItem.appendChild(renameBtn);
+        accountItem.appendChild(deleteBtn);
         accountListDiv.appendChild(accountItem);
       });
+    }
+
+    function deleteAccount(platform, accountName) {
+      if (!confirm(`Supprimer le compte "${accountName}" ? Toutes ses données seront perdues.`)) return;
+
+      let accounts = getAccounts(platform);
+      accounts = accounts.filter(acc => acc !== accountName);
+      localStorage.setItem(platform, JSON.stringify(accounts));
+
+      localStorage.removeItem(`${platform}_${accountName}`); // Supprime toutes les données spécifiques à ce compte
+
+      const accountKey = `${platform}-${accountName}`;
+      localStorage.removeItem(`${accountKey}-subjects`);
+      localStorage.removeItem(`${accountKey}-notes`);
+
+      showAccountList(platform);
+    }
+
+    function renameAccount(platform, oldName) {
+      const newName = prompt("Entrez le nouveau nom du compte :", oldName);
+      if (!newName || newName.trim() === "") return;
+
+      let accounts = getAccounts(platform);
+      if (accounts.includes(newName)) {
+        alert("Un compte avec ce nom existe déjà.");
+        return;
+      }
+
+      // Met à jour la liste
+      accounts = accounts.map(acc => acc === oldName ? newName : acc);
+      localStorage.setItem(platform, JSON.stringify(accounts));
+
+      // Si des données associées existent, on les renomme aussi
+      const oldData = localStorage.getItem(`${platform}_${oldName}`);
+      if (oldData) {
+        localStorage.setItem(`${platform}_${newName}`, oldData);
+        localStorage.removeItem(`${platform}_${oldName}`);
+      }
+
+      showAccountList(platform);
     }
     
     function chooseAccount(accountName) {
@@ -146,7 +215,9 @@
     }
     
     function openModal(platform) {
-      document.getElementById("accountModal").style.display = "block";
+      const title = document.querySelector('#accountModal .popUp');
+      title.textContent = "Choisir un compte " + (platform === "pronote" ? "Pronote" : "Ecole Directe");
+      document.getElementById("accountModal").style.display = "flex";
       showAccountList(platform); 
     }
     

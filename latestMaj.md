@@ -1,18 +1,19 @@
 # Le Site est désormais prêt a l'usage !
 ## Il y a pour l'instant : 
-- **La création de compte que vous alimenterez manuellement de vos propres notes,**
-- **Le rentrage de vos différentes notes avec en paramètres :**
+- **La création et suppression de compte,**
+- **L'entrage de vos différentes notes avec en paramètres :**
 - - Le coefficient,
 - - La note maximum de l'évaluation,
 - - La matière correspondante,
 - - Du texte supplémentaire *(comme le nom de l'évaluation par exemple)*,
-- **La suppression ou la modification des notes déjà existantes,**
-- **L'ajout ou la suppression des matières et**
-- **L'installation du site en temps qu'application sur téléphone et PCs.**
+- **La suppression et la modification des notes déjà existantes,**
+- **L'ajout et la suppression des matières**
+- **L'installation du site en temps qu'application sur téléphone et PCs et**
+- **La dernière mise à jour affichée sur le site via un boutton.**
 
 ## Il y aura dans le futur :
-- **L'ajout de trimestres/semestres,**
- **La visualisation des notes via des graphiques,**
+- **L'ajout de trimestres et semestres,**
+- **La visualisation des notes via des graphiques,**
 - **L'affichage de pleins de statistiques comme avec les moyennes et médianes :**
 - - Matière par matière,
 - - De toutes les matières,

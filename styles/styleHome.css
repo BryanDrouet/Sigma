@@ -44,7 +44,7 @@ body {
   margin-bottom: 20px;
 }
 
-h2 {
+h2.h2HalfText {
   color: rgb(255, 255, 255);
   font-size: 1.6rem;
   text-align: center;
@@ -78,6 +78,16 @@ h2.popUp {
 
   .install-button {
     top: 20px !important;
+    font-size: 0.7rem !important;
+  }
+
+  #updateModal {
+    align-items: flex-start !important;
+  }
+
+  .modal-content {
+    margin-top: 10% !important;
+    margin-bottom: 10% !important;
   }
 }
 
@@ -96,13 +106,37 @@ h2.popUp {
   border-radius: 30px;
   cursor: pointer;
   position: fixed;
-  display: none;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
 }
 
+.account-item button, #showUpdatesButton, #clearDataButton {
+  padding: 6px 6px !important;
+  font-size: 1.1rem;
+}
+
+#clearDataButton, #showUpdatesButton {
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+#clearDataButton {
+  border: 2px solid #ac2a37;
+}
+
+.modal button {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  border: 2px solid #1976D2;
+  border-radius: 30px;
+  cursor: pointer;
+  background-color: white;
+  color: #1976D2;
+  padding: 12px 24px;
+}
+
 .install-button {
-  font-size: 0.7rem;
+  display: none;
   left: 50%;
   transform: translateX(-50%);
 }
@@ -123,7 +157,7 @@ h2.popUp {
   background-color: #ac2a37;
 }
 
-.install-button:hover, #showUpdatesButton:hover {
+.install-button:hover, #showUpdatesButton:hover, .modal button:hover {
   background-color: #1976D2;
   color: white;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
@@ -144,7 +178,6 @@ h2.popUp {
 .modal-content {
   position: relative;
   background-color: #fefefe;
-  margin: 15% auto;
   padding: 20px;
   width: 80%;
   max-width: 400px;
@@ -155,7 +188,7 @@ h2.popUp {
 }
 
 .modal-content.maj {
-  width: 80%;
+  width: auto !important;
   max-width: 80%;
   text-align: left;
 }
@@ -171,6 +204,10 @@ h2.popUp {
 #updateContent {
   word-break: break-word;
   overflow-wrap: break-word;
+}
+
+.updateModal {
+  align-items: center;
 }
 
 #updateModal .modal-content {
@@ -189,19 +226,6 @@ h2.popUp {
   border: 1px solid #ccc;
   border-radius: 5px;
   margin-bottom: 20px;
-}
-
-.modal button {
-  padding: 10px 20px;
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.modal button:hover {
-  background-color: #45a049;
 }
 
 .close {
