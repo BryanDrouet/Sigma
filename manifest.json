@@ -1,14 +1,13 @@
 {
-    "name": "Choix Plateforme Scolaire",
-    "short_name": "PlateformeScolaire",
-    "start_url": "index.html",
-    "display": "standalone",
-    "icons": [
-      {
-        "src": "assets/icon.png",
-        "sizes": "510x510",
-        "type": "image/png"
-      }
-    ]
-  }
-  
+  "name": "Sigma - Analyses Scolaire",
+  "short_name": "Sigma - Analyses Scolaire",
+  "start_url": "index.html",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "assets/icon.png",
+      "sizes": "510x510",
+      "type": "image/png"
+    }
+  ]
+}
