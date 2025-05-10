@@ -92,6 +92,7 @@ h2.popUp {
 }
 
 .install-button {
+  font-size: 0.7rem;
   bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
