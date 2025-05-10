@@ -21,6 +21,15 @@ input, select {
   border: 1px solid #ccc;
 }
 
+button.edit-button {
+  background-color: #1976D2;
+  color: white;
+}
+
+button.edit-button:hover {
+  background-color: #1565C0;
+}
+
 button.delete-button {
   background-color: #f44336;
   color: white;
@@ -65,4 +74,30 @@ button.delete-button:hover {
 
 .btn:hover, button[type="submit"]:hover, button[type="button"]:hover {
   background-color: #1c7cd1;
+}
+
+.install-button, #homeButton {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: white;
+  color: #1976D2;
+  border: 2px solid #1976D2;
+}
+
+.install-button:hover, #homeButton:hover {
+  background-color: #1976D2;
+  color: white;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.install-button:active, #homeButton:active {
+  background-color: white;
+  color: #1976D2;
+}
+
+#homeButton img {
+  filter: invert(20%) sepia(100%) saturate(500%) hue-rotate(190deg) brightness(160%);
+}
+
+#homeButton:hover img {
+  filter: invert(1) grayscale(100%) brightness(100%) saturate(100%) sepia(100%) hue-rotate(190deg);
 }
