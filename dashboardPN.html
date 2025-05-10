@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sigma - Dashboard Pronote</title>
+  <title>Sigma - Dashboard Ecole Directe</title>
   <link rel="manifest" href="manifest.json" />
   <link rel="stylesheet" href="styles/styleDashboardPN.css" />
   <link rel="stylesheet" href="styles/styleDashboards.css" />
@@ -144,6 +144,7 @@
         window.navigator.standalone === true;
 
       if (isStandalone) {
+        installButton.style.display = "none";
         homeButton.style.display = "block";
         updateButtonPosition();
       }
@@ -314,11 +315,11 @@
             emoji = '🟢';  
           }
 
-          li.textContent = `${emoji} ${note.subject}: ${note.mark}/${note.maxMark} (Coef: ${note.coefficient}) - Note sur 20: ${markOutOf20.toFixed(2)}`;
+          li.innerHTML = `<span>${emoji} ${note.subject}</span><i class="coef">(Coef: ${note.coefficient})</i><div class="noteSur20">${note.mark}/${note.maxMark} soit ${markOutOf20.toFixed(2)}/20</div>`;
 
           if (note.description) {
             const desc = document.createElement("p");
-            desc.textContent = `📘 ${note.description}`;
+            desc.textContent = `${note.description}`;
             li.appendChild(desc);
           }
 
