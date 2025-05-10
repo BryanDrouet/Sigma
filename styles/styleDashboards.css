@@ -172,7 +172,8 @@ button.delete-button {
 .maxMarks-input,
 .coefficient-input,
 .description-input,
-#modalBtn {
+#modalBtn,
+#subjectsToDelete {
   margin-bottom: 1rem;
 }
 
@@ -188,4 +189,32 @@ form label {
 
 h2.notesTitle {
   margin-top: 100px;
+}
+
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-body * {
+  margin: 0;
+}
+
+h3 {
+  margin-bottom: 0.4rem !important;
+  margin-top: 1rem !important;
+}
+
+#subjectsToDelete {
+  height: 40px;
+}
+
+#modalBtn {
+  margin-bottom: 2rem !important;
+}
+
+.description-input {
+  margin-bottom: 2rem !important;
 }
