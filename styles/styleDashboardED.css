@@ -27,7 +27,7 @@ button.delete-button {
 }
 
 button.delete-button:hover {
-  background-color: #e53935;
+  background-color: #be2f2d;
 }
 
 #notesList li {
@@ -60,6 +60,7 @@ button.delete-button:hover {
 .btn, button[type="submit"], button[type="button"] {
   background-color: #1E88E5;
   color: white;
+  transition: background-color 0.3s ease, opacity 0.3s ease;
 }
 
 .btn:hover, button[type="submit"]:hover, button[type="button"]:hover {

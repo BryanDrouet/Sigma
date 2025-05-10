@@ -45,7 +45,7 @@
       <button type="submit">Ajouter la Note</button>
     </form>
 
-    <div id="notesList">
+    <div id="notesList" style="display: none;">
       <h2 id="notesTitle">Mes Notes :</h2>
       <ul id="notes"></ul>
     </div>
@@ -129,6 +129,15 @@
     });
 
     window.addEventListener("load", () => {
+      // Vérifier si des notes sont présentes dans le localStorage
+      if (notes.length > 0) {
+        updateNotes(); // Met à jour l'affichage des notes
+      } else {
+        const notesTitle = document.getElementById("notesTitle");
+        notesTitle.style.display = 'none'; // Cacher le titre des notes si aucune note n'est présente
+        document.getElementById("notesList").style.display = 'none'; // Cacher la liste des notes si aucune note n'est présente
+      }
+
       const isStandalone =
         window.matchMedia("(display-mode: standalone)").matches ||
         window.navigator.standalone === true;
@@ -282,12 +291,14 @@
       const notesList = document.getElementById("notes");
       const notesTitle = document.getElementById("notesTitle");
 
-      notesList.innerHTML = ''; 
+      notesList.innerHTML = ''; // Réinitialise la liste des notes
 
       if (notes.length === 0) {
         notesTitle.style.display = 'none';
+        document.getElementById("notesList").style.display = 'none'; // Cache la liste si aucune note
       } else {
         notesTitle.style.display = 'block';
+        document.getElementById("notesList").style.display = 'block'; // Affiche la liste si des notes existent
 
         notes.forEach((note, index) => {
           const li = document.createElement("li");
@@ -299,18 +310,23 @@
             li.appendChild(desc);
           }
 
+          const buttonContainer = document.createElement("div");
+          buttonContainer.classList.add("button-container-inline"); // Ajout du conteneur en ligne pour les boutons
+
           const deleteButton = document.createElement("button");
           deleteButton.textContent = "Supprimer";
           deleteButton.classList.add("delete-button");
           deleteButton.onclick = () => deleteNote(index);
-          li.appendChild(deleteButton);
-
+          
           const editButton = document.createElement("button");
           editButton.textContent = "Modifier";
           editButton.classList.add("edit-button");
           editButton.onclick = () => openEditModal(index);
-          li.appendChild(editButton);
 
+          buttonContainer.appendChild(deleteButton);
+          buttonContainer.appendChild(editButton);
+
+          li.appendChild(buttonContainer);
           notesList.appendChild(li);
         });
       }
@@ -395,7 +411,7 @@
     function deleteNote(index) {
       notes.splice(index, 1);
       localStorage.setItem(`${accountKey}-notes`, JSON.stringify(notes)); 
-      updateNotes();
+      updateNotes(); // Met à jour la liste des notes après suppression
     }
   </script>
 </body>
