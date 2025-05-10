@@ -22,4 +22,4 @@
 ---
 Si vous avez des idées n'hésitez pas à me contacter sur [mes différents réseaux.](https://linktr.ee/Bryan_Drouet)
 
-Comparez cette version avec l'ancienne en cliquant [juste ici.](https://github.com/BryanDrouet/Sigma/compare/v0.0.2a...v1.0.0)
+Comparez cette version avec l'ancienne en cliquant [juste ici.](https://github.com/BryanDrouet/Sigma/compare/v0.0.3a...v1.0.0)
