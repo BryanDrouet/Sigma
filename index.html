@@ -36,9 +36,32 @@
     <div class="modal-content">
       <span class="close" onclick="closeModal()">&times;</span>
       <h2 class="popUp">Choisir un compte</h2>
+      <h3>Se connecter :</h3>
       <div id="accountList"></div>
+      <h3>Créer un compte :</h3>
+      <label>Nom du compte</label>
       <input type="text" id="newAccountName" placeholder="Nouveau compte" />
-      <button onclick="createAccount()">Créer un compte</button>
+      <label>Type de compte</label>
+      <select id="accountPeriod">
+        <option value="trimestriel">Trimestriel</option>
+        <option value="semestriel">Semestriel</option>
+      </select>
+      <button id="createAccountBtn" onclick="createAccount()">Créer un compte</button>
+    </div>
+  </div>
+
+  <div id="editAccountModal" class="modal" style="display: none;align-items: center;justify-content: center;">
+    <div class="modal-content">
+      <span class="close" onclick="closeEditModal()">&times;</span>
+      <h2 class="popUp">Modifier le compte</h2>
+      <label>Nom du compte</label>
+      <input type="text" id="editAccountName" placeholder="Nom du compte" />
+      <label>Type de compte</label>
+      <select id="editAccountPeriod">
+        <option value="trimestriel">Trimestriel</option>
+        <option value="semestriel">Semestriel</option>
+      </select>
+      <button id="editAccountBtn" onclick="saveEditedAccount()">Enregistrer</button>
     </div>
   </div>
 
@@ -168,27 +191,64 @@
     }
 
     function renameAccount(platform, oldName) {
-      const newName = prompt("Entrez le nouveau nom du compte :", oldName);
-      if (!newName || newName.trim() === "") return;
+      platformBeingEdited = platform;
+      accountBeingEdited = oldName;
 
-      let accounts = getAccounts(platform);
-      if (accounts.includes(newName)) {
+      const key = `${platform}_${oldName}`;
+      const data = JSON.parse(localStorage.getItem(key)) || { period: 'trimestriel' };
+
+      document.getElementById('editAccountName').value = oldName;
+      document.getElementById('editAccountPeriod').value = data.period || 'trimestriel';
+
+      document.getElementById('editAccountModal').style.display = 'flex';
+    }
+
+    function closeEditModal() {
+      document.getElementById('editAccountModal').style.display = 'none';
+    }
+
+    function saveEditedAccount() {
+      const newName = document.getElementById('editAccountName').value.trim();
+      const newPeriod = document.getElementById('editAccountPeriod').value;
+
+      if (!newName) {
+        alert("Le nom du compte ne peut pas être vide.");
+        return;
+      }
+
+      const accounts = getAccounts(platformBeingEdited);
+      if (accounts.includes(newName) && newName !== accountBeingEdited) {
         alert("Un compte avec ce nom existe déjà.");
         return;
       }
 
-      // Met à jour la liste
-      accounts = accounts.map(acc => acc === oldName ? newName : acc);
-      localStorage.setItem(platform, JSON.stringify(accounts));
+      // Mise à jour de la liste
+      const updatedAccounts = accounts.map(acc => acc === accountBeingEdited ? newName : acc);
+      localStorage.setItem(platformBeingEdited, JSON.stringify(updatedAccounts));
 
-      // Si des données associées existent, on les renomme aussi
-      const oldData = localStorage.getItem(`${platform}_${oldName}`);
-      if (oldData) {
-        localStorage.setItem(`${platform}_${newName}`, oldData);
-        localStorage.removeItem(`${platform}_${oldName}`);
+      const oldKey = `${platformBeingEdited}_${accountBeingEdited}`;
+      const newKey = `${platformBeingEdited}_${newName}`;
+      const data = JSON.parse(localStorage.getItem(oldKey)) || {};
+      localStorage.setItem(newKey, JSON.stringify({ ...data, period: newPeriod }));
+
+      if (newKey !== oldKey) {
+        localStorage.removeItem(oldKey);
+
+        // Renommer les sous-clés éventuelles
+        const oldSubjects = localStorage.getItem(`${platformBeingEdited}-${accountBeingEdited}-subjects`);
+        const oldNotes = localStorage.getItem(`${platformBeingEdited}-${accountBeingEdited}-notes`);
+        if (oldSubjects) {
+          localStorage.setItem(`${platformBeingEdited}-${newName}-subjects`, oldSubjects);
+          localStorage.removeItem(`${platformBeingEdited}-${accountBeingEdited}-subjects`);
+        }
+        if (oldNotes) {
+          localStorage.setItem(`${platformBeingEdited}-${newName}-notes`, oldNotes);
+          localStorage.removeItem(`${platformBeingEdited}-${accountBeingEdited}-notes`);
+        }
       }
 
-      showAccountList(platform);
+      closeEditModal();
+      showAccountList(platformBeingEdited);
     }
     
     function chooseAccount(accountName) {
@@ -205,13 +265,23 @@
     }
     
     function createAccount() {
-      const newAccountName = document.getElementById('newAccountName').value;
-      if (newAccountName) {
-        saveAccount(currentPlatform, newAccountName);
-        chooseAccount(newAccountName); 
-      } else {
+      const newAccountName = document.getElementById('newAccountName').value.trim();
+      const period = document.getElementById('accountPeriod').value;
+
+      if (!newAccountName) {
         alert("Veuillez entrer un nom pour le compte.");
+        return;
       }
+
+      saveAccount(currentPlatform, newAccountName);
+
+      // Enregistre la période dans localStorage
+      const accountKey = `${currentPlatform}_${newAccountName}`;
+      localStorage.setItem(accountKey, JSON.stringify({
+        period: period
+      }));
+
+      chooseAccount(newAccountName);
     }
     
     function openModal(platform) {
