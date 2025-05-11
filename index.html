@@ -36,9 +36,9 @@
     <div class="modal-content">
       <span class="close" onclick="closeModal()">&times;</span>
       <h2 class="popUp">Choisir un compte</h2>
-      <h3>Se connecter :</h3>
+      <label id="labelLoginAccount" style="display: none;">Se connecter :</label>
       <div id="accountList"></div>
-      <h3>Créer un compte :</h3>
+      <h3 id="createAccountH3">Créer un compte :</h3>
       <label>Nom du compte</label>
       <input type="text" id="newAccountName" placeholder="Nouveau compte" />
       <label>Type de compte</label>
@@ -131,10 +131,12 @@
 
     function showAccountList(platform) {
       const accountListDiv = document.getElementById('accountList');
+      const labelLoginAccount = document.getElementById('labelLoginAccount');
       const accounts = getAccounts(platform);
 
       accountListDiv.innerHTML = ''; 
       accounts.forEach(account => {
+        labelLoginAccount.style.display = "block";
         const accountItem = document.createElement('div');
         accountItem.classList.add('account-item');
         accountItem.style.display = 'flex';
