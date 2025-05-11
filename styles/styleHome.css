@@ -54,6 +54,7 @@ h2.h2HalfText {
 h2.popUp {
   color: rgb(0, 0, 0);
   margin-top: 0px;
+  text-align: center;
 }
 
 @media (max-width: 768px) {
@@ -66,7 +67,7 @@ h2.popUp {
     height: 50%;
   }
 
-  h2 {
+  h2.h2HalfText {
     font-size: 1.2rem;
     margin-left: 10px;
     margin-right: 10px;
@@ -181,7 +182,6 @@ h2.popUp {
   padding: 20px;
   width: 80%;
   max-width: 400px;
-  text-align: center;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
@@ -262,4 +262,40 @@ h2.popUp {
 
 .account-item:hover {
   background-color: #cecece;
+}
+
+#editAccountPeriod, #editAccountName, #newAccountName, #accountPeriod {
+  height: 40px;
+  margin-bottom: 0.6rem;
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+#createAccountBtn, #editAccountBtn {
+  margin-top: 2rem !important;
+}
+
+.modal-content label {
+  margin-bottom: 0.4rem;
+  display: inline-block; 
+}
+
+#createAccountBtn, #editAccountBtn {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #1E88E5;
+  color: white;
+  transition: background-color 0.3s esae, opacity 0.3s ease;
+}
+
+#createAccountBtn:hover, #editAccountBtn:hover {
+  background-color: #1c7cd1;
 }
