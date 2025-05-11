@@ -6,7 +6,7 @@ Accédez au site sur : https://bryandrouet.github.io/Sigma/
 
 ## Description
 
-Sigma vous permet d'analyser vos résultats scolaires en entrant manuellement vos notes, vos matières etc... Le site s'occupe en échange pour vous de générer des graphiques et de calculer des statistiques telles que la moyenne, la médiane, et d'autres informations utiles pour suivre votre évolution.
+Sigma vous permet d'analyser vos résultats scolaires en entrant manuellement vos notes et en échange celui-ci s'occupe pour vous automatiquement de générer des graphiques et de calculer des statistiques telles que la moyenne, la médiane, et d'autres informations utiles pour suivre votre évolution.
 
 Il est totalement gratuit et sans frais cachés, avec un remplissage manuel des données, sans automatisation ni API publique. Le site ne stocke rien tout est stocké chez vous en local sur votre machine et peut être supprimé a tout moment par vous et seulement vous même.
 
