@@ -219,11 +219,11 @@
       accountBeingEdited = oldName;
 
       const key = `${platform}_${oldName}`;
-      const data = JSON.parse(localStorage.getItem(key)) || { period: 'trimestriel' };
+      const data = JSON.parse(localStorage.getItem(key)) || { period: 'trimestriel', schoolYear: '' };
 
       document.getElementById('editAccountName').value = oldName;
       document.getElementById('editAccountPeriod').value = data.period || 'trimestriel';
-
+      document.getElementById('editAccountYear').value = data.schoolYear || '';
       document.getElementById('editAccountModal').style.display = 'flex';
     }
 
