@@ -264,7 +264,7 @@ h2.popUp {
   background-color: #cecece;
 }
 
-#editAccountPeriod, #editAccountName, #newAccountName, #accountPeriod, label, select {
+#editAccountPeriod, #editAccountName, #newAccountName, #accountPeriod, select {
   height: 40px;
   margin-bottom: 0.6rem;
   width: 100%;
