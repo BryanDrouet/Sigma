@@ -1,3 +1,8 @@
+# v1.0.1a
+Comparez cette version avec l'ancienne en cliquant [juste ici.](https://github.com/BryanDrouet/Sigma/compare/v1.0.1...v1.0.2a)
+
+---
+
 # v1.0.1
 Ajout dans cette mise à jour :
 - Modification des visuels sur la page d'accueil pour la création de compte et sa modification.
