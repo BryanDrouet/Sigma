@@ -40,6 +40,12 @@
         <label for="coefficient">Coefficient :</label>
         <input type="number" id="coefficient" step="0.01" placeholder="Coefficient" required />
       </div>
+      <label>Période où la note à été rentrée</label>
+      <select id="noteType">
+        <option value="trimestriel" class="note-option" data-period="trimestriel">Trimestriel</option>
+        <option value="semestriel" class="note-option" data-period="semestriel">Semestriel</option>
+      </select>
+      <div id="specificOptions"></div>
       <div class="description-input">
         <label for="description">Description (optionnel) :</label>
         <input id="description" placeholder="Ajoutez une description à la note (facultatif)"></input>
