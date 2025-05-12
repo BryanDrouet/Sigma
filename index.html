@@ -254,7 +254,7 @@
       const oldKey = `${platformBeingEdited}_${accountBeingEdited}`;
       const newKey = `${platformBeingEdited}_${newName}`;
       const data = JSON.parse(localStorage.getItem(oldKey)) || {};
-      localStorage.setItem(newKey, JSON.stringify({ ...data, period: newPeriod, year: newYear }));
+      localStorage.setItem(newKey, JSON.stringify({ ...data, period: newPeriod, schoolYear: newYear }));
 
       if (newKey !== oldKey) {
         localStorage.removeItem(oldKey);
