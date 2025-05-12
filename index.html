@@ -66,23 +66,6 @@
   </div>
 
   <script>
-    document.getElementById("showUpdatesButton").addEventListener("click", () => {
-      fetch("latestMaj.md")
-        .then(response => {
-          if (!response.ok) throw new Error("Fichier introuvable");
-          return response.text();
-        })
-        .then(markdown => {
-          const html = marked.parse(markdown);
-          document.getElementById("updateContent").innerHTML = html;
-          document.getElementById("updateModal").style.display = "flex";
-        })
-        .catch(error => {
-          document.getElementById("updateContent").innerHTML = "<p style='color:red;'>Erreur : impossible de charger les mises à jour.</p>";
-          document.getElementById("updateModal").style.display = "block";
-        });
-    });
-    
     document.getElementById("clearDataButton").addEventListener("click", () => {
       if (confirm("Êtes-vous sûr de vouloir supprimer toutes les données enregistrées ? Cette action est irréversible.")) {
         localStorage.clear();
