@@ -80,7 +80,7 @@
           if (!response.ok) throw new Error("Fichier introuvable");
           return response.text();
         })
-        => {
+        .then(markdown  => {
           const html = marked.parse(markdown);
           document.getElementById("updateContent").innerHTML = html;
           document.getElementById("updateModal").style.display = "flex";
