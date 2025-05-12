@@ -46,6 +46,8 @@
         <option value="trimestriel">Trimestriel</option>
         <option value="semestriel">Semestriel</option>
       </select>
+      <label>Année scolaire</label>
+      <select id="accountYear"></select>
       <button id="createAccountBtn" onclick="createAccount()">Créer un compte</button>
     </div>
   </div>
@@ -61,11 +63,31 @@
         <option value="trimestriel">Trimestriel</option>
         <option value="semestriel">Semestriel</option>
       </select>
+      <label>Année scolaire</label>
+      <select id="editAccountYear"></select>
       <button id="editAccountBtn" onclick="saveEditedAccount()">Enregistrer</button>
     </div>
   </div>
 
   <script>
+    function generateSchoolYears() {
+      const start = 1949;
+      const end = 2025;
+      const yearSelects = [document.getElementById("accountYear"), document.getElementById("editAccountYear")];
+      yearSelects.forEach(select => {
+        if (!select) return;
+        select.innerHTML = "";
+        for (let year = end; year >= start; year--) {
+          const option = document.createElement("option");
+          option.value = `${year}-${year + 1}`;
+          option.textContent = `${year}-${year + 1}`;
+          select.appendChild(option);
+        }
+      });
+    }
+
+    document.addEventListener("DOMContentLoaded", generateSchoolYears);
+    
     document.getElementById("clearDataButton").addEventListener("click", () => {
       if (confirm("Êtes-vous sûr de vouloir supprimer toutes les données enregistrées ? Cette action est irréversible.")) {
         localStorage.clear();
