@@ -291,6 +291,7 @@
     function createAccount() {
       const newAccountName = document.getElementById('newAccountName').value.trim();
       const period = document.getElementById('accountPeriod').value;
+      const schoolYear = document.getElementById('accountYear').value;
 
       if (!newAccountName) {
         alert("Veuillez entrer un nom pour le compte.");
@@ -299,12 +300,12 @@
 
       saveAccount(currentPlatform, newAccountName);
 
-      // Enregistre la période dans localStorage
       const accountKey = `${currentPlatform}_${newAccountName}`;
       localStorage.setItem(accountKey, JSON.stringify({
-        period: period
+        period: period,
+        schoolYear: schoolYear
       }));
-
+ 
       chooseAccount(newAccountName);
     }
     
