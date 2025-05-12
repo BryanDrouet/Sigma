@@ -40,11 +40,6 @@
         <label for="coefficient">Coefficient :</label>
         <input type="number" id="coefficient" step="0.01" placeholder="Coefficient" required />
       </div>
-      <label>Période où la note à été rentrée</label>
-      <select id="noteType">
-        <option value="trimestriel" class="note-option" data-period="trimestriel">Trimestriel</option>
-        <option value="semestriel" class="note-option" data-period="semestriel">Semestriel</option>
-      </select>
       <div id="specificOptions"></div>
       <div class="description-input">
         <label for="description">Description (optionnel) :</label>
@@ -103,31 +98,38 @@
   
   <script>
     function updateNoteOptions() {
-      const noteType = document.getElementById("noteType").value;
       const specificOptionsDiv = document.getElementById("specificOptions");
-
       specificOptionsDiv.innerHTML = "";
 
-      if (noteType === "trimestriel") {
+      const accountData = JSON.parse(localStorage.getItem(accountKey));
+      const typeDeCompte = accountData?.type;
+
+      if (!typeDeCompte) {
+        specificOptionsDiv.innerHTML = "<p style='color: red;'>Type de compte non défini</p>";
+        return;
+      }
+
+      if (typeDeCompte === "trimestre") {
         specificOptionsDiv.innerHTML = `
           <label>Choisir le trimestre :</label>
-          <select>
+          <select id="periode">
             <option value="1">1er Trimestre</option>
             <option value="2">2ème Trimestre</option>
             <option value="3">3ème Trimestre</option>
           </select>
         `;
-      } else if (noteType === "semestriel") {
+      } else if (typeDeCompte === "semestre") {
         specificOptionsDiv.innerHTML = `
           <label>Choisir le semestre :</label>
-          <select>
+          <select id="periode">
             <option value="1">1er Semestre</option>
             <option value="2">2ème Semestre</option>
           </select>
         `;
+      } else {
+        specificOptionsDiv.innerHTML = "<p style='color: red;'>Type de compte invalide</p>";
       }
     }
-
     document.getElementById("noteType").addEventListener("change", updateNoteOptions);
     
     function logoutAndReturnHome() {
