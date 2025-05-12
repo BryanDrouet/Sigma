@@ -234,6 +234,7 @@
     function saveEditedAccount() {
       const newName = document.getElementById('editAccountName').value.trim();
       const newPeriod = document.getElementById('editAccountPeriod').value;
+      const newYear = document.getElementById('editAccountYear').value;
 
       if (!newName) {
         alert("Le nom du compte ne peut pas être vide.");
@@ -253,7 +254,7 @@
       const oldKey = `${platformBeingEdited}_${accountBeingEdited}`;
       const newKey = `${platformBeingEdited}_${newName}`;
       const data = JSON.parse(localStorage.getItem(oldKey)) || {};
-      localStorage.setItem(newKey, JSON.stringify({ ...data, period: newPeriod }));
+      localStorage.setItem(newKey, JSON.stringify({ ...data, period: newPeriod, year: newYear }));
 
       if (newKey !== oldKey) {
         localStorage.removeItem(oldKey);
