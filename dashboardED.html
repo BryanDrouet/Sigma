@@ -102,14 +102,14 @@
       specificOptionsDiv.innerHTML = "";
 
       const accountData = JSON.parse(localStorage.getItem(accountKey));
-      const typeDeCompte = accountData?.type;
+      const typeDeCompte = accountData?.type || accountData?.period;
 
       if (!typeDeCompte) {
         specificOptionsDiv.innerHTML = "<p style='color: red;'>Type de compte non défini</p>";
         return;
       }
 
-      if (typeDeCompte === "trimestre") {
+      if (typeDeCompte === "trimestre" || typeDeCompte === "trimestriel") {
         specificOptionsDiv.innerHTML = `
           <label>Choisir le trimestre :</label>
           <select id="periode">
@@ -118,7 +118,7 @@
             <option value="3">3ème Trimestre</option>
           </select>
         `;
-      } else if (typeDeCompte === "semestre") {
+      } else if (typeDeCompte === "semestre" || typeDeCompte === "semestriel") {
         specificOptionsDiv.innerHTML = `
           <label>Choisir le semestre :</label>
           <select id="periode">
@@ -130,7 +130,6 @@
         specificOptionsDiv.innerHTML = "<p style='color: red;'>Type de compte invalide</p>";
       }
     }
-    document.getElementById("noteType").addEventListener("change", updateNoteOptions);
     
     function logoutAndReturnHome() {
       localStorage.removeItem('currentAccount');
