@@ -88,6 +88,9 @@
         <label for="editCoefficient">Coefficient :</label>
         <input type="number" step="0.01" min="0.01" id="editCoefficient" required>
 
+        <label for="editPeriode">Période :</label>
+        <select id="editPeriode"></select>
+
         <label for="editDescription">Description :</label>
         <input id="editDescription"></input>
 
@@ -322,7 +325,9 @@
 
       const markOutOf20 = (mark / maxMark) * 20;
 
-      notes.push({ subject, mark, maxMark, coefficient, markOutOf20, description });
+      const periode = periodeSelect ? periodeSelect.value : null;
+
+      notes.push({ subject, mark, maxMark, coefficient, markOutOf20, description, periode });
       localStorage.setItem(`${accountKey}-notes`, JSON.stringify(notes)); 
 
       document.getElementById("notesForm").reset();
@@ -392,8 +397,21 @@
     };
 
     function openEditModal(index) {
+      const editPeriodeSelect = document.getElementById("editPeriode");
+      editPeriodeSelect.innerHTML = "";
       const note = notes[index];
       editIndex = index;
+
+      document.getElementById("editSubject").value = note.subject;
+      document.getElementById("editMark").value = note.mark;
+      document.getElementById("editMaxMark").value = note.maxMark;
+      document.getElementById("editCoefficient").value = note.coefficient;
+      document.getElementById("editDescription").value = note.description || "";
+
+      const accountKey = `${currentPlatform}_${currentAccount}`;
+      const accountDataRaw = localStorage.getItem(accountKey);
+      const accountData = JSON.parse(accountDataRaw);
+      const typeDeCompte = accountData?.type || accountData?.period;
 
       const editSubjectSelect = document.getElementById("editSubject");
       editSubjectSelect.innerHTML = ''; 
@@ -408,31 +426,42 @@
         editSubjectSelect.appendChild(option);
       });
 
-      document.getElementById("editMark").value = note.mark;
-      document.getElementById("editMaxMark").value = note.maxMark;
-      document.getElementById("editCoefficient").value = note.coefficient;
-      document.getElementById("editDescription").value = note.description;
-
       document.getElementById("editModal").style.display = "flex";
+
+      if (typeDeCompte === "trimestre" || typeDeCompte === "trimestriel") {
+        editPeriodeSelect.innerHTML = `
+          <option value="1">1er Trimestre</option>
+          <option value="2">2ème Trimestre</option>
+          <option value="3">3ème Trimestre</option>
+        `;
+      } else if (typeDeCompte === "semestre" || typeDeCompte === "semestriel") {
+        editPeriodeSelect.innerHTML = `
+          <option value="1">1er Semestre</option>
+          <option value="2">2ème Semestre</option>
+        `;
+      }
+
+      if (note.periode) {
+        editPeriodeSelect.value = note.periode;
+      }
+      editPeriodeSelect.value = note.periode || 1;
     }
 
     document.getElementById("editNoteForm").addEventListener("submit", (e) => {
       e.preventDefault();
 
-      const subject = document.getElementById("editSubject").value;
-      const mark = parseFloat(document.getElementById("editMark").value);
-      const maxMark = parseFloat(document.getElementById("editMaxMark").value);
-      const coefficient = parseFloat(document.getElementById("editCoefficient").value);
-      const description = document.getElementById("editDescription").value.trim();
+        const editedNote = {
+          subject: document.getElementById("editSubject").value,
+          mark: parseFloat(document.getElementById("editMark").value),
+          maxMark: parseFloat(document.getElementById("editMaxMark").value),
+          coefficient: parseFloat(document.getElementById("editCoefficient").value),
+          description: document.getElementById("editDescription").value,
+          periode: document.getElementById("editPeriode").value,
+        };
 
-      if (isNaN(mark) || isNaN(maxMark) || isNaN(coefficient)) {
-        alert("Veuillez remplir tous les champs correctement.");
-        return;
-      }
+      editedNote.markOutOf20 = (editedNote.mark / editedNote.maxMark) * 20;
 
-      const markOutOf20 = (mark / maxMark) * 20;
-
-      notes[editIndex] = { subject, mark, maxMark, coefficient, markOutOf20, description };
+      notes[editIndex] = editedNote;
       localStorage.setItem(`${accountKey}-notes`, JSON.stringify(notes));
       document.getElementById("editModal").style.display = "none";
       updateNotes();
