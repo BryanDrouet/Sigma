@@ -101,15 +101,19 @@
       const specificOptionsDiv = document.getElementById("specificOptions");
       specificOptionsDiv.innerHTML = "";
 
-      const accountData = JSON.parse(localStorage.getItem(accountKey));
+      const accountKey = `${currentPlatform}_${currentAccount}`;
+      const accountDataRaw = localStorage.getItem(accountKey);
+      const accountData = JSON.parse(accountDataRaw);
       const typeDeCompte = accountData?.type || accountData?.period;
 
       if (!typeDeCompte) {
+        console.warn("⚠️ Type de compte non défini. Vérifie que 'type' ou 'period' est bien défini dans accountData.");
         specificOptionsDiv.innerHTML = "<p style='color: red;'>Type de compte non défini</p>";
         return;
       }
 
       if (typeDeCompte === "trimestre" || typeDeCompte === "trimestriel") {
+        console.log("Affichage des options trimestrielles");
         specificOptionsDiv.innerHTML = `
           <label>Choisir le trimestre :</label>
           <select id="periode">
@@ -119,6 +123,7 @@
           </select>
         `;
       } else if (typeDeCompte === "semestre" || typeDeCompte === "semestriel") {
+        console.log("Affichage des options semestrielles");
         specificOptionsDiv.innerHTML = `
           <label>Choisir le semestre :</label>
           <select id="periode">
@@ -127,6 +132,7 @@
           </select>
         `;
       } else {
+        console.warn("⚠️ Type de compte invalide :", typeDeCompte);
         specificOptionsDiv.innerHTML = "<p style='color: red;'>Type de compte invalide</p>";
       }
     }

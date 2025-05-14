@@ -214,7 +214,8 @@ button.delete-button {
 #editMark,
 #editMaxMark,
 #editCoefficient,
-#editDescription {
+#editDescription,
+#specificOptions {
   margin-bottom: 1rem;
 }
 
