@@ -292,4 +292,5 @@ form label {
 #editModal {
   display: flex;
   align-content: center;
+  align-items:  flex-start;
 }
