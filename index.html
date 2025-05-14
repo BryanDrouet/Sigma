@@ -157,8 +157,9 @@
       const accounts = getAccounts(platform);
 
       accountListDiv.innerHTML = ''; 
+      labelLoginAccount.style.display = accounts.length > 0 ? "block" : "none";
+
       accounts.forEach(account => {
-        labelLoginAccount.style.display = "block";
         const accountItem = document.createElement('div');
         accountItem.classList.add('account-item');
         accountItem.style.display = 'flex';
