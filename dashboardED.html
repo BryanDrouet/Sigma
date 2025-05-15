@@ -110,13 +110,11 @@
       const typeDeCompte = accountData?.type || accountData?.period;
 
       if (!typeDeCompte) {
-        console.warn("⚠️ Type de compte non défini. Vérifie que 'type' ou 'period' est bien défini dans accountData.");
         specificOptionsDiv.innerHTML = "<p style='color: red;'>Type de compte non défini</p>";
         return;
       }
 
       if (typeDeCompte === "trimestre" || typeDeCompte === "trimestriel") {
-        console.log("Affichage des options trimestrielles");
         specificOptionsDiv.innerHTML = `
           <label>Choisir le trimestre :</label>
           <select id="periode">
@@ -126,7 +124,6 @@
           </select>
         `;
       } else if (typeDeCompte === "semestre" || typeDeCompte === "semestriel") {
-        console.log("Affichage des options semestrielles");
         specificOptionsDiv.innerHTML = `
           <label>Choisir le semestre :</label>
           <select id="periode">
@@ -135,7 +132,6 @@
           </select>
         `;
       } else {
-        console.warn("⚠️ Type de compte invalide :", typeDeCompte);
         specificOptionsDiv.innerHTML = "<p style='color: red;'>Type de compte invalide</p>";
       }
     }
@@ -150,9 +146,7 @@
 
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('service-worker.js').then(function(registration) {
-        console.log('Service Worker enregistré avec succès:', registration);
       }).catch(function(error) {
-        console.log('L\'enregistrement du Service Worker a échoué:', error);
       });
     }
 
@@ -317,6 +311,7 @@
       const maxMark = parseFloat(document.getElementById("maxMark").value);
       const coefficient = parseFloat(document.getElementById("coefficient").value);
       const description = document.getElementById("description").value.trim();
+      const periodeSelect = document.getElementById("periode");
 
       if (isNaN(mark) || isNaN(maxMark) || isNaN(coefficient)) {
         alert("Veuillez remplir tous les champs correctement.");

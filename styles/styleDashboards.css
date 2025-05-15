@@ -17,10 +17,6 @@ body {
   margin: 50px 15%;
   padding-bottom: 120px;
 }
-
-.modal-content {
-  font-family: "Segoe UI", sans-serif;
-}
   
 h1, h2 {
   text-align: center;
@@ -127,14 +123,18 @@ button.delete-button {
   height: 100%;
   align-items: center;
   justify-content: center;
+  overflow: auto;
 }
   
 .modal-content {
+  font-family: "Segoe UI", sans-serif;
   position: relative;
   padding: 20px;
   border-radius: 8px;
   max-width: 500px;
   width: 90%;
+  margin-top: 50px;
+  margin-bottom: 50px;
 }
   
 .modal-content h2 {
@@ -215,7 +215,8 @@ button.delete-button {
 #editMaxMark,
 #editCoefficient,
 #editDescription,
-#specificOptions {
+#specificOptions,
+#editPeriode {
   margin-bottom: 1rem;
 }
 
@@ -276,8 +277,6 @@ form label {
 
 #description, #editDescription {
   width: 100%; 
-  min-height: 100px; 
-  resize: vertical; 
 }
 
 #notesList p {
