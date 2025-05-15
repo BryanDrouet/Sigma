@@ -1,5 +1,10 @@
 # main
-Comparez cette version avec l'ancienne en cliquant [juste ici.](https://github.com/BryanDrouet/Sigma/compare/v1.0.2a...main)
+Comparez cette version avec l'ancienne en cliquant [juste ici.](https://github.com/BryanDrouet/Sigma/compare/v1.0.2...main)
+
+---
+
+# v1.0.2
+Comparez cette version avec l'ancienne en cliquant [juste ici.](https://github.com/BryanDrouet/Sigma/compare/v1.0.1...v1.0.2)
 
 ---
 
