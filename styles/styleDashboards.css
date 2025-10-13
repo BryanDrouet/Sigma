@@ -92,6 +92,7 @@ button.delete-button {
   border-radius: 8px;
   margin-bottom: 10px;
   align-items: center;
+  transition: background-color 0.3s ease, opacity 0.3s ease;
 }
   
 #notesList li span {
