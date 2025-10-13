@@ -69,6 +69,6 @@ button.delete-button:hover {
   color: #fff;
 }
 
-#notesList li {
+#notesList li:hover {
   background-color: #313131;
 }
