@@ -348,8 +348,8 @@
     const modal = document.getElementById("myModal");
     const closeModal = document.getElementsByClassName("close")[0];
 
-    modalBtn.onclick = () => modal.style.display = "flex";
-    closeModal.onclick = () => modal.style.display = "none";
+    modalBtn.onclick = () => modal.classList.add("show");
+    closeModal.onclick = () => modal.classList.remove("show");
 
     document.getElementById("notesForm").addEventListener("submit", (e) => {
       e.preventDefault();
@@ -436,7 +436,7 @@
     }
 
     document.getElementById("closeEditModal").onclick = () => {
-      document.getElementById("editModal").style.display = "none";
+      document.getElementById("editModal").classList.remove("show");
     };
 
     function openEditModal(index) {
@@ -469,7 +469,7 @@
         editSubjectSelect.appendChild(option);
       });
 
-      document.getElementById("editModal").style.display = "flex";
+      document.getElementById("editModal").classList.add("show");
 
       if (typeDeCompte === "trimestre" || typeDeCompte === "trimestriel") {
         editPeriodeSelect.innerHTML = `
