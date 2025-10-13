@@ -1,35 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <script>
-    function getEaster(year) {
-      let a = year % 19; let b = Math.floor(year / 100); let c = year % 100;
-      let d = Math.floor(b / 4); let e = b % 4; let f = Math.floor((b + 8) / 25);
-      let g = Math.floor((b - f + 1) / 3); let h = (19 * a + b - d - g + 15) % 30;
-      let i = Math.floor(c / 4); let k = c % 4; let l = (32 + 2 * e + 2 * i - h - k) % 7;
-      let m = Math.floor((a + 11 * h + 22 * l) / 451);
-      let month = Math.floor((h + l - 7 * m + 114) / 31);
-      let day = ((h + l - 7 * m + 114) % 31) + 1;
-      return { month, day };
-    }
-
-    function getSeasonalTheme() {
-      const now = new Date();
-      const year = now.getFullYear();
-      const month = now.getMonth() + 1;
-      const day = now.getDate();
-      if (month === 10) return 'halloween';
-      if (month === 12 && day >= 15) return 'noel';
-      if (month === 1 && day <= 7) return 'nouvelan';
-      if (month === 6 && day === 21) return 'fetemusique';
-      const easter = getEaster(year);
-      if (month === easter.month && day === easter.day) return 'paques';
-      return 'default';
-    }
-
-    var theme = getSeasonalTheme();
-    document.write('<link rel="stylesheet" href="styles/theme-' + theme + '.css" id="theme-style" />');
-  </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sigma - Dashboard Ecole Directe</title>
@@ -38,13 +9,7 @@
   <link rel="stylesheet" href="styles/styleDashboards.css" />
   <link rel="icon" type="image/png" href="assets/icon.png" />
 </head>
-<body style="visibility:hidden;">
-  <script>
-    window.onload = function() {
-      document.body.style.visibility = 'visible';
-      applySeasonalTheme();
-    }
-  </script>
+<body>
   <div class="button-container">
     <button id="homeButton" class="install-button" title="Accueil / Déconnexion">
       <img src="assets/home.png" alt="Accueil" />
