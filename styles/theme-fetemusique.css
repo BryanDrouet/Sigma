@@ -1,0 +1,15 @@
+body {
+    background: #08e8de url("musique-bg.png") no-repeat center center fixed;
+    color: #2a006e;
+}
+header, .card {
+    background: rgba(8,232,222,0.92);
+    box-shadow: 0 0 30px #2a006e;
+}
+button, .btn {
+    background: #2a006e;
+    color: #fff;
+}
+a {
+    color: #2a006e;
+}
