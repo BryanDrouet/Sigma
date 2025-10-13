@@ -1,16 +1,56 @@
 html {
-    background: #222 url("halloween-bg.png") no-repeat center center fixed;
-    color: #fd6406;
+  background: #222;
+  background: linear-gradient(150deg,#29160d 0%, #fd6406 100%);
 }
-header, .card {
-    background: rgba(34, 34, 34, 0.95);
-    box-shadow: 0 0 30px #fd6406;
+h1, h2 {
+  color: #fd6406;
 }
-button, .btn, button[type="submit"], button[type="button"] {
-    background: #fd6406;
-    color: #fff;
-    border: none;
+h2.popUp {
+  color: #222;
 }
-a {
-    color: #fd6406;
+form, #notesList li, .modal-content {
+  background-color: #232323;
+  color: #ffa94d;
+}
+input, select {
+  border: 1px solid #fd6406;
+  background: #3a1d0b;
+  color: #ffa94d;
+}
+button.edit-button, .btn, button[type="submit"], button[type="button"] {
+  background-color: #fd6406;
+  color: #232323;
+}
+button.edit-button:hover, .btn:hover, button[type="submit"]:hover, button[type="button"]:hover {
+  background-color: #45200f;
+}
+button.delete-button {
+  background-color: #8c1c13;
+  color: #fff;
+}
+button.delete-button:hover {
+  background-color: #fd6406;
+}
+.install-button, #homeButton {
+  background-color: #231a15;
+  color: #fd6406;
+  border: 2px solid #fd6406;
+}
+.install-button:hover, #homeButton:hover {
+  background-color: #fd6406;
+  color: #231a15;
+}
+.install-button:active, #homeButton:active {
+  background-color: #231a15;
+  color: #fd6406;
+}
+.modal {
+  background-color: rgba(40, 8, 0, 0.6);
+}
+.close {
+  color: #fd6406;
+}
+.close:hover,
+.close:focus {
+  color: #fff;
 }
