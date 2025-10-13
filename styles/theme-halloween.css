@@ -1,0 +1,16 @@
+body {
+    background: #222 url("halloween-bg.png") no-repeat center center fixed;
+    color: #fd6406;
+}
+header, .card {
+    background: rgba(34, 34, 34, 0.95);
+    box-shadow: 0 0 30px #fd6406;
+}
+button, .btn {
+    background: #fd6406;
+    color: #fff;
+    border: none;
+}
+a {
+    color: #fd6406;
+}
