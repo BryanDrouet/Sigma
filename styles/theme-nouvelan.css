@@ -1,0 +1,15 @@
+body {
+    background: linear-gradient(45deg, #f7d801, #fffbe7);
+    color: #222;
+}
+header, .card {
+    background: rgba(247,216,1,0.85);
+    box-shadow: 0 0 15px #f7d801;
+}
+button, .btn {
+    background: #f7d801;
+    color: #222;
+}
+a {
+    color: #f7d801;
+}
