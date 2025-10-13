@@ -19,14 +19,14 @@ button.edit-button, .btn, button[type="submit"], button[type="button"] {
   color: #232323;
 }
 button.edit-button:hover, .btn:hover, button[type="submit"]:hover, button[type="button"]:hover {
-  background-color: #45200f;
+  background-color: #ce4201;
 }
 button.delete-button {
   background-color: #8c1c13;
   color: #fff;
 }
 button.delete-button:hover {
-  background-color: #fd6406;
+  background-color: #cd2a1c;
 }
 .install-button, #homeButton {
   background-color: #231a15;
