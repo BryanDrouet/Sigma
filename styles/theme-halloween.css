@@ -2,11 +2,8 @@ html {
   background: #222;
   background: linear-gradient(150deg,#29160d 0%, #fd6406 100%);
 }
-h1, h2 {
+h1, h2, h2.popUp {
   color: #fd6406;
-}
-h2.popUp {
-  color: #222;
 }
 form, #notesList li, .modal-content {
   background-color: #232323;
