@@ -1,0 +1,15 @@
+body {
+    background: #fbeffb url("paques-bg.png") no-repeat center center fixed;
+    color: #b478c9;
+}
+header, .card {
+    background: rgba(251,239,251,0.8);
+    box-shadow: 0 0 20px #b478c9;
+}
+button, .btn {
+    background: #c278e7;
+    color: #fff;
+}
+a {
+    color: #c278e7;
+}
