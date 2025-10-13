@@ -68,3 +68,7 @@ button.delete-button:hover {
 .close:focus {
   color: #fff;
 }
+
+#notesList li {
+  background-color: #313131;
+}
