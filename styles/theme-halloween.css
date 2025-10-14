@@ -44,7 +44,7 @@ button.delete-button:hover {
 
 .install-button:hover, #homeButton:hover {
   background-color: #fd6406;
-  color: #231a15;
+  color: #ffffff;
 }
 
 .install-button:active, #homeButton:active {
