@@ -163,7 +163,7 @@
 
       if (typeDeCompte === "trimestre" || typeDeCompte === "trimestriel") {
         specificOptionsDiv.innerHTML = `
-          <label>Choisir le trimestre :</label><strong class="required">&nbsp;*</strong>
+          <label for="periode">Choisir le trimestre :</label><strong class="required">&nbsp;*</strong>
           <select id="periode">
             <option value="1">1er Trimestre</option>
             <option value="2">2ème Trimestre</option>
@@ -172,7 +172,7 @@
         `;
       } else if (typeDeCompte === "semestre" || typeDeCompte === "semestriel") {
         specificOptionsDiv.innerHTML = `
-          <label>Choisir le semestre :</label><strong class="required">&nbsp;*</strong>
+          <label for="periode">Choisir le semestre :</label><strong class="required">&nbsp;*</strong>
           <select id="periode">
             <option value="1">1er Semestre</option>
             <option value="2">2ème Semestre</option>
