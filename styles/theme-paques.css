@@ -1,15 +1,86 @@
-body {
-    background: #fbeffb url("paques-bg.png") no-repeat center center fixed;
-    color: #b478c9;
+html {
+  background: #fbeffb;
+  background: linear-gradient(150deg, #ffdff0 0%, #b478c9 100%);
 }
-header, .card {
-    background: rgba(251,239,251,0.8);
-    box-shadow: 0 0 20px #b478c9;
+
+h1, h2, h2.popUp {
+  color: #b478c9;
 }
-button, .btn {
-    background: #c278e7;
-    color: #fff;
+
+form, #notesList li, .modal-content {
+  background-color: #fff0f8;
+  color: #b478c9;
 }
-a {
-    color: #c278e7;
+
+input, select {
+  border: 1px solid #b478c9;
+  background: #f8e7ff;
+  color: #b478c9;
+}
+
+button.edit-button, .btn, button[type="submit"], button[type="button"] {
+  background-color: #c278e7;
+  color: #ffffff;
+}
+
+button.edit-button:hover, .btn:hover, button[type="submit"]:hover, button[type="button"]:hover {
+  background-color: #e7b0fa;
+  color: #b478c9;
+}
+
+button.delete-button {
+  background-color: #bb3555;
+  color: #fff;
+}
+
+button.delete-button:hover {
+  background-color: #c278e7;
+}
+
+.install-button, #homeButton {
+  background-color: #ffe4fa;
+  color: #b478c9;
+  border: 2px solid #b478c9;
+}
+
+.install-button:hover, #homeButton:hover {
+  background-color: #c278e7;
+  color: #ffffff;
+}
+
+.install-button:active, #homeButton:active {
+  background-color: #ffe4fa;
+  color: #b478c9;
+}
+
+#homeButton img {
+  filter: invert(10%) sepia(40%) saturate(700%) hue-rotate(270deg) brightness(150%);
+}
+
+.modal {
+  background-color: rgba(200, 100, 200, 0.3);
+}
+
+.close {
+  color: #b478c9;
+}
+
+.close:hover,
+.close:focus {
+  color: #e7b0fa;
+}
+
+#notesList li:hover {
+  background-color: #f2d8f2;
+}
+
+.required {
+  color: #b478c9;
+  font-weight: bold;
+  text-shadow: 0 0 3px #fff0ff, 0 0 6px #b478c9;
+}
+
+::selection {
+  background-color: #b478c9;
+  color: #fff;
 }
