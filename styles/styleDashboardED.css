@@ -101,9 +101,5 @@ button.delete-button:hover {
 }
 
 .required {
-  color: #1976D2; /* Bleu bouton */
-  font-weight: bold;
-  font-size: 1.1em;
-  vertical-align: middle;
-  text-shadow: 0 0 2px #fff, 0 0 3px #1976D2;
+  color: #1976D2;
 }
