@@ -103,3 +103,13 @@ button.delete-button:hover {
 .required {
   color: #1976D2;
 }
+
+select:hover {
+  border-color: #1565C0; 
+  background-color: #e3f2fd; 
+}
+
+::selection {
+  background-color: #1976D2;
+  color: white;
+}
