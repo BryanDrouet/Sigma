@@ -84,3 +84,32 @@ button.delete-button:hover {
   background-color: #fd6406; 
   color: #232323; 
 }
+
+.theme-image {
+  position: fixed;
+  pointer-events: none; 
+  object-fit: contain;
+  margin: 0px !important;
+  padding: 0px !important;
+}
+
+.bottom {
+  bottom: 0px;
+  left: 0;
+  width: 100vw;
+  min-width: 100vw;
+}
+
+.top-left {
+  top: 0;
+  left: 0;
+  max-width: 30%;
+  max-height: 30%;
+}
+
+.top-right {
+  top: 0;
+  right: 0;
+  max-width: 30%;
+  max-height: 30%;
+}
