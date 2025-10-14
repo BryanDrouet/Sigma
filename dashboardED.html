@@ -40,7 +40,6 @@
         link.id = 'theme-style';
         document.head.appendChild(link);
       }
-      // Ajoute un paramètre unique pour contourner le cache
       const timestamp = new Date().getTime();
       link.href = `styles/theme-${theme}.css?v=${timestamp}`;
     }
@@ -157,11 +156,11 @@
     async function applyTheme() {
       const forcedTheme = await getForcedThemeFromSettings();
       let theme;
-    
+      
       if (forcedTheme && forcedTheme !== 'none') {
-        theme = forcedTheme; // force un thème spécifique ou 'default'
+        theme = forcedTheme;
       } else {
-        theme = getSeasonalTheme(); // détection automatique
+        theme = getSeasonalTheme();
       }
     
       let link = document.getElementById('theme-style');
@@ -171,7 +170,8 @@
         link.id = 'theme-style';
         document.head.appendChild(link);
       }
-      link.href = `styles/theme-${theme}.css`;
+      const timestamp = new Date().getTime();
+      link.href = `styles/theme-${theme}.css?v=${timestamp}`;
     }
     
     window.onload = applyTheme;
@@ -220,7 +220,8 @@
             link.id = 'theme-style';
             document.head.appendChild(link);
         }
-        link.href = `styles/theme-${theme}.css`;
+        const timestamp = new Date().getTime();
+        link.href = `styles/theme-${theme}.css?v=${timestamp}`;
     }
     window.onload = applySeasonalTheme;
     
