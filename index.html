@@ -49,17 +49,17 @@
       <span class="close" onclick="closeModal()">&times;</span>
       <h2 class="popUp">Choisir un compte</h2>
       <p id="noAccount">Vous n'avez pas de compte enregistré sur cet appareil.</p>
-      <label id="labelLoginAccount" style="display: none;">Se connecter :</label>
+      <p id="labelLoginAccount" style="display: none;">Se connecter :</p>
       <div id="accountList"></div>
       <h3 id="createAccountH3">Créer un compte :</h3>
-      <label>Nom du compte</label>
+      <label for="newAccountName">Nom du compte</label>
       <input type="text" id="newAccountName" placeholder="Nouveau compte" />
-      <label>Type de compte</label>
+      <label for="accountPeriod">Type de compte</label>
       <select id="accountPeriod">
         <option value="trimestriel">Trimestriel</option>
         <option value="semestriel">Semestriel</option>
       </select>
-      <label>Année scolaire</label>
+      <label for="accountYear">Année scolaire</label>
       <select id="accountYear"></select>
       <button id="createAccountBtn" onclick="createAccount()">Créer un compte</button>
     </div>
@@ -69,14 +69,14 @@
     <div class="modal-content">
       <span class="close" onclick="closeEditModal()">&times;</span>
       <h2 class="popUp">Modifier le compte</h2>
-      <label>Nom du compte</label>
+      <label for="editAccountName">Nom du compte</label>
       <input type="text" id="editAccountName" placeholder="Nom du compte" />
-      <label>Type de compte</label>
+      <label for="editAccountPeriod">Type de compte</label>
       <select id="editAccountPeriod">
         <option value="trimestriel">Trimestriel</option>
         <option value="semestriel">Semestriel</option>
       </select>
-      <label>Année scolaire</label>
+      <label for="editAccountYear">Année scolaire</label>
       <select id="editAccountYear"></select>
       <button id="editAccountBtn" onclick="saveEditedAccount()">Enregistrer</button>
     </div>

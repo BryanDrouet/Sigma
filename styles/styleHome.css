@@ -338,8 +338,12 @@ h2.popUp {
 }
 
 .modal-content label {
-  margin-bottom: 0.4rem;
+  margin-bottom: 0.5rem;
   display: inline-block; 
+}
+
+.modal-content #labelLoginAccount {
+  margin-bottom: 0.8rem;
 }
 
 #createAccountBtn, #editAccountBtn {
