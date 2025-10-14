@@ -99,3 +99,11 @@ button.delete-button:hover {
 #homeButton:hover img {
   filter: invert(1) grayscale(100%) brightness(100%) saturate(100%) sepia(100%) hue-rotate(190deg);
 }
+
+.required {
+  color: #23a013; 
+  font-weight: bold;
+  font-size: 1.1em;
+  vertical-align: middle;
+  text-shadow: 0 0 2px #fff, 0 0 3px #129956;
+}
