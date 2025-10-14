@@ -8,19 +8,18 @@ Accédez au site sur : https://bryandrouet.github.io/Sigma/
 
 Sigma vous permet d'analyser vos résultats scolaires en entrant manuellement vos notes et en échange celui-ci s'occupe pour vous automatiquement de générer des graphiques et de calculer des statistiques telles que la moyenne, la médiane, et d'autres informations utiles pour suivre votre évolution.
 
-Il est totalement gratuit et sans frais cachés, avec un remplissage manuel des données, sans automatisation ni API publique. Le site ne stocke rien tout est stocké chez vous en local sur votre machine et peut être supprimé a tout moment par vous et seulement vous même.
+Il est totalement gratuit et sans frais cachés, avec un remplissage manuel des données, sans automatisation ni API publique. Le site ne stocke rien tout est stocké chez vous en local sur votre machine et peut être supprimé à tout moment par vous et seulement vous-même.
 
 ## Fonctionnalités ajoutées :
-- Thèmes en fonction des événements
+- Thèmes en fonction des événements IRL (Noël, Halloween etc.)
 - Comptes : création, suppression
-- Notes : ajout, coefficient, note max, matière, description
-- Notes : modification, suppression
+- Notes : ajout, modification, suppression, coefficient, note max, matière, description
 - Matières : ajout, suppression
 - Application : installation mobile/PC
 - Mise à jour : affichage via bouton
 - Périodes : trimestres, semestres
 
-## Fonctionnalités à ajoutées :
+## Fonctionnalités à ajouter :
 - Graphiques : visualisation des notes
 - Statistiques : moyennes, médianes
 - - Par matière,
