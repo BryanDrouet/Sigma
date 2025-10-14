@@ -1,15 +1,86 @@
-body {
-    background: #08e8de url("musique-bg.png") no-repeat center center fixed;
-    color: #2a006e;
+html {
+  background: #08e8de;
+  background: linear-gradient(150deg, #c5fff2 0%, #280d59 100%);
 }
-header, .card {
-    background: rgba(8,232,222,0.92);
-    box-shadow: 0 0 30px #2a006e;
+
+h1, h2, h2.popUp {
+  color: #2a006e;
 }
-button, .btn {
-    background: #2a006e;
-    color: #fff;
+
+form, #notesList li, .modal-content {
+  background-color: #eaffff;
+  color: #2a006e;
 }
-a {
-    color: #2a006e;
+
+input, select {
+  border: 1px solid #08e8de;
+  background: #cdfdfd;
+  color: #2a006e;
+}
+
+button.edit-button, .btn, button[type="submit"], button[type="button"] {
+  background-color: #2a006e;
+  color: #ffffff;
+}
+
+button.edit-button:hover, .btn:hover, button[type="submit"]:hover, button[type="button"]:hover {
+  background-color: #08e8de;
+  color: #2a006e;
+}
+
+button.delete-button {
+  background-color: #d950ff;
+  color: #fff;
+}
+
+button.delete-button:hover {
+  background-color: #2a006e;
+}
+
+.install-button, #homeButton {
+  background-color: #c5fff2;
+  color: #2a006e;
+  border: 2px solid #2a006e;
+}
+
+.install-button:hover, #homeButton:hover {
+  background-color: #2a006e;
+  color: #ffffff;
+}
+
+.install-button:active, #homeButton:active {
+  background-color: #c5fff2;
+  color: #2a006e;
+}
+
+#homeButton img {
+  filter: invert(30%) sepia(100%) saturate(500%) hue-rotate(190deg) brightness(110%);
+}
+
+.modal {
+  background-color: rgba(8, 232, 222, 0.3);
+}
+
+.close {
+  color: #2a006e;
+}
+
+.close:hover,
+.close:focus {
+  color: #08e8de;
+}
+
+#notesList li:hover {
+  background-color: #d5f7f7;
+}
+
+.required {
+  color: #2a006e;
+  font-weight: bold;
+  text-shadow: 0 0 3px #c5fff2, 0 0 6px #2a006e;
+}
+
+::selection {
+  background-color: #2a006e;
+  color: #c5fff2;
 }
