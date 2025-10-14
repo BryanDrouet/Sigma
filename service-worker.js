@@ -1,7 +1,6 @@
 const CACHE_NAME = 'site-cache-v1';
 const IMAGE_CACHE_NAME = 'image-cache-v1';
 
-// Fichiers à mettre en cache (images uniquement)
 const IMAGE_URLS = [
   'assets/logoPronote.png',
   'assets/logoEcoleDirecte.png',
@@ -34,7 +33,6 @@ self.addEventListener('install', (event) => {
 self.addEventListener('fetch', (event) => {
   const url = event.request.url;
 
-  // 1. Gérer le cache des images
   if (IMAGE_URLS.some(image => url.includes(image))) {
     event.respondWith(
       caches.match(event.request).then((cachedResponse) => {
@@ -42,11 +40,9 @@ self.addEventListener('fetch', (event) => {
       })
     );
   }
-  // 2. Ne PAS mettre en cache les fichiers CSS
   else if (url.endsWith('.css') && url.includes('/styles/')) {
     event.respondWith(fetch(event.request));
   }
-  // 3. Pour tout le reste (HTML, JS, etc.), aller directement au réseau
   else {
     event.respondWith(fetch(event.request));
   }
