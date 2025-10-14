@@ -81,6 +81,11 @@ h2.popUp {
     top: 20px !important;
     font-size: 0.7rem !important;
   }
+
+  .modal-content {
+    margin-top: 10% !important;
+    margin-bottom: 10% !important;
+  }
 }
 
 @media (min-width: 768px) {
@@ -94,7 +99,7 @@ h2.popUp {
   color: #1976D2;
   padding: 12px 24px;
   font-size: 0.9rem;
-  border: 2px solid #1976D2;
+  border: none;
   border-radius: 30px;
   cursor: pointer;
   position: fixed;
@@ -112,14 +117,10 @@ h2.popUp {
   padding-right: 12px;
 }
 
-#clearDataButton {
-  border: 2px solid #ac2a37;
-}
-
 .modal button {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
-  border: 2px solid #1976D2;
+  border: none;
   border-radius: 30px;
   cursor: pointer;
   background-color: white;
@@ -155,10 +156,59 @@ h2.popUp {
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes modalFadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes modalSlideIn {
+  from {
+    transform: translateY(-50px) scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes modalSlideOut {
+  from {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-50px) scale(0.8);
+    opacity: 0;
+  }
+}
+
+.modal.modal-opening {
+  display: flex !important;
+  animation: modalFadeIn 0.3s ease-out forwards;
+}
+
+.modal.modal-closing {
+  animation: modalFadeOut 0.3s ease-out forwards;
+}
+
 .modal {
   display: none;
   position: fixed;
-  z-index: 1;
+  z-index: 1000;
   left: 0;
   top: 0;
   width: 100%;
@@ -171,8 +221,7 @@ h2.popUp {
   position: relative;
   background-color: #fefefe;
   padding: 20px;
-  width: 80%;
-  max-width: 400px;
+  width: 45%;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
@@ -207,8 +256,8 @@ h2.popUp {
 }
 
 .modal-content {
-  margin-top: 10% !important;
-  margin-bottom: 10% !important;
+  margin-top: 5%;
+  margin-bottom: 5%;
 }
 
 #updateModal .modal-content {
@@ -238,11 +287,15 @@ h2.popUp {
   font-weight: bold;
   cursor: pointer;
   line-height: 1;
+  transition: all 0.3s ease; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .close:hover,
 .close:focus {
-  color: black;
+  color: #000;
   text-decoration: none;
   cursor: pointer;
 }
@@ -254,6 +307,7 @@ h2.popUp {
   margin-top: 0px;
   margin-bottom: 10px;
   border-radius: 5px;
+  transition: all 0.3s ease;
 }
 
 .account-item:hover {
@@ -297,9 +351,29 @@ h2.popUp {
   cursor: pointer;
   background-color: #1E88E5;
   color: white;
-  transition: background-color 0.3s esae, opacity 0.3s ease;
 }
 
 #createAccountBtn:hover, #editAccountBtn:hover {
-  background-color: #1c7cd1;
+  background-color: #196cb4;
+}
+
+#editAccountModal {
+  align-items: center;
+}
+
+#accountModal .modal-content {
+  max-height: 75vh;
+  overflow-y: auto;
+}
+
+#accountList {
+  max-height: 300px;
+  overflow-y: auto;
+  margin-bottom: 1rem;
+}
+
+#noAccount {
+  text-align: center;
+  font-style: italic;
+  margin-bottom: 0px;
 }

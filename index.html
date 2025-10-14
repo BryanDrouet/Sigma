@@ -39,7 +39,7 @@
 
   <div id="updateModal" class="modal" style="display: none;justify-content: center;">
     <div class="modal-content maj">
-      <span class="close" onclick="document.getElementById('updateModal').style.display='none'">&times;</span>
+      <span class="close" onclick="closeUpdateModal()">&times;</span>
       <div id="updateContent" style="white-space: normal;"></div>
     </div>
   </div>
@@ -48,6 +48,7 @@
     <div class="modal-content">
       <span class="close" onclick="closeModal()">&times;</span>
       <h2 class="popUp">Choisir un compte</h2>
+      <p id="noAccount">Vous n'avez pas de compte enregistré sur cet appareil.</p>
       <label id="labelLoginAccount" style="display: none;">Se connecter :</label>
       <div id="accountList"></div>
       <h3 id="createAccountH3">Créer un compte :</h3>
@@ -99,6 +100,11 @@
     }
 
     document.addEventListener("DOMContentLoaded", generateSchoolYears);
+
+    document.addEventListener("DOMContentLoaded", function() {
+      generateSchoolYears();
+      setupModalClickOutside();
+    });
     
     document.getElementById("clearDataButton").addEventListener("click", () => {
       if (confirm("Êtes-vous sûr de vouloir supprimer toutes les données enregistrées ? Cette action est irréversible.")) {
@@ -114,14 +120,14 @@
           if (!response.ok) throw new Error("Fichier introuvable");
           return response.text();
         })
-        .then(markdown  => {
+        .then(markdown => {
           const html = marked.parse(markdown);
           document.getElementById("updateContent").innerHTML = html;
-          document.getElementById("updateModal").style.display = "flex";
+          openModalWithAnimation('updateModal');
         })
         .catch(error => {
           document.getElementById("updateContent").innerHTML = "<p style='color:red;'>Erreur : impossible de charger les mises à jour.</p>";
-          document.getElementById("updateModal").style.display = "block";
+          openModalWithAnimation('updateModal');
         });
     });
 
@@ -164,10 +170,12 @@
     function showAccountList(platform) {
       const accountListDiv = document.getElementById('accountList');
       const labelLoginAccount = document.getElementById('labelLoginAccount');
+      const noAccount = document.getElementById('noAccount');
       const accounts = getAccounts(platform);
 
       accountListDiv.innerHTML = ''; 
       labelLoginAccount.style.display = accounts.length > 0 ? "block" : "none";
+      noAccount.style.display = accounts.length > 0 ? "none" : "block";
 
       accounts.forEach(account => {
         const accountItem = document.createElement('div');
@@ -235,11 +243,16 @@
       document.getElementById('editAccountName').value = oldName;
       document.getElementById('editAccountPeriod').value = data.period || 'trimestriel';
       document.getElementById('editAccountYear').value = data.schoolYear || '';
-      document.getElementById('editAccountModal').style.display = 'flex';
+      
+      openModalWithAnimation('editAccountModal');
+    }
+
+    function closeUpdateModal() {
+      closeModalWithAnimation('updateModal');
     }
 
     function closeEditModal() {
-      document.getElementById('editAccountModal').style.display = 'none';
+      closeModalWithAnimation('editAccountModal');
     }
 
     function saveEditedAccount() {
@@ -320,16 +333,69 @@
  
       chooseAccount(newAccountName);
     }
+
+    function openModalWithAnimation(modalId, callback) {
+      const modal = document.getElementById(modalId);
+      
+      modal.style.display = 'flex';
+      modal.classList.add('modal-opening');
+      
+      setTimeout(() => {
+        modal.classList.remove('modal-opening');
+        if (callback) callback();
+      }, 300);
+    }
+
+    function closeModalWithAnimation(modalId, callback) {
+      const modal = document.getElementById(modalId);
+      
+      modal.classList.add('modal-closing');
+      
+      setTimeout(() => {
+        modal.style.display = 'none';
+        modal.classList.remove('modal-closing');
+        if (callback) callback();
+      }, 300);
+    }
+
+    function setupModalClickOutside() {
+      const modals = ['accountModal', 'editAccountModal', 'updateModal'];
+      
+      modals.forEach(modalId => {
+        const modal = document.getElementById(modalId);
+        if (modal) {
+          modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+              if (modalId === 'accountModal') {
+                closeModal();
+              } else if (modalId === 'editAccountModal') {
+                closeEditModal();
+              } else if (modalId === 'updateModal') {
+                closeUpdateModal();
+              }
+            }
+          });
+        }
+      });
+    }
     
     function openModal(platform) {
+      const modal = document.getElementById('accountModal');
       const title = document.querySelector('#accountModal .popUp');
+      
       title.textContent = "Choisir un compte " + (platform === "pronote" ? "Pronote" : "Ecole Directe");
-      document.getElementById("accountModal").style.display = "flex";
-      showAccountList(platform); 
+      showAccountList(platform);
+      
+      modal.style.display = 'flex';
+      modal.classList.add('modal-opening');
+      
+      setTimeout(() => {
+        modal.classList.remove('modal-opening');
+      }, 300);
     }
     
     function closeModal() {
-      document.getElementById("accountModal").style.display = "none";
+      closeModalWithAnimation('accountModal');
     }
 
     let currentPlatform = '';
