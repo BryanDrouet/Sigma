@@ -99,6 +99,42 @@
   </div>
   
   <script>
+    async function getForcedThemeFromSettings() {
+      try {
+        const response = await fetch('settings.json');
+        if (!response.ok) throw new Error('Fichier settings.json introuvable');
+        const settings = await response.json();
+        if (settings.forcedTheme && typeof settings.forcedTheme === 'string') {
+          return settings.forcedTheme.toLowerCase();
+        }
+      } catch (err) {
+        console.warn('Impossible de lire settings.json ou propriété forcedTheme absente');
+      }
+      return null;
+    }
+    
+    async function applyTheme() {
+      const forcedTheme = await getForcedThemeFromSettings();
+      let theme;
+    
+      if (forcedTheme && forcedTheme !== 'none') {
+        theme = forcedTheme; // force un thème spécifique ou 'default'
+      } else {
+        theme = getSeasonalTheme(); // détection automatique
+      }
+    
+      let link = document.getElementById('theme-style');
+      if (!link) {
+        link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.id = 'theme-style';
+        document.head.appendChild(link);
+      }
+      link.href = `styles/theme-${theme}.css`;
+    }
+    
+    window.onload = applyTheme;
+  
     function getEaster(year) {
         let a = year % 19;
         let b = Math.floor(year / 100);
