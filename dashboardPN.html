@@ -8,12 +8,9 @@
   <link rel="stylesheet" href="styles/styleDashboardPN.css" />
   <link rel="stylesheet" href="styles/styleDashboards.css" />
   <link rel="icon" type="image/png" href="assets/icon.png" />
-  <style>
-    html {
-      visibility: hidden;
-    }
-  </style>
   <script>
+    document.documentElement.classList.add('no-transition');
+  
     async function getForcedThemeFromSettings() {
       try {
         const response = await fetch('settings.json');
@@ -27,17 +24,24 @@
       }
       return null;
     }
-
+  
     async function applyTheme() {
       const forcedTheme = await getForcedThemeFromSettings();
       let theme;
-      
-      if (forcedTheme && forcedTheme !== 'none') {
-        theme = forcedTheme;
+
+      if (typeof forcedTheme === 'string' && forcedTheme !== 'none') {
+        if (forcedTheme === 'default') {
+          theme = 'default'; 
+          document.documentElement.style.visibility = 'visible';  
+        } else if (isRecognizedTheme(forcedTheme)) {
+          theme = forcedTheme; 
+        } else {
+          theme = getSeasonalTheme(); 
+        }
       } else {
-        theme = getSeasonalTheme();
+        theme = getSeasonalTheme(); 
       }
-      
+
       let link = document.getElementById('theme-style');
       if (!link) {
         link = document.createElement('link');
@@ -47,22 +51,61 @@
       }
       const timestamp = new Date().getTime();
       link.href = `styles/theme-${theme}.css?v=${timestamp}`;
-      
+
       await new Promise((resolve, reject) => {
         link.onload = resolve;
         link.onerror = reject;
       });
       
-      document.documentElement.style.visibility = 'visible';
+      document.documentElement.style.visibility = 'visible';  
     }
-      
-    document.documentElement.classList.add('no-transition');
-    
+
+    function isRecognizedTheme(theme) {
+      const recognizedThemes = ['halloween', 'noel', 'nouvelan', 'fetemusique', 'paques', 'default'];
+      return recognizedThemes.includes(theme);
+    }
+
+        function getEaster(year) {
+      let a = year % 19;
+      let b = Math.floor(year / 100);
+      let c = year % 100;
+      let d = Math.floor(b / 4);
+      let e = b % 4;
+      let f = Math.floor((b + 8) / 25);
+      let g = Math.floor((b - f + 1) / 3);
+      let h = (19 * a + b - d - g + 15) % 30;
+      let i = Math.floor(c / 4);
+      let k = c % 4;
+      let l = (32 + 2 * e + 2 * i - h - k) % 7;
+      let m = Math.floor((a + 11 * h + 22 * l) / 451);
+      let month = Math.floor((h + l - 7 * m + 114) / 31);
+      let day = ((h + l - 7 * m + 114) % 31) + 1;
+      return { month, day };
+    }
+  
+    function getSeasonalTheme() {
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = now.getMonth() + 1;
+      const day = now.getDate();
+  
+      if (month === 10) return 'halloween';
+      if (month === 12 && day >= 15) return 'noel';
+      if (month === 1 && day <= 7) return 'nouvelan';
+      if (month === 6 && day === 21) return 'fetemusique';
+  
+      const easter = getEaster(year);
+      if (month === easter.month && day === easter.day) return 'paques';
+  
+      return 'default';
+    }
+
+    setTimeout(() => {
+      document.documentElement.classList.remove('no-transition');
+    }, 125);
+  
     (async () => {
       await applyTheme();
-      setTimeout(() => {
-        document.documentElement.classList.remove('no-transition');
-      }, 100);
     })();
   </script>
 </head>
@@ -154,89 +197,6 @@
       </form>
     </div>
   </div>
-
-  <script>
-    async function getForcedThemeFromSettings() {
-      try {
-        const response = await fetch('settings.json');
-        if (!response.ok) throw new Error('Fichier settings.json introuvable');
-        const settings = await response.json();
-        if (settings.forcedTheme && typeof settings.forcedTheme === 'string') {
-          return settings.forcedTheme.toLowerCase();
-        }
-      } catch (err) {
-        console.warn('Impossible de lire settings.json ou propriété forcedTheme absente');
-      }
-      return null;
-    }
-  
-    function getEaster(year) {
-      let a = year % 19;
-      let b = Math.floor(year / 100);
-      let c = year % 100;
-      let d = Math.floor(b / 4);
-      let e = b % 4;
-      let f = Math.floor((b + 8) / 25);
-      let g = Math.floor((b - f + 1) / 3);
-      let h = (19 * a + b - d - g + 15) % 30;
-      let i = Math.floor(c / 4);
-      let k = c % 4;
-      let l = (32 + 2 * e + 2 * i - h - k) % 7;
-      let m = Math.floor((a + 11 * h + 22 * l) / 451);
-      let month = Math.floor((h + l - 7 * m + 114) / 31);
-      let day = ((h + l - 7 * m + 114) % 31) + 1;
-      return { month, day };
-    }
-  
-    function getSeasonalTheme() {
-      const now = new Date();
-      const year = now.getFullYear();
-      const month = now.getMonth() + 1;
-      const day = now.getDate();
-  
-      if (month === 10) return 'halloween';
-      if (month === 12 && day >= 15) return 'noel';
-      if (month === 1 && day <= 7) return 'nouvelan';
-      if (month === 6 && day === 21) return 'fetemusique';
-  
-      const easter = getEaster(year);
-      if (month === easter.month && day === easter.day) return 'paques';
-  
-      return 'default';
-    }
-  
-    async function applyTheme() {
-      const forcedTheme = await getForcedThemeFromSettings();
-      let theme;
-  
-      if (forcedTheme && forcedTheme !== 'none') {
-        theme = forcedTheme;
-      } else {
-        theme = getSeasonalTheme();
-      }
-  
-      let link = document.getElementById('theme-style');
-      if (!link) {
-        link = document.createElement('link');
-        link.rel = 'stylesheet';
-        link.id = 'theme-style';
-        document.head.appendChild(link);
-      }
-  
-      const timestamp = new Date().getTime();
-      link.href = `styles/theme-${theme}.css?v=${timestamp}`;
-  
-      await new Promise((resolve, reject) => {
-        link.onload = resolve;
-        link.onerror = reject;
-      });
-      document.documentElement.style.visibility = 'visible';
-    }
-  
-    (async () => {
-      await applyTheme();
-    })();
-  </script>
   
   <script>
     function updateNoteOptions() {
