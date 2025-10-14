@@ -31,13 +31,13 @@
     async function applyTheme() {
       const forcedTheme = await getForcedThemeFromSettings();
       let theme;
-    
+      
       if (forcedTheme && forcedTheme !== 'none') {
-        theme = forcedTheme; // forcer un thème spécifique ou 'default'
+        theme = forcedTheme;
       } else {
-        theme = getSeasonalTheme(); // détection automatique
+        theme = getSeasonalTheme();
       }
-    
+      
       let link = document.getElementById('theme-style');
       if (!link) {
         link = document.createElement('link');
@@ -47,10 +47,22 @@
       }
       const timestamp = new Date().getTime();
       link.href = `styles/theme-${theme}.css?v=${timestamp}`;
+      
+      await new Promise((resolve, reject) => {
+        link.onload = resolve;
+        link.onerror = reject;
+      });
+      
+      document.documentElement.style.visibility = 'visible';
     }
-
+      
+    document.documentElement.classList.add('no-transition');
+    
     (async () => {
       await applyTheme();
+      setTimeout(() => {
+        document.documentElement.classList.remove('no-transition');
+      }, 100);
     })();
   </script>
 </head>
