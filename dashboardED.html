@@ -23,9 +23,8 @@
 
     <form id="notesForm">
       <div class="subject-input">
-        <label for="subject">Matière :</label>
-        <select id="subject" required>
-        </select>
+        <label for="subject" id="labelSubject">Matière :</label>
+        <select id="subject" required></select>
         <button type="button" id="modalBtn">Gérer les Matières</button>
       </div>
       <div class="marks-input">
@@ -276,11 +275,34 @@
     const deleteSubjectSection = document.querySelector(".modal-body label");
     const subjectToDeleteContainer = document.querySelector(".modal-body select");
     const subjectToDeleteBtn = document.getElementById("deleteSubjectBtn");
+    const labelSubject = document.getElementById("labelSubject");
 
     function loadSubjects() {
       subjectSelect.innerHTML = '';
       subjectToDeleteSelect.innerHTML = '';
 
+      if (subjects.length === 0) {
+        // Masquer label + select matière
+        labelSubject.style.display = 'none';
+        subjectSelect.style.display = 'none';
+      } else {
+        labelSubject.style.display = 'inline-block';
+        subjectSelect.style.display = 'inline-block';
+        // remplir les options comme avant
+        subjects.forEach(subject => {
+          const option = document.createElement("option");
+          option.value = subject;
+          option.textContent = subject;
+          subjectSelect.appendChild(option);
+          // Pour la popup
+          const deleteOption = document.createElement("option");
+          deleteOption.value = subject;
+          deleteOption.textContent = subject;
+          subjectToDeleteSelect.appendChild(deleteOption);
+        });
+      }
+      
+      // Pour la popup comme avant
       if (subjects.length === 0) {
         deleteSubjectSection.style.display = 'none';
         subjectToDeleteContainer.style.display = 'none';
@@ -289,19 +311,6 @@
         subjectToDeleteContainer.style.display = 'block';
         deleteSubjectSection.style.display = 'block';
         subjectToDeleteBtn.style.display = 'block';
-
-        subjects.forEach(subject => {
-          const option = document.createElement("option");
-          option.value = subject;
-          option.textContent = subject;
-          subjectSelect.appendChild(option);
-
-          const deleteOption = document.createElement("option");
-          deleteOption.value = subject;
-          deleteOption.textContent = subject;
-          subjectToDeleteSelect.appendChild(deleteOption);
-        });
-
         if (subjectDeleted) {
           subjectToDeleteContainer.style.display = 'block';
         }
