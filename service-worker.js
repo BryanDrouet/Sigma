@@ -3,9 +3,9 @@ const IMAGE_CACHE_NAME = 'image-cache-v1';
 
 // Fichiers à mettre en cache
 const IMAGE_URLS = [
-  '/assets/logoPronote.png',
-  '/assets/logoEcoleDirecte.png',
-  '/assets/icon.png'
+  'assets/logoPronote.png',
+  'assets/logoEcoleDirecte.png',
+  'assets/icon.png'
 ];
 
 self.addEventListener('install', (event) => {
