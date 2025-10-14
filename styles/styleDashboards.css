@@ -124,6 +124,7 @@ button.delete-button {
   height: 100%;
   overflow: auto;
   background-color: rgba(0,0,0,0.4);
+  justify-content: center
 }
   
 .modal-content {
