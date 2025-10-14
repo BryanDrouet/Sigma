@@ -61,7 +61,7 @@
         <div class="modal-body">
           <button class="btn" id="addSubjectBtn">Ajouter une matière</button>
   
-          <label id="labelPopupDeleteSubject" for="labelDeleteSubject">Supprimer une matière</label>
+          <label id="labelPopupDeleteSubject" for="subjectsToDelete">Supprimer une matière</label>
           <select id="subjectsToDelete">
           </select>
           <button class="btn" id="deleteSubjectBtn" style="display: none;">Supprimer la matière</button>
@@ -163,7 +163,7 @@
 
       if (typeDeCompte === "trimestre" || typeDeCompte === "trimestriel") {
         specificOptionsDiv.innerHTML = `
-          <label>Choisir le trimestre :</label><strong class="required">&nbsp;*</strong>
+          <label for="periode">Choisir le trimestre :</label><strong class="required">&nbsp;*</strong>
           <select id="periode">
             <option value="1">1er Trimestre</option>
             <option value="2">2ème Trimestre</option>
@@ -172,7 +172,7 @@
         `;
       } else if (typeDeCompte === "semestre" || typeDeCompte === "semestriel") {
         specificOptionsDiv.innerHTML = `
-          <label>Choisir le semestre :</label><strong class="required">&nbsp;*</strong>
+          <label for="periode">Choisir le semestre :</label><strong class="required">&nbsp;*</strong>
           <select id="periode">
             <option value="1">1er Semestre</option>
             <option value="2">2ème Semestre</option>
@@ -396,29 +396,23 @@
           const li = document.createElement("li");
           const markOutOf20Raw = (note.mark / note.maxMark) * 20;
     
-          // Détermine le nombre minimal de décimales (0 à 2) pour afficher la conversion
           let decimals = 2;
-          // Si markOutOf20Raw est entier, décimales = 0
           if (Number.isInteger(markOutOf20Raw)) {
             decimals = 0;
           } else {
-            // Si nombre a plus de 2 décimales, on arrondit à 2, sinon on garde son nombre réel de décimales (max 2)
             const decimalPartLength = markOutOf20Raw.toString().split(".")[1]?.length || 0;
             decimals = Math.min(decimalPartLength, 2);
           }
     
-          // Formatage selon le maxMark: si maxMark est 20 (déjà sur 20), on n'affiche pas la conversion
           const showConversion = (note.maxMark !== 20);
           const markOutOf20 = markOutOf20Raw.toFixed(decimals);
     
-          // Emoji selon conversion
           let emoji = '';
           if (markOutOf20Raw < 4) emoji = '🔴';
           else if (markOutOf20Raw >= 4 && markOutOf20Raw <= 7) emoji = '🟠';
           else if (markOutOf20Raw > 7 && markOutOf20Raw <= 13) emoji = '🟡';
           else emoji = '🟢';
     
-          // Construction de la ligne HTML avec contrôle de la conversion affichée
           li.innerHTML = `<span>${emoji} ${note.subject}</span><i class="coef">(Coef: ${note.coefficient})</i>`;
           li.innerHTML += `<div class="noteSur20">${note.mark}/${note.maxMark}`;
           if (showConversion) {
