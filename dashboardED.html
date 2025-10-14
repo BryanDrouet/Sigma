@@ -14,6 +14,8 @@
     }
   </style>
   <script>
+    document.documentElement.classList.add('no-transition');
+    
     async function getForcedThemeFromSettings() {
       try {
         const response = await fetch('settings.json');
