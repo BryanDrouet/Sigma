@@ -1,15 +1,85 @@
-body {
-    background: linear-gradient(45deg, #f7d801, #fffbe7);
-    color: #222;
+html {
+  background: #f7d801;
+  background: linear-gradient(150deg,#fffbe7 0%, #f7d801 100%);
 }
-header, .card {
-    background: rgba(247,216,1,0.85);
-    box-shadow: 0 0 15px #f7d801;
+
+h1, h2, h2.popUp {
+  color: #222222;
 }
-button, .btn {
-    background: #f7d801;
-    color: #222;
+
+form, #notesList li, .modal-content {
+  background-color: #faf6db;
+  color: #222222;
 }
-a {
-    color: #f7d801;
+
+input, select {
+  border: 1px solid #f7d801;
+  background: #fffbe7;
+  color: #222222;
+}
+
+button.edit-button, .btn, button[type="submit"], button[type="button"] {
+  background-color: #f7d801;
+  color: #222222;
+}
+
+button.edit-button:hover, .btn:hover, button[type="submit"]:hover, button[type="button"]:hover {
+  background-color: #ffe071;
+}
+
+button.delete-button {
+  background-color: #ffae01;
+  color: #fff;
+}
+
+button.delete-button:hover {
+  background-color: #222222;
+}
+
+.install-button, #homeButton {
+  background-color: #fffae1;
+  color: #f7d801;
+  border: 2px solid #f7d801;
+}
+
+.install-button:hover, #homeButton:hover {
+  background-color: #f7d801;
+  color: #222222;
+}
+
+.install-button:active, #homeButton:active {
+  background-color: #fffae1;
+  color: #f7d801;
+}
+
+#homeButton img {
+  filter: invert(95%) sepia(10%) saturate(1200%) hue-rotate(40deg) brightness(120%);
+}
+
+.modal {
+  background-color: rgba(247, 216, 1, 0.2);
+}
+
+.close {
+  color: #f7d801;
+}
+
+.close:hover,
+.close:focus {
+  color: #222222;
+}
+
+#notesList li:hover {
+  background-color: #fff3b2;
+}
+
+.required {
+  color: #f7d801;
+  font-weight: bold;
+  text-shadow: 0 0 3px #222, 0 0 6px #f7d801;
+}
+
+::selection {
+  background-color: #f7d801;
+  color: #222;
 }
