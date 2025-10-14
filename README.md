@@ -10,8 +10,8 @@ Sigma vous permet d'analyser vos résultats scolaires en entrant manuellement vo
 
 Il est totalement gratuit et sans frais cachés, avec un remplissage manuel des données, sans automatisation ni API publique. Le site ne stocke rien tout est stocké chez vous en local sur votre machine et peut être supprimé a tout moment par vous et seulement vous même.
 
-## Fonctionnalités
-
+## Fonctionnalités ajoutées :
+- Thèmes en fonction des événements
 - Comptes : création, suppression
 - Notes : ajout, coefficient, note max, matière, description
 - Notes : modification, suppression
@@ -19,6 +19,8 @@ Il est totalement gratuit et sans frais cachés, avec un remplissage manuel des 
 - Application : installation mobile/PC
 - Mise à jour : affichage via bouton
 - Périodes : trimestres, semestres
+
+## Fonctionnalités à ajoutées :
 - Graphiques : visualisation des notes
 - Statistiques : moyennes, médianes
 - - Par matière,
