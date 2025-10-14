@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sigma - Dashboard Ecole Directe</title>
+  <title>Sigma - Dashboard Pronote</title>
   <link rel="manifest" href="manifest.json" />
   <link rel="stylesheet" href="styles/styleDashboardPN.css" />
   <link rel="stylesheet" href="styles/styleDashboards.css" />
@@ -23,26 +23,25 @@
 
     <form id="notesForm">
       <div class="subject-input">
-        <label for="subject">Matière :</label>
-        <select id="subject" required>
-        </select>
+        <label for="subject" id="labelSubject">Matière :</label><strong id="requiredSubject" class="required">&nbsp;*</strong>
+        <select id="subject" required></select>
         <button type="button" id="modalBtn">Gérer les Matières</button>
       </div>
       <div class="marks-input">
-        <label for="mark">Note obtenue :</label>
+        <label for="mark">Note obtenue :</label><strong class="required">&nbsp;*</strong>
         <input type="number" id="mark" step="0.01" placeholder="Note obtenue" required step="any" />
       </div>
       <div class="maxMarks-input">
-        <label for="maxMark">Note maximale :</label>
+        <label for="maxMark">Note maximale :</label><strong class="required">&nbsp;*</strong>
         <input type="number" id="maxMark" step="0.01" placeholder="Note maximale" required step="any" />
       </div>
       <div class="coefficient-input">
-        <label for="coefficient">Coefficient :</label>
+        <label for="coefficient">Coefficient :</label><strong class="required">&nbsp;*</strong>
         <input type="number" id="coefficient" step="0.01" placeholder="Coefficient" required />
       </div>
       <div id="specificOptions"></div>
       <div class="description-input">
-        <label for="description">Description (optionnel) :</label>
+        <label for="description">Description :</label>
         <input id="description" placeholder="Ajoutez une description à la note (facultatif)"></input>
       </div>
       <button type="submit">Ajouter la Note</button>
@@ -100,6 +99,54 @@
   </div>
   
   <script>
+    function getEaster(year) {
+        let a = year % 19;
+        let b = Math.floor(year / 100);
+        let c = year % 100;
+        let d = Math.floor(b / 4);
+        let e = b % 4;
+        let f = Math.floor((b + 8) / 25);
+        let g = Math.floor((b - f + 1) / 3);
+        let h = (19 * a + b - d - g + 15) % 30;
+        let i = Math.floor(c / 4);
+        let k = c % 4;
+        let l = (32 + 2 * e + 2 * i - h - k) % 7;
+        let m = Math.floor((a + 11 * h + 22 * l) / 451);
+        let month = Math.floor((h + l - 7 * m + 114) / 31); 
+        let day = ((h + l - 7 * m + 114) % 31) + 1;
+        return { month, day };
+    }
+    
+    function getSeasonalTheme() {
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = now.getMonth() + 1;
+        const day = now.getDate();
+    
+        if (month === 10) return 'halloween';
+        if (month === 12 && day >= 15) return 'noel';
+        if (month === 1 && day <= 7) return 'nouvelan';
+        if (month === 6 && day === 21) return 'fetemusique';
+    
+        const easter = getEaster(year);
+        if (month === easter.month && day === easter.day) return 'paques';
+    
+        return 'default';
+    }
+    
+    function applySeasonalTheme() {
+        const theme = getSeasonalTheme();
+        let link = document.getElementById('theme-style');
+        if (!link) {
+            link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.id = 'theme-style';
+            document.head.appendChild(link);
+        }
+        link.href = `styles/theme-${theme}.css`;
+    }
+    window.onload = applySeasonalTheme;
+    
     function updateNoteOptions() {
       const specificOptionsDiv = document.getElementById("specificOptions");
       specificOptionsDiv.innerHTML = "";
@@ -116,7 +163,7 @@
 
       if (typeDeCompte === "trimestre" || typeDeCompte === "trimestriel") {
         specificOptionsDiv.innerHTML = `
-          <label>Choisir le trimestre :</label>
+          <label>Choisir le trimestre :</label><strong class="required">&nbsp;*</strong>
           <select id="periode">
             <option value="1">1er Trimestre</option>
             <option value="2">2ème Trimestre</option>
@@ -125,7 +172,7 @@
         `;
       } else if (typeDeCompte === "semestre" || typeDeCompte === "semestriel") {
         specificOptionsDiv.innerHTML = `
-          <label>Choisir le semestre :</label>
+          <label>Choisir le semestre :</label><strong class="required">&nbsp;*</strong>
           <select id="periode">
             <option value="1">1er Semestre</option>
             <option value="2">2ème Semestre</option>
@@ -234,6 +281,22 @@
       subjectToDeleteSelect.innerHTML = '';
 
       if (subjects.length === 0) {
+        subjectSelect.style.display = 'none';
+      } else {
+        subjectSelect.style.display = 'inline-block';
+        subjects.forEach(subject => {
+          const option = document.createElement("option");
+          option.value = subject;
+          option.textContent = subject;
+          subjectSelect.appendChild(option);
+          const deleteOption = document.createElement("option");
+          deleteOption.value = subject;
+          deleteOption.textContent = subject;
+          subjectToDeleteSelect.appendChild(deleteOption);
+        });
+      }
+      
+      if (subjects.length === 0) {
         deleteSubjectSection.style.display = 'none';
         subjectToDeleteContainer.style.display = 'none';
         subjectToDeleteBtn.style.display = 'none';
@@ -241,19 +304,6 @@
         subjectToDeleteContainer.style.display = 'block';
         deleteSubjectSection.style.display = 'block';
         subjectToDeleteBtn.style.display = 'block';
-
-        subjects.forEach(subject => {
-          const option = document.createElement("option");
-          option.value = subject;
-          option.textContent = subject;
-          subjectSelect.appendChild(option);
-
-          const deleteOption = document.createElement("option");
-          deleteOption.value = subject;
-          deleteOption.textContent = subject;
-          subjectToDeleteSelect.appendChild(deleteOption);
-        });
-
         if (subjectDeleted) {
           subjectToDeleteContainer.style.display = 'block';
         }
@@ -332,42 +382,59 @@
     function updateNotes() {
       const notesList = document.getElementById("notes");
       const notesTitle = document.getElementById("notesTitle");
-
+    
       notesList.innerHTML = '';
-
+    
       if (notes.length === 0) {
         notesTitle.style.display = 'none';
         document.getElementById("notesList").style.display = 'none'; 
       } else {
         notesTitle.style.display = 'block';
         document.getElementById("notesList").style.display = 'block'; 
-
+    
         notes.forEach((note, index) => {
           const li = document.createElement("li");
-          const markOutOf20 = note.markOutOf20;
-
-          let emoji = '';
-          if (markOutOf20 < 4) {
-            emoji = '🔴';  
-          } else if (markOutOf20 >= 4 && markOutOf20 <= 7) {
-            emoji = '🟠';  
-          } else if (markOutOf20 > 7 && markOutOf20 <= 13) {
-            emoji = '🟡';  
-          } else if (markOutOf20 > 13) {
-            emoji = '🟢';  
+          const markOutOf20Raw = (note.mark / note.maxMark) * 20;
+    
+          // Détermine le nombre minimal de décimales (0 à 2) pour afficher la conversion
+          let decimals = 2;
+          // Si markOutOf20Raw est entier, décimales = 0
+          if (Number.isInteger(markOutOf20Raw)) {
+            decimals = 0;
+          } else {
+            // Si nombre a plus de 2 décimales, on arrondit à 2, sinon on garde son nombre réel de décimales (max 2)
+            const decimalPartLength = markOutOf20Raw.toString().split(".")[1]?.length || 0;
+            decimals = Math.min(decimalPartLength, 2);
           }
-
-          li.innerHTML = `<span>${emoji} ${note.subject}</span><i class="coef">(Coef: ${note.coefficient})</i><div class="noteSur20">${note.mark}/${note.maxMark} soit ${markOutOf20.toFixed(2)}/20</div>`;
-
+    
+          // Formatage selon le maxMark: si maxMark est 20 (déjà sur 20), on n'affiche pas la conversion
+          const showConversion = (note.maxMark !== 20);
+          const markOutOf20 = markOutOf20Raw.toFixed(decimals);
+    
+          // Emoji selon conversion
+          let emoji = '';
+          if (markOutOf20Raw < 4) emoji = '🔴';
+          else if (markOutOf20Raw >= 4 && markOutOf20Raw <= 7) emoji = '🟠';
+          else if (markOutOf20Raw > 7 && markOutOf20Raw <= 13) emoji = '🟡';
+          else emoji = '🟢';
+    
+          // Construction de la ligne HTML avec contrôle de la conversion affichée
+          li.innerHTML = `<span>${emoji} ${note.subject}</span><i class="coef">(Coef: ${note.coefficient})</i>`;
+          li.innerHTML += `<div class="noteSur20">${note.mark}/${note.maxMark}`;
+          if (showConversion) {
+            li.innerHTML += ` soit ${markOutOf20}/20`;
+          }
+          li.innerHTML += `</div>`;
+    
           if (note.description) {
             const desc = document.createElement("p");
             desc.textContent = `${note.description}`;
             li.appendChild(desc);
           }
-
+    
           const buttonContainer = document.createElement("div");
           buttonContainer.classList.add("button-container-inline"); 
-
+    
           const deleteButton = document.createElement("button");
           deleteButton.textContent = "Supprimer";
           deleteButton.classList.add("delete-button");
@@ -377,10 +444,10 @@
           editButton.textContent = "Modifier";
           editButton.classList.add("edit-button");
           editButton.onclick = () => openEditModal(index);
-
+    
           buttonContainer.appendChild(deleteButton);
           buttonContainer.appendChild(editButton);
-
+    
           li.appendChild(buttonContainer);
           notesList.appendChild(li);
         });
