@@ -78,3 +78,13 @@ button.delete-button:hover {
   font-weight: bold;
   text-shadow: 0 0 3px #232323, 0 0 6px #fd6406;
 }
+
+select:hover {
+  border-color: #ce4201; 
+  background-color: #4b2c13; 
+}
+
+::selection {
+  background-color: #fd6406; 
+  color: #232323; 
+}
