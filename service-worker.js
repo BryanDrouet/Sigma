@@ -11,7 +11,22 @@ const IMAGE_URLS = [
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(IMAGE_CACHE_NAME).then((cache) => {
-      return cache.addAll(IMAGE_URLS);
+      return Promise.all(
+        IMAGE_URLS.map(url =>
+          fetch(url)
+            .then(response => {
+              if (!response.ok) {
+                console.warn('ServiceWorker - image non trouvée:', url, response.status);
+                return null;
+              }
+              return cache.put(url, response);
+            })
+            .catch((err) => {
+              console.warn('ServiceWorker - fetch url err:', url, err);
+              return null;
+            })
+        )
+      );
     })
   );
 });
