@@ -294,3 +294,10 @@ form label {
   align-content: center;
   align-items:  flex-start;
 }
+
+.required {
+  font-weight: bold;
+  font-size: 1.1em;
+  vertical-align: middle;
+  text-shadow: 0 0 2px #fff, 0 0 3px #1976D2;
+}
