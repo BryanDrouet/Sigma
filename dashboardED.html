@@ -23,25 +23,25 @@
 
     <form id="notesForm">
       <div class="subject-input">
-        <label for="subject" id="labelSubject">Matière :</label>
+        <label for="subject" id="labelSubject">Matière :</label><strong class="required">*</strong>
         <select id="subject" required></select>
         <button type="button" id="modalBtn">Gérer les Matières</button>
       </div>
       <div class="marks-input">
-        <label for="mark">Note obtenue :</label>
+        <label for="mark">Note obtenue :</label><strong class="required">*</strong>
         <input type="number" id="mark" step="0.01" placeholder="Note obtenue" required step="any" />
       </div>
       <div class="maxMarks-input">
-        <label for="maxMark">Note maximale :</label>
+        <label for="maxMark">Note maximale :</label><strong class="required">*</strong>
         <input type="number" id="maxMark" step="0.01" placeholder="Note maximale" required step="any" />
       </div>
       <div class="coefficient-input">
-        <label for="coefficient">Coefficient :</label>
+        <label for="coefficient">Coefficient :</label><strong class="required">*</strong>
         <input type="number" id="coefficient" step="0.01" placeholder="Coefficient" required />
       </div>
       <div id="specificOptions"></div>
       <div class="description-input">
-        <label for="description">Description (optionnel) :</label>
+        <label for="description">Description :</label>
         <input id="description" placeholder="Ajoutez une description à la note (facultatif)"></input>
       </div>
       <button type="submit">Ajouter la Note</button>
