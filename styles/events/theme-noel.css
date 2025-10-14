@@ -53,7 +53,7 @@ button.delete-button:hover {
 }
 
 #homeButton img {
-  filter: invert(10%) sepia(70%) saturate(400%) hue-rotate(120deg) brightness(150%);
+  filter: brightness(0) saturate(100%) invert(16%) sepia(75%) saturate(5076%) hue-rotate(345deg) brightness(85%) contrast(117%);
 }
 
 .modal {

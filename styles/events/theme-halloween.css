@@ -20,11 +20,12 @@ input, select {
 
 button.edit-button, .btn, button[type="submit"], button[type="button"] {
   background-color: #fd6406;
-  color: #232323;
+  color: #ffffff;
 }
 
 button.edit-button:hover, .btn:hover, button[type="submit"]:hover, button[type="button"]:hover {
-  background-color: #ce4201;
+  background-color: #9e3200;
+  color: #ffffff;
 }
 
 button.delete-button {
@@ -53,7 +54,7 @@ button.delete-button:hover {
 }
 
 #homeButton img {
-    filter: invert(25%) sepia(100%) saturate(700%) hue-rotate(10deg) brightness(200%);
+  filter: brightness(0) saturate(100%) invert(44%) sepia(53%) saturate(4011%) hue-rotate(359deg) brightness(104%) contrast(98%);
 }
 
 .modal {

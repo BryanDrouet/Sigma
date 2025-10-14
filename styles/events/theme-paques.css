@@ -25,7 +25,7 @@ button.edit-button, .btn, button[type="submit"], button[type="button"] {
 
 button.edit-button:hover, .btn:hover, button[type="submit"]:hover, button[type="button"]:hover {
   background-color: #e7b0fa;
-  color: #b478c9;
+  color: #ffffff;
 }
 
 button.delete-button {
@@ -54,7 +54,7 @@ button.delete-button:hover {
 }
 
 #homeButton img {
-  filter: invert(10%) sepia(40%) saturate(700%) hue-rotate(270deg) brightness(150%);
+  filter: brightness(0) saturate(100%) invert(73%) sepia(47%) saturate(2889%) hue-rotate(217deg) brightness(82%) contrast(91%);
 }
 
 .modal {
