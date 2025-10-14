@@ -81,11 +81,6 @@ h2.popUp {
     top: 20px !important;
     font-size: 0.7rem !important;
   }
-
-  .modal-content {
-    margin-top: 10% !important;
-    margin-bottom: 10% !important;
-  }
 }
 
 @media (min-width: 768px) {
@@ -207,12 +202,13 @@ h2.popUp {
   overflow-wrap: break-word;
 }
 
-.updateModal {
-  align-items: center;
-}
-
 #updateModal {
   align-items: flex-start;
+}
+
+.modal-content {
+  margin-top: 10% !important;
+  margin-bottom: 10% !important;
 }
 
 #updateModal .modal-content {
