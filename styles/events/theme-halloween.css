@@ -94,7 +94,7 @@ button.delete-button:hover {
 }
 
 .bottom {
-  bottom: 0px;
+  bottom: -2px;
   left: 0;
   width: 100vw;
   min-width: 100vw;
