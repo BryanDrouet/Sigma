@@ -72,3 +72,11 @@ button.delete-button:hover {
 #notesList li:hover {
   background-color: #313131;
 }
+
+.required {
+  color: #fd6406;
+  font-weight: bold;
+  text-shadow: 0 0 3px #232323, 0 0 6px #fd6406;
+  font-size: 1.1em;
+  vertical-align: middle;
+}
