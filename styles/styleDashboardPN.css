@@ -104,11 +104,6 @@ button.delete-button:hover {
   color: #23a013; 
 }
 
-select:hover {
-  border-color: #25a714; 
-  background-color: #d8f0d4;
-}
-
 ::selection {
   background-color: #23a013; 
   color: white; 
