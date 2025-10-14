@@ -8,6 +8,45 @@
   <link rel="stylesheet" href="styles/styleDashboardED.css" />
   <link rel="stylesheet" href="styles/styleDashboards.css" />
   <link rel="icon" type="image/png" href="assets/icon.png" />
+  <script>
+    async function getForcedThemeFromSettings() {
+      try {
+        const response = await fetch('settings.json');
+        if (!response.ok) throw new Error('Settings file not found');
+        const settings = await response.json();
+        if (settings.forcedTheme && typeof settings.forcedTheme === 'string') {
+          return settings.forcedTheme.toLowerCase();
+        }
+      } catch (err) {
+        console.warn('Impossible de lire settings.json ou propriété forcedTheme absente');
+      }
+      return null;
+    }
+
+    async function applyTheme() {
+      const forcedTheme = await getForcedThemeFromSettings();
+      let theme;
+
+      if (forcedTheme && forcedTheme !== 'none') {
+        theme = forcedTheme;
+      } else {
+        theme = 'default'; // ou appeler ta fonction de thème saisonnier si tu veux
+      }
+
+      let link = document.getElementById('theme-style');
+      if (!link) {
+        link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.id = 'theme-style';
+        document.head.appendChild(link);
+      }
+      link.href = `styles/theme-${theme}.css`;
+    }
+
+    (async () => {
+      await applyTheme();
+    })();
+  </script>
 </head>
 <body>
   <div class="button-container">
