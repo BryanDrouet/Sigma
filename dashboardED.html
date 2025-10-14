@@ -14,8 +14,9 @@
     }
   </style>
   <script>
+    // Ajouter la classe qui désactive les transitions au démarrage
     document.documentElement.classList.add('no-transition');
-    
+  
     async function getForcedThemeFromSettings() {
       try {
         const response = await fetch('settings.json');
@@ -29,17 +30,21 @@
       }
       return null;
     }
-
+  
+    function getSeasonalTheme() {
+      // ta fonction de détection automatique du thème (comme dans ta page)
+    }
+  
     async function applyTheme() {
       const forcedTheme = await getForcedThemeFromSettings();
       let theme;
-      
+  
       if (forcedTheme && forcedTheme !== 'none') {
         theme = forcedTheme;
       } else {
         theme = getSeasonalTheme();
       }
-      
+  
       let link = document.getElementById('theme-style');
       if (!link) {
         link = document.createElement('link');
@@ -49,22 +54,23 @@
       }
       const timestamp = new Date().getTime();
       link.href = `styles/theme-${theme}.css?v=${timestamp}`;
-      
+  
       await new Promise((resolve, reject) => {
         link.onload = resolve;
         link.onerror = reject;
       });
-      
+  
+      // Rendre visible la page
       document.documentElement.style.visibility = 'visible';
-    }
-      
-    document.documentElement.classList.add('no-transition');
-    
-    (async () => {
-      await applyTheme();
+  
+      // Supprimer la classe qui désactive les transitions pour réactiver animations/transitions naturelles
       setTimeout(() => {
         document.documentElement.classList.remove('no-transition');
       }, 100);
+    }
+  
+    (async () => {
+      await applyTheme();
     })();
   </script>
 </head>
