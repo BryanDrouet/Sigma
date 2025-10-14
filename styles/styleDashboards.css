@@ -301,3 +301,9 @@ form label {
   vertical-align: middle;
   text-shadow: 0 0 2px #fff, 0 0 3px #1976D2;
 }
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
