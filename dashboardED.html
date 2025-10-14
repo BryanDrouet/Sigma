@@ -163,7 +163,7 @@
 
       if (typeDeCompte === "trimestre" || typeDeCompte === "trimestriel") {
         specificOptionsDiv.innerHTML = `
-          <label>Choisir le trimestre :</label>
+          <label>Choisir le trimestre :</label><strong class="required"> *</strong>
           <select id="periode">
             <option value="1">1er Trimestre</option>
             <option value="2">2ème Trimestre</option>
@@ -172,7 +172,7 @@
         `;
       } else if (typeDeCompte === "semestre" || typeDeCompte === "semestriel") {
         specificOptionsDiv.innerHTML = `
-          <label>Choisir le semestre :</label>
+          <label>Choisir le semestre :</label><strong class="required"> *</strong>
           <select id="periode">
             <option value="1">1er Semestre</option>
             <option value="2">2ème Semestre</option>
@@ -282,19 +282,16 @@
       subjectToDeleteSelect.innerHTML = '';
 
       if (subjects.length === 0) {
-        // Masquer label + select matière
         labelSubject.style.display = 'none';
         subjectSelect.style.display = 'none';
       } else {
         labelSubject.style.display = 'inline-block';
         subjectSelect.style.display = 'inline-block';
-        // remplir les options comme avant
         subjects.forEach(subject => {
           const option = document.createElement("option");
           option.value = subject;
           option.textContent = subject;
           subjectSelect.appendChild(option);
-          // Pour la popup
           const deleteOption = document.createElement("option");
           deleteOption.value = subject;
           deleteOption.textContent = subject;
@@ -302,7 +299,6 @@
         });
       }
       
-      // Pour la popup comme avant
       if (subjects.length === 0) {
         deleteSubjectSection.style.display = 'none';
         subjectToDeleteContainer.style.display = 'none';
