@@ -102,8 +102,4 @@ button.delete-button:hover {
 
 .required {
   color: #23a013; 
-  font-weight: bold;
-  font-size: 1.1em;
-  vertical-align: middle;
-  text-shadow: 0 0 2px #fff, 0 0 3px #129956;
 }
