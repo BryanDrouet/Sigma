@@ -275,7 +275,6 @@
     const deleteSubjectSection = document.querySelector(".modal-body label");
     const subjectToDeleteContainer = document.querySelector(".modal-body select");
     const subjectToDeleteBtn = document.getElementById("deleteSubjectBtn");
-    const requiredSubject = document.getElementById("requiredSubject");
 
     function loadSubjects() {
       subjectSelect.innerHTML = '';
@@ -283,10 +282,8 @@
 
       if (subjects.length === 0) {
         subjectSelect.style.display = 'none';
-        requiredSubject.style.display = 'none';
       } else {
         subjectSelect.style.display = 'inline-block';
-        requiredSubject.style.display = 'inline-block';
         subjects.forEach(subject => {
           const option = document.createElement("option");
           option.value = subject;
