@@ -23,20 +23,20 @@
 
     <form id="notesForm">
       <div class="subject-input">
-        <label for="subject" id="labelSubject">Matière :</label><strong id="requiredSubject" class="required"> *</strong>
+        <label for="subject" id="labelSubject">Matière :</label><strong id="requiredSubject" class="required">&nbsp;*</strong>
         <select id="subject" required></select>
         <button type="button" id="modalBtn">Gérer les Matières</button>
       </div>
       <div class="marks-input">
-        <label for="mark">Note obtenue :</label><strong class="required"> *</strong>
+        <label for="mark">Note obtenue :</label><strong class="required">&nbsp;*</strong>
         <input type="number" id="mark" step="0.01" placeholder="Note obtenue" required step="any" />
       </div>
       <div class="maxMarks-input">
-        <label for="maxMark">Note maximale :</label><strong class="required"> *</strong>
+        <label for="maxMark">Note maximale :</label><strong class="required">&nbsp;*</strong>
         <input type="number" id="maxMark" step="0.01" placeholder="Note maximale" required step="any" />
       </div>
       <div class="coefficient-input">
-        <label for="coefficient">Coefficient :</label><strong class="required"> *</strong>
+        <label for="coefficient">Coefficient :</label><strong class="required">&nbsp;*</strong>
         <input type="number" id="coefficient" step="0.01" placeholder="Coefficient" required />
       </div>
       <div id="specificOptions"></div>
@@ -163,7 +163,7 @@
 
       if (typeDeCompte === "trimestre" || typeDeCompte === "trimestriel") {
         specificOptionsDiv.innerHTML = `
-          <label>Choisir le trimestre :</label><strong class="required"> *</strong>
+          <label>Choisir le trimestre :</label><strong class="required">&nbsp;*</strong>
           <select id="periode">
             <option value="1">1er Trimestre</option>
             <option value="2">2ème Trimestre</option>
@@ -172,7 +172,7 @@
         `;
       } else if (typeDeCompte === "semestre" || typeDeCompte === "semestriel") {
         specificOptionsDiv.innerHTML = `
-          <label>Choisir le semestre :</label><strong class="required"> *</strong>
+          <label>Choisir le semestre :</label><strong class="required">&nbsp;*</strong>
           <select id="periode">
             <option value="1">1er Semestre</option>
             <option value="2">2ème Semestre</option>
