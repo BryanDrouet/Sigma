@@ -23,7 +23,7 @@
 
     <form id="notesForm">
       <div class="subject-input">
-        <label for="subject" id="labelSubject">Matière :</label><strong class="required"> *</strong>
+        <label for="subject" id="labelSubject">Matière :</label><strong id="requiredSubject" class="required"> *</strong>
         <select id="subject" required></select>
         <button type="button" id="modalBtn">Gérer les Matières</button>
       </div>
@@ -276,6 +276,7 @@
     const subjectToDeleteContainer = document.querySelector(".modal-body select");
     const subjectToDeleteBtn = document.getElementById("deleteSubjectBtn");
     const labelSubject = document.getElementById("labelSubject");
+    const requiredSubject = document.getElementById("requiredSubject");
 
     function loadSubjects() {
       subjectSelect.innerHTML = '';
@@ -284,9 +285,11 @@
       if (subjects.length === 0) {
         labelSubject.style.display = 'none';
         subjectSelect.style.display = 'none';
+        requiredSubject.style.display = 'none';
       } else {
         labelSubject.style.display = 'inline-block';
         subjectSelect.style.display = 'inline-block';
+        requiredSubject.style.display = 'inline-block';
         subjects.forEach(subject => {
           const option = document.createElement("option");
           option.value = subject;
