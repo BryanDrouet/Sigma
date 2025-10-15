@@ -1,116 +1,139 @@
+:root {
+  --color-bg1: #9e3200;
+  --color-bg2: #29160d;
+  --color-bg3: #fd6406;
+
+  --color-main: #fd6406;
+  --color-alt: #ffa94d;
+  --color-form-bg: #232323;
+  --color-input-bg: #3a1d0b;
+  --color-input-border: #fd6406;
+
+  --color-btn: #fd6406;
+  --color-btn-hover: #9e3200;
+  --color-btn-del: #fd6406;
+
+  --color-modal: rgba(40, 8, 0, 0.6);
+  --color-hover: #313131;
+
+  --color-white: #fff;
+}
+
 html {
-  background: #222;
-  background: linear-gradient(150deg,#29160d 0%, #fd6406 100%);
+  background: var(--color-bg1);
+  background: linear-gradient(150deg, var(--color-bg2) 0%, var(--color-bg3) 100%);
 }
 
 h1, h2, h2.popUp {
-  color: #fd6406;
+  color: var(--color-main);
 }
 
 form, #notesList li, .modal-content {
-  background-color: #232323;
-  color: #ffa94d;
+  background-color: var(--color-form-bg);
+  color: var(--color-main);
 }
 
 input, select {
-  border: 1px solid #fd6406;
-  background: #3a1d0b;
-  color: #ffa94d;
+  border: 1px solid var(--color-input-border);
+  background: var(--color-input-bg);
+  color: var(--color-main);
 }
 
-button.edit-button, .btn, button[type="submit"], button[type="button"] {
-  background-color: #fd6406;
-  color: #ffffff;
+button.edit-button, .btn,
+button[type="submit"], button[type="button"] {
+  background-color: var(--color-btn);
+  color: var(--color-white);
 }
 
-button.edit-button:hover, .btn:hover, button[type="submit"]:hover, button[type="button"]:hover {
-  background-color: #9e3200;
-  color: #ffffff;
+button.edit-button:hover, .btn:hover,
+button[type="submit"]:hover, button[type="button"]:hover {
+  background-color: var(--color-btn-hover);
+  color: var(--color-white);
 }
 
 button.delete-button {
-  background-color: #8c1c13;
-  color: #fff;
+  background-color: var(--color-btn-del);
+  color: var(--color-white);
 }
 
 button.delete-button:hover {
-  background-color: #cd2a1c;
+  background-color: var(--color-btn);
 }
 
 .install-button, #homeButton {
-  background-color: #231a15;
-  color: #fd6406;
-  border: 2px solid #fd6406;
+  background-color: var(--color-bg2);
+  color: var(--color-main);
+  border: 2px solid var(--color-main);
 }
 
 .install-button:hover, #homeButton:hover {
-  background-color: #fd6406;
-  color: #ffffff;
+  background-color: var(--color-main);
+  color: var(--color-white);
 }
 
 .install-button:active, #homeButton:active {
-  background-color: #231a15;
-  color: #fd6406;
+  background-color: var(--color-bg2);
+  color: var(--color-main);
 }
 
 #homeButton img {
-  filter: brightness(0) saturate(100%) invert(44%) sepia(53%) saturate(4011%) hue-rotate(359deg) brightness(104%) contrast(98%);
+  filter: brightness(0) saturate(100%) invert(53%) sepia(39%) saturate(5158%) hue-rotate(353deg) brightness(95%) contrast(109%);
 }
 
 .modal {
-  background-color: rgba(40, 8, 0, 0.6);
+  background-color: var(--color-modal);
 }
 
 .close {
-  color: #fd6406;
+  color: var(--color-main);
 }
 
 .close:hover,
 .close:focus {
-  color: #fff;
+  color: var(--color-bg1);
 }
 
 #notesList li:hover {
-  background-color: #313131;
+  background-color: var(--color-hover);
 }
 
 .required {
-  color: #fd6406;
+  color: var(--color-main);
   font-weight: bold;
-  text-shadow: 0 0 3px #232323, 0 0 6px #fd6406;
+  text-shadow: 0 0 3px var(--color-alt), 0 0 6px var(--color-main);
 }
 
 ::selection {
-  background-color: #fd6406; 
-  color: #232323; 
+  background-color: var(--color-main);
+  color: var(--color-alt);
 }
 
 .theme-image {
   position: fixed;
   pointer-events: none; 
   object-fit: contain;
-  margin: 0px !important;
-  padding: 0px !important;
+  margin: 0 !important;
+  padding: 0 !important;
   z-index: -1;
 }
 
 .bottom {
-  bottom: -2px;
+  bottom: 0px;
   left: 0;
   width: 100vw;
-  min-width: 100vw;
+  max-width: 100vw;
 }
 
 .top-left {
-  top: 0;
-  left: 0;
-  max-width: 30%;
-  max-height: 30%;
+  top: 0px;
+  left: 0px;
+  max-width: 25%;
+  max-height: 25%;
 }
 
 .top-right {
   top: 0;
   right: 0;
-  max-width: 30%;
-  max-height: 30%;
+  max-width: 40%;
+  max-height: 40%;
 }

@@ -251,7 +251,6 @@
       <button id="homeButton" class="install-button" title="Accueil / Déconnexion">
         <img src="assets/home.png" alt="Accueil" />
       </button>
-      <button class="install-button" id="installButton">Installer l'application</button>
     </div>
 
     <div id="mainContent">
@@ -443,15 +442,6 @@
         document.body.classList.remove("buttons-visible");
       }
     }
-
-    installButton.addEventListener("click", () => {
-      if (deferredPrompt) {
-        deferredPrompt.prompt();
-        deferredPrompt.userChoice.then((choiceResult) => {
-          deferredPrompt = null;
-        });
-      }
-    });
     
     const currentAccount = localStorage.getItem('currentAccount');
     const currentPlatform = localStorage.getItem('currentPlatform'); 
