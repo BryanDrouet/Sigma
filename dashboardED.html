@@ -23,15 +23,54 @@
   <script>
     document.documentElement.classList.add('no-transition');
   
+    function kebabToCamel(str) {
+      return str.replace(/-./g, m => m[1].toUpperCase()); 
+    }
+    function snakeToCamel(str) {
+      return str.replace(/_./g, m => m[1].toUpperCase()); 
+    }
+    function flatLowerToCamel(str) {
+      const map = {
+        'fetemusique': 'feteMusique',
+        'nouvelan': 'nouvelAn',
+        'solsticehiver': 'solsticeHiver',
+        'solsticeete': 'solsticeEte',
+        'fetenationale': 'feteNationale',
+        'festivalcannes': 'festivalCannes',
+        'sleeplessnight': 'sleeplessNight',
+        'carnavalcholet': 'carnavalCholet',
+        'nouvelan': 'nouvelAn',
+        'lesenfoires': 'lesEnfoires',
+        'nrjmusicawards': 'nrjMusicAwards',
+        'clubradiomauleon': 'clubRadioMauleon',
+        'puydufou': 'puyDuFou',
+        'halloween': 'halloween',
+        'noel': 'noel',
+        'paques': 'paques',
+        'default': 'default',
+        'zevent': 'zevent',
+        'popcorn': 'popcorn',
+      };
+      return map[str] || str; 
+    }
+
     async function getForcedThemeFromSettings() {
       try {
-        const response = await fetch('settings.json');
-        if (!response.ok) throw new Error('Settings file not found');
-        const settings = await response.json();
+        const res = await fetch('settings.json');
+        if (!res.ok) throw new Error('Settings file not found');
+        const settings = await res.json();
         if (settings.forcedTheme && typeof settings.forcedTheme === 'string') {
-          return settings.forcedTheme.toLowerCase();
+          const raw = settings.forcedTheme.trim();
+
+          if (raw === 'none' || raw === 'default') return raw;
+
+          if (raw.includes('-')) return kebabToCamel(raw.toLowerCase()); 
+          if (raw.includes('_')) return snakeToCamel(raw.toLowerCase()); 
+          if (/^[a-z]+$/.test(raw)) return flatLowerToCamel(raw);
+
+          return raw;
         }
-      } catch (err) {
+      } catch (e) {
         console.warn('Impossible de lire settings.json ou propriété forcedTheme absente');
       }
       return null;
@@ -43,43 +82,58 @@
 
       if (typeof forcedTheme === 'string' && forcedTheme !== 'none') {
         if (forcedTheme === 'default') {
-          theme = 'default'; 
-          document.documentElement.style.visibility = 'visible';  
+          theme = 'default';
         } else if (isRecognizedTheme(forcedTheme)) {
-          theme = forcedTheme; 
+          theme = forcedTheme;
         } else {
-          theme = getSeasonalTheme(); 
+          theme = getSeasonalTheme();
         }
       } else {
-        theme = getSeasonalTheme(); 
+        theme = getSeasonalTheme();
+      }
+
+      // Utilitaire camelCase -> kebab-case pour les fichiers CSS
+      function camelToKebab(str) {
+        return str.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase(); // [web:4][web:17]
       }
 
       let link = document.getElementById('theme-style');
-      if (!link) {
-        link = document.createElement('link');
-        link.rel = 'stylesheet';
-        link.id = 'theme-style';
-        document.head.appendChild(link);
+      const isDefault = (theme === 'default');
+
+      if (isDefault) {
+        // Ne charge aucun fichier CSS pour le thème par défaut
+        if (link) {
+          link.parentNode && link.parentNode.removeChild(link); // retire le <link> si présent [web:78][web:82]
+        }
+      } else {
+        // Charge la feuille CSS du thème spécial
+        if (!link) {
+          link = document.createElement('link');
+          link.rel = 'stylesheet';
+          link.id = 'theme-style';
+          document.head.appendChild(link); // [web:81][web:78]
+        }
+        const timestamp = new Date().getTime();
+        const cssName = camelToKebab(theme);
+        link.href = `styles/events/${cssName}.css?v=${timestamp}`;
+
+        await new Promise((resolve, reject) => {
+          link.onload = resolve;
+          link.onerror = reject; // laisse remonter l’erreur si le fichier est manquant
+        });
       }
-      const timestamp = new Date().getTime();
-      link.href = `styles/events/theme-${theme}.css?v=${timestamp}`;
 
-      await new Promise((resolve, reject) => {
-        link.onload = resolve;
-        link.onerror = reject;
-      });
+      await updateThemeImages(theme); // cache les images si default
 
-      await updateThemeImages(theme);
-
-      document.documentElement.style.visibility = 'visible';  
+      document.documentElement.style.visibility = 'visible';
     }
 
     function isRecognizedTheme(theme) {
       const recognizedThemes = [
         'halloween', 'noel', 'nouvelAn', 'feteMusique', 'paques', 'default',
-        'puyDuFou', 'zevent', 'SleeplessNight', 'popcorn',
-        'clubRadioMauleon', 'carnavalDeCholet', 'feteNationale',
-        'festivalDeCannes', 'nrjMusicAwards', 'lesEnfoires', 'solsticeHiver',
+        'puyDuFou', 'zevent', 'sleeplessNight', 'popcorn',
+        'clubRadioMauleon', 'carnavalCholet', 'feteNationale',
+        'festivalCannes', 'nrjMusicAwards', 'lesEnfoires', 'solsticeHiver',
         'solsticeEte'
       ];
       return recognizedThemes.includes(theme);
@@ -115,6 +169,41 @@
       topLeftImg.style.display = 'block';
       topRightImg.style.display = 'block';
     
+      bottomImg.style.zIndex = '1';
+      topLeftImg.style.zIndex = '1';
+      topRightImg.style.zIndex = '1';
+    }
+
+    async function updateThemeImages(theme) {
+      const bottomImg = document.getElementById('bottom');
+      const topLeftImg = document.getElementById('top-left');
+      const topRightImg = document.getElementById('top-right');
+
+      if (!isRecognizedTheme(theme) || theme === 'default') {
+        bottomImg.style.display = 'none';
+        topLeftImg.style.display = 'none';
+        topRightImg.style.display = 'none';
+        bottomImg.src = '';
+        topLeftImg.src = '';
+        topRightImg.src = '';
+        return;
+      }
+
+      function camelToKebab(str) {
+        return str.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
+      }
+
+      const folderName = camelToKebab(theme);
+      const basePath = `assets/events/${folderName}`;
+
+      bottomImg.src = `${basePath}/3.png`;
+      topLeftImg.src = `${basePath}/2.png`;
+      topRightImg.src = `${basePath}/1.png`;
+
+      bottomImg.style.display = 'block';
+      topLeftImg.style.display = 'block';
+      topRightImg.style.display = 'block';
+
       bottomImg.style.zIndex = '1';
       topLeftImg.style.zIndex = '1';
       topRightImg.style.zIndex = '1';
