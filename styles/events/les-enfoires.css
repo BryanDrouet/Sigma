@@ -1,20 +1,20 @@
 :root {
-  --color-bg1: #059790;
-  --color-bg2: #c5fff2;
-  --color-bg3: #280d59;
+  --color-bg1: #aa2b22;
+  --color-bg2: #560a07;
+  --color-bg3: #f44336;
 
-  --color-main: #2a006e;
-  --color-alt: #c5fff2;
-  --color-form-bg: #eaffff;
-  --color-input-bg: #cdfdfd;
-  --color-input-border: #08e8de;
+  --color-main: #ff473a;
+  --color-alt: #fab0aa;
+  --color-form-bg: #7f1b13;
+  --color-input-bg: #a52b20;
+  --color-input-border: #f44336;
 
-  --color-btn: #2a006e;
-  --color-btn-hover: #059790;
-  --color-btn-del: #d950ff;
+  --color-btn: #f44336;
+  --color-btn-hover: #aa2b22;
+  --color-btn-del: #7f1b13;
 
-  --color-modal: rgba(8,232,222,0.3);
-  --color-hover: #d5f7f7;
+  --color-modal: rgba(244,67,54,0.3);
+  --color-hover: #fab0aa;
 
   --color-white: #fff;
 }
@@ -77,7 +77,7 @@ button.delete-button:hover {
 }
 
 #homeButton img {
-  filter: brightness(0) saturate(100%) invert(11%) sepia(22%) saturate(6448%) hue-rotate(250deg) brightness(116%) contrast(132%);
+  filter: brightness(0) saturate(100%) invert(42%) sepia(33%) saturate(6881%) hue-rotate(340deg) brightness(96%) contrast(99%);
 }
 
 .modal {

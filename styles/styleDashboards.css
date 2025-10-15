@@ -301,6 +301,7 @@ form label {
   font-size: 1.1em;
   vertical-align: middle;
   text-shadow: 0 0 2px #fff, 0 0 3px #1976D2;
+  cursor: default;
 }
 
 input::-webkit-outer-spin-button,

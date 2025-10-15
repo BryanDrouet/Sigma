@@ -1,20 +1,20 @@
 :root {
-  --color-bg1: #059790;
-  --color-bg2: #c5fff2;
-  --color-bg3: #280d59;
+  --color-bg1: #d4004a;
+  --color-bg2: #ff005c;
+  --color-bg3: #5a0026;
 
-  --color-main: #2a006e;
-  --color-alt: #c5fff2;
-  --color-form-bg: #eaffff;
-  --color-input-bg: #cdfdfd;
-  --color-input-border: #08e8de;
+  --color-main: #ff005c;
+  --color-alt: #fccde6;
+  --color-form-bg: #33001b;
+  --color-input-bg: #4d0028;
+  --color-input-border: #ff005c;
 
-  --color-btn: #2a006e;
-  --color-btn-hover: #059790;
-  --color-btn-del: #d950ff;
+  --color-btn: #ff005c;
+  --color-btn-hover: #d4004a;
+  --color-btn-del: #66001a;
 
-  --color-modal: rgba(8,232,222,0.3);
-  --color-hover: #d5f7f7;
+  --color-modal: rgba(255,0,92,0.3);
+  --color-hover: #ff809b;
 
   --color-white: #fff;
 }
@@ -117,15 +117,15 @@ button.delete-button:hover {
 }
 
 .bottom {
-  bottom: -2px;
+  bottom: 0px;
   left: 0;
   width: 100vw;
   max-width: 100vw;
 }
 
 .top-left {
-  top: 4px;
-  left: 8px;
+  top: 0px;
+  left: 0px;
   max-width: 25%;
   max-height: 25%;
 }
