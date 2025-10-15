@@ -1,68 +1,79 @@
 :root {
-  --c1: #4b1d83;
-  --c2: #350052;
-  --c3: #1b0030;
-  --main: #c78cff;
-  --alt: #f0e6ff;
-  --del: #b0004e;
-  --modal: rgba(111,43,189,0.28);
+  --color-bg1: #4b1d83;
+  --color-bg2: #350052;
+  --color-bg3: #1b0030;
+
+  --color-main: #c78cff;
+  --color-alt: #f0e6ff;
+  --color-form-bg: #1a0a2a;
+  --color-input-bg: #26003d;
+  --color-input-border: #6f2bbd;
+
+  --color-btn: #6f2bbd;
+  --color-btn-hover: #4b1d83;
+  --color-btn-del: #b0004e;
+
+  --color-modal: rgba(111,43,189,0.28);
+  --color-hover: #2b0c45;
+
+  --color-white: #ffffff;
 }
 
 html {
-  background: var(--c1); /* base */
-  background: linear-gradient(150deg, var(--c2) 0%, var(--c3) 100%);
+  background: var(--color-bg1);
+  background: linear-gradient(150deg, var(--color-bg2) 0%, var(--color-bg3) 100%);
 }
 
 h1, h2, h2.popUp {
-  color: var(--main);
+  color: var(--color-main);
 }
 
 form, #notesList li, .modal-content {
-  background-color: var(--c3);
-  color: var(--main);
+  background-color: var(--color-form-bg);
+  color: var(--color-main);
 }
 
 input, select {
-  border: 1px solid var(--main);
-  background: #26003d;
-  color: var(--main);
+  border: 1px solid var(--color-input-border);
+  background: var(--color-input-bg);
+  color: var(--color-main);
 }
 
 button.edit-button, .btn,
 button[type="submit"], button[type="button"] {
-  background-color: var(--main);
-  color: #fff;
+  background-color: var(--color-btn);
+  color: var(--color-white);
 }
 
 button.edit-button:hover, .btn:hover,
 button[type="submit"]:hover, button[type="button"]:hover {
-  background-color: var(--c1);
-  color: #fff;
+  background-color: var(--color-btn-hover);
+  color: var(--color-white);
 }
 
 button.delete-button {
-  background-color: var(--del);
-  color: #fff;
+  background-color: var(--color-btn-del);
+  color: var(--color-white);
 }
 
 button.delete-button:hover {
-  background-color: var(--main);
+  background-color: var(--color-btn);
 }
 
 .install-button, #homeButton {
-  background-color: var(--c2);
-  color: var(--main);
-  border: 2px solid var(--main);
+  background-color: var(--color-bg2);
+  color: var(--color-main);
+  border: 2px solid var(--color-main);
 }
 
 .install-button:hover, #homeButton:hover {
-  background-color: var(--main);
-  color: #fff;
+  background-color: var(--color-main);
+  color: var(--color-white);
 }
 
 .install-button:active, #homeButton:active {
-  background-color: var(--c2);
-  color: var(--main);
+  background-color: var(--color-bg2);
+  color: var(--color-main);
 }
 
 #homeButton img {
@@ -70,31 +81,31 @@ button.delete-button:hover {
 }
 
 .modal {
-  background-color: var(--modal);
+  background-color: var(--color-modal);
 }
 
 .close {
-  color: var(--main);
+  color: var(--color-main);
 }
 
 .close:hover,
 .close:focus {
-  color: var(--c1);
+  color: var(--color-bg1);
 }
 
 #notesList li:hover {
-  background-color: var(--c3);
+  background-color: var(--color-hover);
 }
 
 .required {
-  color: var(--main);
+  color: var(--color-main);
   font-weight: bold;
-  text-shadow: 0 0 3px var(--alt), 0 0 6px var(--main);
+  text-shadow: 0 0 3px var(--color-alt), 0 0 6px var(--color-main);
 }
 
 ::selection {
-  background-color: var(--main);
-  color: var(--alt);
+  background-color: var(--color-main);
+  color: var(--color-alt);
 }
 
 .theme-image {
