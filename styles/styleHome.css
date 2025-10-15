@@ -1,3 +1,8 @@
+html * {
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -83,8 +88,7 @@ h2.popUp {
   }
 
   .modal-content {
-    margin-top: 10% !important;
-    margin-bottom: 10% !important;
+    width: 70% !important;
   }
 }
 
@@ -225,6 +229,8 @@ h2.popUp {
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
+  scrollbar-width: thin;
+  height: fit-content;
 }
 
 .account-item span {
@@ -253,6 +259,7 @@ h2.popUp {
 
 #updateModal {
   align-items: flex-start;
+  justify-content: center;
 }
 
 .modal-content {
@@ -363,21 +370,22 @@ h2.popUp {
 
 #editAccountModal {
   align-items: center;
-}
-
-#accountModal .modal-content {
-  max-height: 75vh;
-  overflow-y: auto;
+  justify-content: center;
 }
 
 #accountList {
   max-height: 300px;
   overflow-y: auto;
   margin-bottom: 1rem;
+  scrollbar-width: thin;
 }
 
 #noAccount {
   text-align: center;
   font-style: italic;
   margin-bottom: 0px;
+}
+
+#accountModal {
+  justify-content: center;
 }
