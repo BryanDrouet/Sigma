@@ -168,10 +168,6 @@
       bottomImg.style.display = 'block';
       topLeftImg.style.display = 'block';
       topRightImg.style.display = 'block';
-    
-      bottomImg.style.zIndex = '1';
-      topLeftImg.style.zIndex = '1';
-      topRightImg.style.zIndex = '1';
     }
 
     async function updateThemeImages(theme) {
@@ -203,10 +199,6 @@
       bottomImg.style.display = 'block';
       topLeftImg.style.display = 'block';
       topRightImg.style.display = 'block';
-
-      bottomImg.style.zIndex = '1';
-      topLeftImg.style.zIndex = '1';
-      topRightImg.style.zIndex = '1';
     }
 
     function getEaster(year) {
@@ -344,9 +336,11 @@
     </div>
   </div>
 
-  <img id="bottom" class="theme-image bottom" alt="Image bas" style="display:none;" />
-  <img id="top-left" class="theme-image top-left" alt="Image haut gauche" style="display:none;" />
-  <img id="top-right" class="theme-image top-right" alt="Image haut droite" style="display:none;" />
+  <div class="images">
+    <img id="bottom" class="theme-image bottom" alt="Image bas" style="display:none;" />
+    <img id="top-left" class="theme-image top-left" alt="Image haut gauche" style="display:none;" />
+    <img id="top-right" class="theme-image top-right" alt="Image haut droite" style="display:none;" />
+  </div>
 
   <script>
     function updateNoteOptions() {

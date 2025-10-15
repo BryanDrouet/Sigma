@@ -95,6 +95,7 @@ button.delete-button:hover {
   object-fit: contain;
   margin: 0px !important;
   padding: 0px !important;
+  z-index: -1;
 }
 
 .bottom {
