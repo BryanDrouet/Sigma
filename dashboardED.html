@@ -75,8 +75,49 @@
     }
 
     function isRecognizedTheme(theme) {
-      const recognizedThemes = ['halloween', 'noel', 'nouvelan', 'fetemusique', 'paques', 'default'];
+      const recognizedThemes = [
+        'halloween', 'noel', 'nouvelAn', 'feteMusique', 'paques', 'default',
+        'puyDuFou', 'zevent', 'twitchSleeplessNight', 'twitchPopcorn',
+        'clubRadioMauleon', 'carnavalDeCholet', 'feteNationaleFrancaise',
+        'festivalDeCannes', 'nrjMusicAwards', 'lesEnfoires', 'solsticeDHiver',
+        'solsticeDEte'
+      ];
       return recognizedThemes.includes(theme);
+    }
+    
+    async function updateThemeImages(theme) {
+      const bottomImg = document.getElementById('bottom');
+      const topLeftImg = document.getElementById('top-left');
+      const topRightImg = document.getElementById('top-right');
+    
+      if (!isRecognizedTheme(theme) || theme === 'default') {
+        bottomImg.style.display = 'none';
+        topLeftImg.style.display = 'none';
+        topRightImg.style.display = 'none';
+        bottomImg.src = '';
+        topLeftImg.src = '';
+        topRightImg.src = '';
+        return;
+      }
+    
+      function camelToKebab(str) {
+        return str.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
+      }
+    
+      const folderName = camelToKebab(theme);
+      const basePath = `assets/events/${folderName}`;
+    
+      bottomImg.src = `${basePath}/3.png`;
+      topLeftImg.src = `${basePath}/2.png`;
+      topRightImg.src = `${basePath}/1.png`;
+    
+      bottomImg.style.display = 'block';
+      topLeftImg.style.display = 'block';
+      topRightImg.style.display = 'block';
+    
+      bottomImg.style.zIndex = '1';
+      topLeftImg.style.zIndex = '1';
+      topRightImg.style.zIndex = '1';
     }
 
     function getEaster(year) {
@@ -219,57 +260,6 @@
   <img id="top-right" class="theme-image top-right" alt="Image haut droite" style="display:none;" />
 
   <script>
-    async function updateThemeImages(theme) {
-      const bottomImg = document.getElementById('bottom');
-      const topLeftImg = document.getElementById('top-left');
-      const topRightImg = document.getElementById('top-right');
-
-      switch (theme) {
-        case 'halloween':
-          bottomImg.src = 'assets/events/halloween/3.png';
-          topLeftImg.src = 'assets/events/halloween/2.png';
-          topRightImg.src = 'assets/events/halloween/1.png';
-          break;
-        case 'noel':
-          bottomImg.src = 'assets/events/noel/3.png';
-          topLeftImg.src = 'assets/events/noel/2.png';
-          topRightImg.src = 'assets/events/noel/1.png';
-          break;
-        case 'nouvelan':
-          bottomImg.src = 'assets/events/nouvelan/3.png';
-          topLeftImg.src = 'assets/events/nouvelan/2.png';
-          topRightImg.src = 'assets/events/nouvelan/1.png';
-          break;
-        case 'fetemusique':
-          bottomImg.src = 'assets/events/fetemusique/3.png';
-          topLeftImg.src = 'assets/events/fetemusique/2.png';
-          topRightImg.src = 'assets/events/fetemusique/1.png';
-          break;
-        case 'paques':
-          bottomImg.src = 'assets/events/paques/3.png';
-          topLeftImg.src = 'assets/events/paques/2.png';
-          topRightImg.src = 'assets/events/paques/1.png';
-          break;
-        case 'default':
-          bottomImg.src = '';
-          topLeftImg.src = '';
-          topRightImg.src = '';
-          break;
-        default:
-          bottomImg.style.display = 'none';
-          topLeftImg.style.display = 'none';
-          topRightImg.style.display = 'none';
-          bottomImg.src = '';
-          topLeftImg.src = '';
-          topRightImg.src = '';
-          return; 
-      }
-
-      bottomImg.style.display = 'block';
-      topLeftImg.style.display = 'block';
-      topRightImg.style.display = 'block';
-    }
-
     function updateNoteOptions() {
       const specificOptionsDiv = document.getElementById("specificOptions");
       specificOptionsDiv.innerHTML = "";
