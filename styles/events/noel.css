@@ -22,6 +22,14 @@
 html {
   background: var(--color-bg1);
   background: linear-gradient(150deg, var(--color-bg2) 0%, var(--color-bg3) 100%);
+  background-attachment: fixed;
+  min-height: 100vh;
+}
+
+body {
+  background: linear-gradient(150deg, var(--color-bg2) 0%, var(--color-bg3) 100%);
+  background-attachment: fixed;
+  min-height: 100vh;
 }
 
 h1, h2, h2.popUp {
