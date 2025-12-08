@@ -1,37 +1,80 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta property="og:title" content="Pronote - Gestion des Notes et Scolarité" />
-  <meta property="og:description" content="Dashboard Pronote pour suivre et gérer vos notes et informations scolaires." />
+  <meta property="og:title" content="Sigma - Gestion des Notes et Scolarité" />
+  <meta property="og:description" content="Dashboard Sigma pour suivre et gérer vos notes et informations scolaires." />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://bryandrouet.github.io/Sigma/dashboardPN.html" />
-  <meta property="og:image" content="https://raw.githubusercontent.com/BryanDrouet/Sigma/refs/heads/main/assets/logoPronote.png" />
-  <meta property="og:image:alt" content="Aperçu dashboard Pronote" />
+  <meta property="og:url" content="https://bryandrouet.github.io/Sigma/dashboard.html" />
+  <meta property="og:image" content="https://raw.githubusercontent.com/BryanDrouet/Sigma/refs/heads/main/assets/icon.png" />
+  <meta property="og:image:alt" content="Aperçu dashboard Sigma" />
 
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Pronote - Gestion des Notes et Scolarité" />
-  <meta name="twitter:description" content="Dashboard Pronote pour suivre et gérer vos notes et informations scolaires." />
-  <meta name="twitter:image" content="https://raw.githubusercontent.com/BryanDrouet/Sigma/refs/heads/main/assets/logoPronote.png" />
+  <meta name="twitter:title" content="Sigma - Gestion des Notes et Scolarité" />
+  <meta name="twitter:description" content="Dashboard Sigma pour suivre et gérer vos notes et informations scolaires." />
+  <meta name="twitter:image" content="https://raw.githubusercontent.com/BryanDrouet/Sigma/refs/heads/main/assets/icon.png" />
   
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sigma - Dashboard Pronote</title>
+  <title>Sigma - Dashboard</title>
   <link rel="manifest" href="manifest.json" />
-  <link rel="stylesheet" href="styles/styleDashboardPN.css" />
-  <link rel="stylesheet" href="styles/styleDashboards.css" />
+  <link rel="stylesheet" href="styles/styleDashboard.css" />
   <link rel="icon" type="image/png" href="assets/icon.png" />
+  
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  
   <script>
     document.documentElement.classList.add('no-transition');
   
+    function kebabToCamel(str) {
+      return str.replace(/-./g, m => m[1].toUpperCase()); 
+    }
+    function snakeToCamel(str) {
+      return str.replace(/_./g, m => m[1].toUpperCase()); 
+    }
+    function flatLowerToCamel(str) {
+      const map = {
+        'fetemusique': 'feteMusique',
+        'nouvelan': 'nouvelAn',
+        'solsticehiver': 'solsticeHiver',
+        'solsticeete': 'solsticeEte',
+        'fetenationale': 'feteNationale',
+        'festivalcannes': 'festivalCannes',
+        'sleeplessnight': 'sleeplessNight',
+        'carnavalcholet': 'carnavalCholet',
+        'lesenfoires': 'lesEnfoires',
+        'nrjmusicawards': 'nrjMusicAwards',
+        'clubradiomauleon': 'clubRadioMauleon',
+        'puydufou': 'puyDuFou',
+        'halloween': 'halloween',
+        'noel': 'noel',
+        'paques': 'paques',
+        'default': 'default',
+        'zevent': 'zevent',
+        'popcorn': 'popcorn',
+      };
+      return map[str] || str; 
+    }
+
     async function getForcedThemeFromSettings() {
       try {
-        const response = await fetch('settings.json');
-        if (!response.ok) throw new Error('Settings file not found');
-        const settings = await response.json();
+        const res = await fetch('settings.json');
+        if (!res.ok) throw new Error('Settings file not found');
+        const settings = await res.json();
         if (settings.forcedTheme && typeof settings.forcedTheme === 'string') {
-          return settings.forcedTheme.toLowerCase();
+          const raw = settings.forcedTheme.trim();
+
+          if (raw === 'none' || raw === 'default') return raw;
+
+          if (raw.includes('-')) return kebabToCamel(raw.toLowerCase()); 
+          if (raw.includes('_')) return snakeToCamel(raw.toLowerCase()); 
+          if (/^[a-z]+$/.test(raw)) return flatLowerToCamel(raw);
+
+          return raw;
         }
-      } catch (err) {
+      } catch (e) {
         console.warn('Impossible de lire settings.json ou propriété forcedTheme absente');
       }
       return null;
@@ -43,41 +86,91 @@
 
       if (typeof forcedTheme === 'string' && forcedTheme !== 'none') {
         if (forcedTheme === 'default') {
-          theme = 'default'; 
-          document.documentElement.style.visibility = 'visible';  
+          theme = 'default';
         } else if (isRecognizedTheme(forcedTheme)) {
-          theme = forcedTheme; 
+          theme = forcedTheme;
         } else {
-          theme = getSeasonalTheme(); 
+          theme = getSeasonalTheme();
         }
       } else {
-        theme = getSeasonalTheme(); 
+        theme = getSeasonalTheme();
+      }
+
+      function camelToKebab(str) {
+        return str.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
       }
 
       let link = document.getElementById('theme-style');
-      if (!link) {
-        link = document.createElement('link');
-        link.rel = 'stylesheet';
-        link.id = 'theme-style';
-        document.head.appendChild(link);
-      }
-      const timestamp = new Date().getTime();
-      link.href = `styles/theme-${theme}.css?v=${timestamp}`;
+      const isDefault = (theme === 'default');
 
-      await new Promise((resolve, reject) => {
-        link.onload = resolve;
-        link.onerror = reject;
-      });
-      
-      document.documentElement.style.visibility = 'visible';  
+      if (isDefault) {
+        if (link) {
+          link.parentNode && link.parentNode.removeChild(link);
+        }
+      } else {
+        if (!link) {
+          link = document.createElement('link');
+          link.rel = 'stylesheet';
+          link.id = 'theme-style';
+          document.head.appendChild(link);
+        }
+        const timestamp = new Date().getTime();
+        const cssName = camelToKebab(theme);
+        link.href = `styles/events/${cssName}.css?v=${timestamp}`;
+
+        await new Promise((resolve, reject) => {
+          link.onload = resolve;
+          link.onerror = reject;
+        });
+      }
+
+      await updateThemeImages(theme);
+      document.documentElement.style.visibility = 'visible';
     }
 
     function isRecognizedTheme(theme) {
-      const recognizedThemes = ['halloween', 'noel', 'nouvelan', 'fetemusique', 'paques', 'default'];
+      const recognizedThemes = [
+        'halloween', 'noel', 'nouvelAn', 'feteMusique', 'paques', 'default',
+        'puyDuFou', 'zevent', 'sleeplessNight', 'popcorn',
+        'clubRadioMauleon', 'carnavalCholet', 'feteNationale',
+        'festivalCannes', 'nrjMusicAwards', 'lesEnfoires', 'solsticeHiver',
+        'solsticeEte'
+      ];
       return recognizedThemes.includes(theme);
     }
+    
+    async function updateThemeImages(theme) {
+      const bottomImg = document.getElementById('bottom');
+      const topLeftImg = document.getElementById('top-left');
+      const topRightImg = document.getElementById('top-right');
+    
+      if (!isRecognizedTheme(theme) || theme === 'default') {
+        bottomImg.style.display = 'none';
+        topLeftImg.style.display = 'none';
+        topRightImg.style.display = 'none';
+        bottomImg.src = '';
+        topLeftImg.src = '';
+        topRightImg.src = '';
+        return;
+      }
+    
+      function camelToKebab(str) {
+        return str.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
+      }
+    
+      const folderName = camelToKebab(theme);
+      const basePath = `assets/events/${folderName}`;
+    
+      bottomImg.src = `${basePath}/3.png`;
+      topLeftImg.src = `${basePath}/2.png`;
+      topRightImg.src = `${basePath}/1.png`;
+    
+      bottomImg.style.display = 'block';
+      topLeftImg.style.display = 'block';
+      topRightImg.style.display = 'block';
+    }
 
-        function getEaster(year) {
+    function getEaster(year) {
       let a = year % 19;
       let b = Math.floor(year / 100);
       let c = year % 100;
@@ -103,8 +196,8 @@
   
       if (month === 10) return 'halloween';
       if (month === 12 && day >= 15) return 'noel';
-      if (month === 1 && day <= 7) return 'nouvelan';
-      if (month === 6 && day === 21) return 'fetemusique';
+      if (month === 1 && day <= 7) return 'nouvelAn';
+      if (month === 6 && day === 21) return 'feteMusique';
   
       const easter = getEaster(year);
       if (month === easter.month && day === easter.day) return 'paques';
@@ -122,138 +215,181 @@
   </script>
 </head>
 <body>
-  <div class="button-container">
-    <button id="homeButton" class="install-button" title="Accueil / Déconnexion">
-      <img src="assets/home.png" alt="Accueil" />
-    </button>
-    <button class="install-button" id="installButton">Installer l'application</button>
-  </div>
-
-  <div id="mainContent">
-
-    <h1>Ajouter vos Notes</h1>
-
-    <form id="notesForm">
-      <div class="subject-input">
-        <label for="subject" id="labelSubject">Matière :</label><strong id="requiredSubject" class="required">&nbsp;*</strong>
-        <select id="subject" required></select>
-        <button type="button" id="modalBtn">Gérer les Matières</button>
-      </div>
-      <div class="marks-input">
-        <label for="mark">Note obtenue :</label><strong class="required">&nbsp;*</strong>
-        <input type="number" id="mark" step="0.01" placeholder="Note obtenue" required step="any" />
-      </div>
-      <div class="maxMarks-input">
-        <label for="maxMark">Note maximale :</label><strong class="required">&nbsp;*</strong>
-        <input type="number" id="maxMark" step="0.01" placeholder="Note maximale" required step="any" />
-      </div>
-      <div class="coefficient-input">
-        <label for="coefficient">Coefficient :</label><strong class="required">&nbsp;*</strong>
-        <input type="number" id="coefficient" step="0.01" placeholder="Coefficient" required />
-      </div>
-      <div id="specificOptions"></div>
-      <div class="description-input">
-        <label for="description">Description :</label>
-        <input id="description" placeholder="Ajoutez une description à la note (facultatif)"></input>
-      </div>
-      <button type="submit">Ajouter la Note</button>
-    </form>
-
-    <div id="notesList" style="display: none;">
-      <h2 id="notesTitle">Mes Notes :</h2>
-      <ul id="notes"></ul>
+  <div class="page">
+    <div class="button-container">
+      <button id="homeButton" class="install-button" title="Accueil / Déconnexion">
+        <img src="assets/home.png" alt="Accueil" />
+      </button>
     </div>
-  </div>
 
-  <div id="popUpDiv">
-    <div id="myModal" class="modal" style="display: none;">
-      <div class="modal-content">
-        <span class="close">&times;</span>
-        <h2 class="popUp">Gérer les Matières</h2>
-        <div class="modal-body">
-          <button class="btn" id="addSubjectBtn">Ajouter une matière</button>
-  
-          <label id="labelPopupDeleteSubject" for="subjectsToDelete">Supprimer une matière</label>
-          <select id="subjectsToDelete">
-          </select>
-          <button class="btn" id="deleteSubjectBtn" style="display: none;">Supprimer la matière</button>
+    <div id="mainContent">
+
+      <h1>Ajouter vos Notes</h1>
+
+      <form id="notesForm">
+        <div class="subject-input">
+          <label for="subject" id="labelSubject">Matière :</label><strong id="requiredSubject" class="required">&nbsp;*</strong>
+          <select id="subject" required></select>
+          <button type="button" id="modalBtn">Gérer les Matières</button>
+        </div>
+        <div class="marks-input">
+          <label for="mark">Note obtenue :</label><strong class="required">&nbsp;*</strong>
+          <input type="number" id="mark" step="0.01" placeholder="Note obtenue" required step="any" />
+        </div>
+        <div class="maxMarks-input">
+          <label for="maxMark">Note maximale :</label><strong class="required">&nbsp;*</strong>
+          <input type="number" id="maxMark" step="0.01" placeholder="Note maximale" required step="any" />
+        </div>
+        <div class="coefficient-input">
+          <label for="coefficient">Coefficient :</label><strong class="required">&nbsp;*</strong>
+          <input type="number" id="coefficient" step="0.01" placeholder="Coefficient" required />
+        </div>
+        <div id="specificOptions"></div>
+        <div class="description-input">
+          <label for="description">Description :</label>
+          <input id="description" placeholder="Ajoutez une description à la note (facultatif)"></input>
+        </div>
+        <button type="submit">Ajouter la Note</button>
+      </form>
+
+      <div id="notesList" style="display: none;">
+        <h2 id="notesTitle">Mes Notes :</h2>
+        <ul id="notes"></ul>
+      </div>
+    </div>
+
+    <div id="popUpDiv">
+      <div id="myModal" class="modal" style="display: none;">
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <h2 class="popUp">Gérer les Matières</h2>
+          <div class="modal-body">
+            <button class="btn" id="addSubjectBtn">Ajouter une matière</button>
+    
+            <label id="labelPopupDeleteSubject" for="subjectsToDelete">Supprimer une matière</label>
+            <select id="subjectsToDelete">
+            </select>
+            <button class="btn" id="deleteSubjectBtn" style="display: none;">Supprimer la matière</button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <div id="editModal" class="modal" style="display: none;">
-    <div class="modal-content">
-      <span class="close" id="closeEditModal">&times;</span>
-      <h2 class="popUp">Modifier la Note</h2>
-      <form id="editNoteForm">
-        <label for="editSubject">Matière :</label>
-        <select id="editSubject"></select>
+    <div id="editModal" class="modal" style="display: none;">
+      <div class="modal-content">
+        <span class="close" id="closeEditModal">&times;</span>
+        <h2 class="popUp">Modifier la Note</h2>
+        <form id="editNoteForm">
+          <label for="editSubject">Matière :</label>
+          <select id="editSubject"></select>
 
-        <label for="editMark">Note obtenue :</label>
-        <input type="number" step="0.01" id="editMark" required>
+          <label for="editMark">Note obtenue :</label>
+          <input type="number" step="0.01" id="editMark" required>
 
-        <label for="editMaxMark">Note maximale :</label>
-        <input type="number" step="0.01" id="editMaxMark" required>
+          <label for="editMaxMark">Note maximale :</label>
+          <input type="number" step="0.01" id="editMaxMark" required>
 
-        <label for="editCoefficient">Coefficient :</label>
-        <input type="number" step="0.01" min="0.01" id="editCoefficient" required>
+          <label for="editCoefficient">Coefficient :</label>
+          <input type="number" step="0.01" min="0.01" id="editCoefficient" required>
 
-        <label for="editPeriode">Période :</label>
-        <select id="editPeriode"></select>
+          <label for="editPeriode">Période :</label>
+          <select id="editPeriode"></select>
 
-        <label for="editDescription">Description :</label>
-        <input id="editDescription"></input>
+          <label for="editDescription">Description :</label>
+          <input id="editDescription"></input>
 
-        <button type="submit">Enregistrer les modifications</button>
-      </form>
+          <button type="submit">Enregistrer les modifications</button>
+        </form>
+      </div>
     </div>
   </div>
-  
+
+  <div class="images">
+    <img id="bottom" class="theme-image bottom" alt="Image bas" style="display:none;" />
+    <img id="top-left" class="theme-image top-left" alt="Image haut gauche" style="display:none;" />
+    <img id="top-right" class="theme-image top-right" alt="Image haut droite" style="display:none;" />
+  </div>
+
+  <script src="firebase-config.js"></script>
   <script>
+    let currentUser = null;
+    let currentAccount = null;
+    let subjects = [];
+    let notes = [];
+    let subjectDeleted = false;
+    let editIndex = null;
+
+    // Vérifier l'authentification au chargement
+    onAuthStateChanged(async (user) => {
+      if (user) {
+        currentUser = user;
+        const accountId = sessionStorage.getItem('currentAccountId');
+        if (!accountId) {
+          alert("Aucun compte sélectionné. Retour à l'accueil.");
+          window.location.href = "index.html";
+          return;
+        }
+        currentAccount = accountId;
+        await loadAccountData();
+      } else {
+        alert("Vous devez être connecté pour accéder à cette page.");
+        window.location.href = "index.html";
+      }
+    });
+
+    async function loadAccountData() {
+      const accountData = await getAccountData(currentAccount);
+      if (accountData) {
+        subjects = await getSubjects(currentAccount);
+        notes = await getNotes(currentAccount);
+        loadSubjects();
+        updateNoteOptions();
+        if (notes.length > 0) {
+          updateNotes();
+        }
+      }
+    }
+
     function updateNoteOptions() {
       const specificOptionsDiv = document.getElementById("specificOptions");
       specificOptionsDiv.innerHTML = "";
 
-      const accountKey = `${currentPlatform}_${currentAccount}`;
-      const accountDataRaw = localStorage.getItem(accountKey);
-      const accountData = JSON.parse(accountDataRaw);
-      const typeDeCompte = accountData?.type || accountData?.period;
+      getAccountData(currentAccount).then(accountData => {
+        const typeDeCompte = accountData?.period;
 
-      if (!typeDeCompte) {
-        specificOptionsDiv.innerHTML = "<p style='color: red;'>Type de compte non défini</p>";
-        return;
-      }
+        if (!typeDeCompte) {
+          specificOptionsDiv.innerHTML = "<p style='color: red;'>Type de compte non défini</p>";
+          return;
+        }
 
-      if (typeDeCompte === "trimestre" || typeDeCompte === "trimestriel") {
-        specificOptionsDiv.innerHTML = `
-          <label for="periode">Choisir le trimestre :</label><strong class="required">&nbsp;*</strong>
-          <select id="periode">
-            <option value="1">1er Trimestre</option>
-            <option value="2">2ème Trimestre</option>
-            <option value="3">3ème Trimestre</option>
-          </select>
-        `;
-      } else if (typeDeCompte === "semestre" || typeDeCompte === "semestriel") {
-        specificOptionsDiv.innerHTML = `
-          <label for="periode">Choisir le semestre :</label><strong class="required">&nbsp;*</strong>
-          <select id="periode">
-            <option value="1">1er Semestre</option>
-            <option value="2">2ème Semestre</option>
-          </select>
-        `;
-      } else {
-        specificOptionsDiv.innerHTML = "<p style='color: red;'>Type de compte invalide</p>";
-      }
+        if (typeDeCompte === "trimestre" || typeDeCompte === "trimestriel") {
+          specificOptionsDiv.innerHTML = `
+            <label for="periode">Choisir le trimestre :</label><strong class="required">&nbsp;*</strong>
+            <select id="periode">
+              <option value="1">1er Trimestre</option>
+              <option value="2">2ème Trimestre</option>
+              <option value="3">3ème Trimestre</option>
+            </select>
+          `;
+        } else if (typeDeCompte === "semestre" || typeDeCompte === "semestriel") {
+          specificOptionsDiv.innerHTML = `
+            <label for="periode">Choisir le semestre :</label><strong class="required">&nbsp;*</strong>
+            <select id="periode">
+              <option value="1">1er Semestre</option>
+              <option value="2">2ème Semestre</option>
+            </select>
+          `;
+        } else {
+          specificOptionsDiv.innerHTML = "<p style='color: red;'>Type de compte invalide</p>";
+        }
+      });
     }
     
-    function logoutAndReturnHome() {
-      localStorage.removeItem('currentAccount');
-      localStorage.removeItem('currentPlatform');
+    async function logoutAndReturnHome() {
+      await signOutUser();
+      sessionStorage.removeItem('currentAccountId');
       window.location.href = 'index.html';
     }
-
-    let editIndex = null;
 
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('service-worker.js').then(function(registration) {
@@ -268,42 +404,31 @@
     window.addEventListener("beforeinstallprompt", (e) => {
       e.preventDefault();
       deferredPrompt = e;
-      installButton.style.display = "block";
+      if (installButton) {
+        installButton.style.display = "block";
+      }
       homeButton.style.display = "block";
       updateButtonPosition();
     });
 
-    homeButton.addEventListener("click", () => {
-      localStorage.removeItem("currentAccount");
-      localStorage.removeItem("currentPlatform");
-      window.location.href = "index.html";
-    });
+    homeButton.addEventListener("click", logoutAndReturnHome);
 
     window.addEventListener("load", () => {
-      if (notes.length > 0) {
-        updateNotes();
-      } else {
-        const notesTitle = document.getElementById("notesTitle");
-        notesTitle.style.display = 'none';
-        document.getElementById("notesList").style.display = 'none'; 
-      }
-
       const isStandalone =
         window.matchMedia("(display-mode: standalone)").matches ||
         window.navigator.standalone === true;
 
-      if (isStandalone) {
+      if (isStandalone && installButton) {
         installButton.style.display = "none";
-        homeButton.style.display = "block";
-        updateButtonPosition();
       }
-      updateNoteOptions();
+      homeButton.style.display = "block";
+      updateButtonPosition();
     });
 
     function updateButtonPosition() {
       const installBtn = document.getElementById("installButton");
       const homeBtn = document.getElementById("homeButton");
-      const bothVisible = installBtn.style.display === "block";
+      const bothVisible = installBtn && installBtn.style.display === "block";
 
       if (bothVisible) {
         document.body.classList.add("buttons-visible");
@@ -312,27 +437,16 @@
       }
     }
 
-    installButton.addEventListener("click", () => {
-      if (deferredPrompt) {
-        deferredPrompt.prompt();
-        deferredPrompt.userChoice.then((choiceResult) => {
-          deferredPrompt = null;
-        });
-      }
-    });
-    
-    const currentAccount = localStorage.getItem('currentAccount');
-    const currentPlatform = localStorage.getItem('currentPlatform'); 
-
-    if (!currentAccount || !currentPlatform) {
-      alert("Aucun compte sélectionné. Vous devez vous connecter d'abord.");
-      window.location.href = "index.html"; 
+    if (installButton) {
+      installButton.addEventListener("click", () => {
+        if (deferredPrompt) {
+          deferredPrompt.prompt();
+          deferredPrompt.userChoice.then((choiceResult) => {
+            deferredPrompt = null;
+          });
+        }
+      });
     }
-
-    const accountKey = `${currentPlatform}-${currentAccount}`; 
-    let subjects = JSON.parse(localStorage.getItem(`${accountKey}-subjects`)) || [];
-    let notes = JSON.parse(localStorage.getItem(`${accountKey}-notes`)) || [];
-    let subjectDeleted = false;
     
     const subjectSelect = document.getElementById("subject");
     const subjectToDeleteSelect = document.getElementById("subjectsToDelete");
@@ -374,13 +488,11 @@
       }
     }
 
-    loadSubjects();
-
-    document.getElementById("addSubjectBtn").addEventListener("click", () => {
+    document.getElementById("addSubjectBtn").addEventListener("click", async () => {
       const newSubject = prompt("Entrez le nom de la nouvelle matière :");
       if (newSubject && !subjects.includes(newSubject)) {
         subjects.push(newSubject);
-        localStorage.setItem(`${accountKey}-subjects`, JSON.stringify(subjects)); 
+        await saveSubjects(currentAccount, subjects);
         subjectDeleted = false;
         loadSubjects();
       } else if (subjects.includes(newSubject)) {
@@ -388,24 +500,25 @@
       }
     });
 
-    document.getElementById("deleteSubjectBtn").addEventListener("click", () => {
+    document.getElementById("deleteSubjectBtn").addEventListener("click", async () => {
       const subjectToDelete = document.getElementById("subjectsToDelete").value;
       if (subjectToDelete) {
         const hasNotes = notes.some(note => note.subject === subjectToDelete);
         
         if (hasNotes) {
-          const confirmDelete = confirm(`La suppression de cette matière supprimera toutes les notes associées une fois la page rechargée. Êtes-vous sûr de vouloir continuer ?`);
+          const confirmDelete = confirm(`La suppression de cette matière supprimera toutes les notes associées. Êtes-vous sûr de vouloir continuer ?`);
           if (!confirmDelete) return;
         }
 
         const index = subjects.indexOf(subjectToDelete);
         if (index > -1) {
           subjects.splice(index, 1);
-          notes = notes.filter(note => note.subject !== subjectToDelete); 
-          localStorage.setItem(`${accountKey}-subjects`, JSON.stringify(subjects)); 
-          localStorage.setItem(`${accountKey}-notes`, JSON.stringify(notes)); 
+          notes = notes.filter(note => note.subject !== subjectToDelete);
+          await saveSubjects(currentAccount, subjects);
+          await saveNotes(currentAccount, notes);
           subjectDeleted = true;
           loadSubjects();
+          updateNotes();
         }
       }
     });
@@ -417,7 +530,7 @@
     modalBtn.onclick = () => modal.style.display = "flex";
     closeModal.onclick = () => modal.style.display = "none";
 
-    document.getElementById("notesForm").addEventListener("submit", (e) => {
+    document.getElementById("notesForm").addEventListener("submit", async (e) => {
       e.preventDefault();
 
       const subject = document.getElementById("subject").value;
@@ -433,14 +546,14 @@
       }
 
       const markOutOf20 = (mark / maxMark) * 20;
-
       const periode = periodeSelect ? periodeSelect.value : null;
 
       notes.push({ subject, mark, maxMark, coefficient, markOutOf20, description, periode });
-      localStorage.setItem(`${accountKey}-notes`, JSON.stringify(notes)); 
+      await saveNotes(currentAccount, notes);
 
       document.getElementById("notesForm").reset();
       updateNotes();
+      updateNoteOptions();
     });
     
     function updateNotes() {
@@ -516,7 +629,7 @@
       document.getElementById("editModal").style.display = "none";
     };
 
-    function openEditModal(index) {
+    async function openEditModal(index) {
       const editPeriodeSelect = document.getElementById("editPeriode");
       editPeriodeSelect.innerHTML = "";
       const note = notes[index];
@@ -528,10 +641,8 @@
       document.getElementById("editCoefficient").value = note.coefficient;
       document.getElementById("editDescription").value = note.description || "";
 
-      const accountKey = `${currentPlatform}_${currentAccount}`;
-      const accountDataRaw = localStorage.getItem(accountKey);
-      const accountData = JSON.parse(accountDataRaw);
-      const typeDeCompte = accountData?.type || accountData?.period;
+      const accountData = await getAccountData(currentAccount);
+      const typeDeCompte = accountData?.period;
 
       const editSubjectSelect = document.getElementById("editSubject");
       editSubjectSelect.innerHTML = ''; 
@@ -567,54 +678,29 @@
       editPeriodeSelect.value = note.periode || 1;
     }
 
-    document.getElementById("editNoteForm").addEventListener("submit", (e) => {
+    document.getElementById("editNoteForm").addEventListener("submit", async (e) => {
       e.preventDefault();
 
-        const editedNote = {
-          subject: document.getElementById("editSubject").value,
-          mark: parseFloat(document.getElementById("editMark").value),
-          maxMark: parseFloat(document.getElementById("editMaxMark").value),
-          coefficient: parseFloat(document.getElementById("editCoefficient").value),
-          description: document.getElementById("editDescription").value,
-          periode: document.getElementById("editPeriode").value,
-        };
+      const editedNote = {
+        subject: document.getElementById("editSubject").value,
+        mark: parseFloat(document.getElementById("editMark").value),
+        maxMark: parseFloat(document.getElementById("editMaxMark").value),
+        coefficient: parseFloat(document.getElementById("editCoefficient").value),
+        description: document.getElementById("editDescription").value,
+        periode: document.getElementById("editPeriode").value,
+      };
 
       editedNote.markOutOf20 = (editedNote.mark / editedNote.maxMark) * 20;
 
       notes[editIndex] = editedNote;
-      localStorage.setItem(`${accountKey}-notes`, JSON.stringify(notes));
+      await saveNotes(currentAccount, notes);
       document.getElementById("editModal").style.display = "none";
       updateNotes();
     });
 
-      const notesList = document.getElementById("notes");
-      notesList.innerHTML = '';
-
-      notes.forEach((note, index) => {
-        const li = document.createElement("li");
-        const noteText = `${note.subject}: ${note.mark}/${note.maxMark} (Coef: ${note.coefficient}) - Note sur 20: ${note.markOutOf20.toFixed(2)}`;
-        li.textContent = noteText;
-
-        if (note.description) {
-          const desc = document.createElement("div");
-          desc.textContent = `📝 ${note.description}`;
-          desc.style.fontStyle = "italic";
-          desc.style.marginTop = "4px";
-          li.appendChild(desc);
-        }
-
-        const deleteButton = document.createElement("button");
-        deleteButton.textContent = "Supprimer";
-        deleteButton.classList.add("delete-button");
-        deleteButton.onclick = () => deleteNote(index);
-
-        li.appendChild(deleteButton);
-        notesList.appendChild(li);
-      });
-
-    function deleteNote(index) {
+    async function deleteNote(index) {
       notes.splice(index, 1);
-      localStorage.setItem(`${accountKey}-notes`, JSON.stringify(notes)); 
+      await saveNotes(currentAccount, notes);
       updateNotes(); 
     }
 
@@ -640,7 +726,7 @@
  |____/ \\__,_|\\__|___/\\__,_| \\_/ \\___|  \\___\\/\\ |______\\__,_|\\__,_|\\__,_|_|  \\__,_|\\___/ 
     `);
 
-    console.log('%c© Bryan_Drouet 2025', 'font-size: 14px; color: #555');
+    console.log('%c© Bryan_Drouet ' + new Date().getFullYear(), 'font-size: 14px; color: #555');
   </script>
 </body>
 </html>

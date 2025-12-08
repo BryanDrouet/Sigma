@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <meta property="og:title" content="Sigma - Application de Gestion Scolaire" />
-  <meta property="og:description" content="Bienvenue sur Sigma, l'application de gestion scolaire tout-en-un pour EcoleDirecte et Pronote." />
+  <meta property="og:description" content="Bienvenue sur Sigma, l'application de gestion scolaire tout-en-un." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://bryandrouet.github.io/Sigma/" />
   <meta property="og:image" content="https://raw.githubusercontent.com/BryanDrouet/Sigma/refs/heads/main/assets/icon.png" />
@@ -10,32 +10,78 @@
 
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Sigma - Application de Gestion Scolaire" />
-  <meta name="twitter:description" content="Bienvenue sur Sigma, l'application de gestion scolaire tout-en-un pour EcoleDirecte et Pronote." />
+  <meta name="twitter:description" content="Bienvenue sur Sigma, l'application de gestion scolaire tout-en-un." />
   <meta name="twitter:image" content="https://raw.githubusercontent.com/BryanDrouet/Sigma/refs/heads/main/assets/icon.png" />
   
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Sigma - Choisir une plateforme</title>
+  <title>Sigma - Connexion</title>
   <link rel="manifest" href="manifest.json" />
   <link rel="icon" type="image/png" href="assets/icon.png" />
   <link rel="stylesheet" href="styles/styleHome.css" />
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 </head>
 <body>
   <div class="container">
-    <div class="half left" onclick="choosePlatform('pronote')">
-      <img class="logo" src="assets/logoPronote.png" alt="Logo Pronote" />
-      <h2 class="h2HalfText">Accéder à Pronote</h2>
+    <div class="sigma-header">
+      <img class="logo-sigma" src="assets/icon.png" alt="Logo Sigma" />
+      <h1>Sigma</h1>
+      <p class="tagline">Votre gestionnaire scolaire unifié</p>
     </div>
-    <div class="half right" onclick="choosePlatform('ecoledirecte')">
-      <img class="logo" src="assets/logoEcoleDirecte.png" alt="Logo EcoleDirecte" />
-      <h2 class="h2HalfText">Accéder à EcoleDirecte</h2>
+    
+    <div id="authSection" class="auth-section">
+      <!-- Section de connexion -->
+      <div id="loginSection" class="auth-form">
+        <h2>Connexion</h2>
+        <input type="email" id="loginEmail" placeholder="Email" />
+        <input type="password" id="loginPassword" placeholder="Mot de passe" />
+        <button onclick="handleLogin()">Se connecter</button>
+        <div class="divider">
+          <span>OU</span>
+        </div>
+        <button class="google-btn" onclick="handleGoogleSignIn()">
+          <svg width="18" height="18" viewBox="0 0 18 18" style="margin-right: 8px;">
+            <path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z"/>
+            <path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.258c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332C2.438 15.983 5.482 18 9 18z"/>
+            <path fill="#FBBC05" d="M3.964 10.707c-.18-.54-.282-1.117-.282-1.707s.102-1.167.282-1.707V4.961H.957C.347 6.175 0 7.55 0 9s.348 2.825.957 4.039l3.007-2.332z"/>
+            <path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0 5.482 0 2.438 2.017.957 4.961L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z"/>
+          </svg>
+          Continuer avec Google
+        </button>
+        <p class="switch-auth">Pas encore de compte ? <a href="#" onclick="showSignup(); return false;">S'inscrire</a></p>
+      </div>
+
+      <!-- Section d'inscription -->
+      <div id="signupSection" class="auth-form" style="display: none;">
+        <h2>Inscription</h2>
+        <input type="email" id="signupEmail" placeholder="Email" />
+        <input type="password" id="signupPassword" placeholder="Mot de passe" />
+        <input type="password" id="signupPasswordConfirm" placeholder="Confirmer le mot de passe" />
+        <button onclick="handleSignup()">S'inscrire</button>
+        <div class="divider">
+          <span>OU</span>
+        </div>
+        <button class="google-btn" onclick="handleGoogleSignIn()">
+          <svg width="18" height="18" viewBox="0 0 18 18" style="margin-right: 8px;">
+            <path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z"/>
+            <path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.258c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332C2.438 15.983 5.482 18 9 18z"/>
+            <path fill="#FBBC05" d="M3.964 10.707c-.18-.54-.282-1.117-.282-1.707s.102-1.167.282-1.707V4.961H.957C.347 6.175 0 7.55 0 9s.348 2.825.957 4.039l3.007-2.332z"/>
+            <path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0 5.482 0 2.438 2.017.957 4.961L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z"/>
+          </svg>
+          Continuer avec Google
+        </button>
+        <p class="switch-auth">Déjà un compte ? <a href="#" onclick="showLogin(); return false;">Se connecter</a></p>
+      </div>
     </div>
   </div>
 
   <button class="install-button" id="installButton">Installer l'application</button>
   <button id="showUpdatesButton">📝</button>
-  <button id="clearDataButton">🗑️</button>
 
   <div id="updateModal" class="modal" style="display: none;">
     <div class="modal-content maj">
@@ -48,7 +94,7 @@
     <div class="modal-content">
       <span class="close" onclick="closeModal()">&times;</span>
       <h2 class="popUp">Choisir un compte</h2>
-      <p id="noAccount">Vous n'avez pas de compte enregistré sur cet appareil.</p>
+      <p id="noAccount">Vous n'avez pas de compte enregistré.</p>
       <p id="labelLoginAccount" style="display: none;">Se connecter :</p>
       <div id="accountList"></div>
       <h3 id="createAccountH3">Créer un compte :</h3>
@@ -82,7 +128,114 @@
     </div>
   </div>
 
+  <script src="firebase-config.js"></script>
+  <script src="firebase-config.js"></script>
   <script>
+    let currentUser = null;
+    let platformBeingEdited = '';
+    let accountBeingEdited = '';
+
+    // Vérifier si l'utilisateur est déjà connecté
+    onAuthStateChanged(async (user) => {
+      if (user) {
+        currentUser = user;
+        document.getElementById('authSection').style.display = 'none';
+        openModal();
+      }
+    });
+
+    // Fonctions d'authentification
+    async function handleLogin() {
+      const email = document.getElementById('loginEmail').value.trim();
+      const password = document.getElementById('loginPassword').value;
+
+      if (!email || !password) {
+        alert("Veuillez remplir tous les champs.");
+        return;
+      }
+
+      try {
+        await signInUser(email, password);
+        document.getElementById('authSection').style.display = 'none';
+        openModal();
+      } catch (error) {
+        let errorMessage = "Erreur de connexion.";
+        if (error.code === 'auth/user-not-found') {
+          errorMessage = "Aucun compte trouvé avec cet email.";
+        } else if (error.code === 'auth/wrong-password') {
+          errorMessage = "Mot de passe incorrect.";
+        } else if (error.code === 'auth/invalid-email') {
+          errorMessage = "Email invalide.";
+        }
+        alert(errorMessage);
+      }
+    }
+
+    async function handleSignup() {
+      const email = document.getElementById('signupEmail').value.trim();
+      const password = document.getElementById('signupPassword').value;
+      const passwordConfirm = document.getElementById('signupPasswordConfirm').value;
+
+      if (!email || !password || !passwordConfirm) {
+        alert("Veuillez remplir tous les champs.");
+        return;
+      }
+
+      if (password !== passwordConfirm) {
+        alert("Les mots de passe ne correspondent pas.");
+        return;
+      }
+
+      if (password.length < 6) {
+        alert("Le mot de passe doit contenir au moins 6 caractères.");
+        return;
+      }
+
+      try {
+        await signUpUser(email, password);
+        alert("Compte créé avec succès ! Vous pouvez maintenant créer vos comptes scolaires.");
+        document.getElementById('authSection').style.display = 'none';
+        openModal();
+      } catch (error) {
+        let errorMessage = "Erreur lors de l'inscription.";
+        if (error.code === 'auth/email-already-in-use') {
+          errorMessage = "Cet email est déjà utilisé.";
+        } else if (error.code === 'auth/invalid-email') {
+          errorMessage = "Email invalide.";
+        } else if (error.code === 'auth/weak-password') {
+          errorMessage = "Le mot de passe est trop faible.";
+        }
+        alert(errorMessage);
+      }
+    }
+
+    function showSignup() {
+      document.getElementById('loginSection').style.display = 'none';
+      document.getElementById('signupSection').style.display = 'block';
+    }
+
+    function showLogin() {
+      document.getElementById('signupSection').style.display = 'none';
+      document.getElementById('loginSection').style.display = 'block';
+    }
+
+    // Connexion avec Google
+    async function handleGoogleSignIn() {
+      try {
+        await signInWithGoogle();
+        document.getElementById('authSection').style.display = 'none';
+        openModal();
+      } catch (error) {
+        let errorMessage = "Erreur de connexion avec Google.";
+        if (error.code === 'auth/popup-closed-by-user') {
+          errorMessage = "Connexion annulée.";
+        } else if (error.code === 'auth/popup-blocked') {
+          errorMessage = "La popup a été bloquée par votre navigateur.";
+        }
+        alert(errorMessage);
+      }
+    }
+
     function generateSchoolYears() {
       const start = 2000;
       const end = 2025;
@@ -99,19 +252,9 @@
       });
     }
 
-    document.addEventListener("DOMContentLoaded", generateSchoolYears);
-
     document.addEventListener("DOMContentLoaded", function() {
       generateSchoolYears();
       setupModalClickOutside();
-    });
-    
-    document.getElementById("clearDataButton").addEventListener("click", () => {
-      if (confirm("Êtes-vous sûr de vouloir supprimer toutes les données enregistrées ? Cette action est irréversible.")) {
-        localStorage.clear();
-        alert("Toutes les données ont été supprimées.");
-        location.reload(); 
-      }
     });
 
     document.getElementById("showUpdatesButton").addEventListener("click", () => {
@@ -155,23 +298,12 @@
       }
     });
     
-    function saveAccount(platform, accountName) {
-      let accounts = JSON.parse(localStorage.getItem(platform)) || [];
-      if (!accounts.includes(accountName)) {
-        accounts.push(accountName);
-        localStorage.setItem(platform, JSON.stringify(accounts));
-      }
-    }
-    
-    function getAccounts(platform) {
-      return JSON.parse(localStorage.getItem(platform)) || [];
-    }
-
-    function showAccountList(platform) {
+    async function showAccountList() {
       const accountListDiv = document.getElementById('accountList');
       const labelLoginAccount = document.getElementById('labelLoginAccount');
       const noAccount = document.getElementById('noAccount');
-      const accounts = getAccounts(platform);
+      
+      const accounts = await getAllAccounts();
 
       accountListDiv.innerHTML = ''; 
       labelLoginAccount.style.display = accounts.length > 0 ? "block" : "none";
@@ -186,9 +318,9 @@
         accountItem.style.gap = '10px';
 
         const nameSpan = document.createElement('span');
-        nameSpan.textContent = account;
+        nameSpan.textContent = account.name || account.id;
         nameSpan.style.flex = '1';
-        nameSpan.onclick = () => chooseAccount(account);
+        nameSpan.onclick = () => chooseAccount(account.id);
 
         const renameBtn = document.createElement('button');
         renameBtn.textContent = '✏️';
@@ -197,7 +329,7 @@
         renameBtn.style.paddingRight = '12px';
         renameBtn.onclick = (e) => {
           e.stopPropagation();
-          renameAccount(platform, account);
+          renameAccount(account);
         };
 
         const deleteBtn = document.createElement('button');
@@ -207,7 +339,7 @@
         deleteBtn.style.paddingRight = '12px';
         deleteBtn.onclick = (e) => {
           e.stopPropagation();
-          deleteAccount(platform, account);
+          deleteAccount(account.id, account.name);
         };
 
         accountItem.appendChild(nameSpan);
@@ -217,32 +349,19 @@
       });
     }
 
-    function deleteAccount(platform, accountName) {
+    async function deleteAccount(accountId, accountName) {
       if (!confirm(`Supprimer le compte "${accountName}" ? Toutes ses données seront perdues.`)) return;
 
-      let accounts = getAccounts(platform);
-      accounts = accounts.filter(acc => acc !== accountName);
-      localStorage.setItem(platform, JSON.stringify(accounts));
-
-      localStorage.removeItem(`${platform}_${accountName}`); // Supprime toutes les données spécifiques à ce compte
-
-      const accountKey = `${platform}-${accountName}`;
-      localStorage.removeItem(`${accountKey}-subjects`);
-      localStorage.removeItem(`${accountKey}-notes`);
-
-      showAccountList(platform);
+      await deleteAccountData(accountId);
+      await showAccountList();
     }
 
-    function renameAccount(platform, oldName) {
-      platformBeingEdited = platform;
-      accountBeingEdited = oldName;
+    function renameAccount(account) {
+      accountBeingEdited = account.id;
 
-      const key = `${platform}_${oldName}`;
-      const data = JSON.parse(localStorage.getItem(key)) || { period: 'trimestriel', schoolYear: '' };
-
-      document.getElementById('editAccountName').value = oldName;
-      document.getElementById('editAccountPeriod').value = data.period || 'trimestriel';
-      document.getElementById('editAccountYear').value = data.schoolYear || '';
+      document.getElementById('editAccountName').value = account.name || '';
+      document.getElementById('editAccountPeriod').value = account.period || 'trimestriel';
+      document.getElementById('editAccountYear').value = account.schoolYear || '';
       
       openModalWithAnimation('editAccountModal');
     }
@@ -255,7 +374,7 @@
       closeModalWithAnimation('editAccountModal');
     }
 
-    function saveEditedAccount() {
+    async function saveEditedAccount() {
       const newName = document.getElementById('editAccountName').value.trim();
       const newPeriod = document.getElementById('editAccountPeriod').value;
       const newYear = document.getElementById('editAccountYear').value;
@@ -265,55 +384,22 @@
         return;
       }
 
-      const accounts = getAccounts(platformBeingEdited);
-      if (accounts.includes(newName) && newName !== accountBeingEdited) {
-        alert("Un compte avec ce nom existe déjà.");
-        return;
-      }
-
-      // Mise à jour de la liste
-      const updatedAccounts = accounts.map(acc => acc === accountBeingEdited ? newName : acc);
-      localStorage.setItem(platformBeingEdited, JSON.stringify(updatedAccounts));
-
-      const oldKey = `${platformBeingEdited}_${accountBeingEdited}`;
-      const newKey = `${platformBeingEdited}_${newName}`;
-      const data = JSON.parse(localStorage.getItem(oldKey)) || {};
-      localStorage.setItem(newKey, JSON.stringify({ ...data, period: newPeriod, schoolYear: newYear }));
-
-      if (newKey !== oldKey) {
-        localStorage.removeItem(oldKey);
-
-        // Renommer les sous-clés éventuelles
-        const oldSubjects = localStorage.getItem(`${platformBeingEdited}-${accountBeingEdited}-subjects`);
-        const oldNotes = localStorage.getItem(`${platformBeingEdited}-${accountBeingEdited}-notes`);
-        if (oldSubjects) {
-          localStorage.setItem(`${platformBeingEdited}-${newName}-subjects`, oldSubjects);
-          localStorage.removeItem(`${platformBeingEdited}-${accountBeingEdited}-subjects`);
-        }
-        if (oldNotes) {
-          localStorage.setItem(`${platformBeingEdited}-${newName}-notes`, oldNotes);
-          localStorage.removeItem(`${platformBeingEdited}-${accountBeingEdited}-notes`);
-        }
-      }
+      await saveAccountData(accountBeingEdited, {
+        name: newName,
+        period: newPeriod,
+        schoolYear: newYear
+      });
 
       closeEditModal();
-      showAccountList(platformBeingEdited);
+      await showAccountList();
     }
     
-    function chooseAccount(accountName) {
-      localStorage.setItem('currentAccount', accountName);
-
-      const platform = localStorage.getItem('currentPlatform');
-      if (platform === 'pronote') {
-        window.location.href = "dashboardPN.html";
-      } else if (platform === 'ecoledirecte') {
-        window.location.href = "dashboardED.html";
-      } else {
-        alert("Plateforme inconnue.");
-      }
+    function chooseAccount(accountId) {
+      sessionStorage.setItem('currentAccountId', accountId);
+      window.location.href = "dashboard.html";
     }
     
-    function createAccount() {
+    async function createAccount() {
       const newAccountName = document.getElementById('newAccountName').value.trim();
       const period = document.getElementById('accountPeriod').value;
       const schoolYear = document.getElementById('accountYear').value;
@@ -323,15 +409,14 @@
         return;
       }
 
-      saveAccount(currentPlatform, newAccountName);
-
-      const accountKey = `${currentPlatform}_${newAccountName}`;
-      localStorage.setItem(accountKey, JSON.stringify({
+      const accountId = `account_${Date.now()}`;
+      await saveAccountData(accountId, {
+        name: newAccountName,
         period: period,
         schoolYear: schoolYear
-      }));
+      });
  
-      chooseAccount(newAccountName);
+      chooseAccount(accountId);
     }
 
     function openModalWithAnimation(modalId, callback) {
@@ -379,12 +464,12 @@
       });
     }
     
-    function openModal(platform) {
+    async function openModal() {
       const modal = document.getElementById('accountModal');
       const title = document.querySelector('#accountModal .popUp');
       
-      title.textContent = "Choisir un compte " + (platform === "pronote" ? "Pronote" : "Ecole Directe");
-      showAccountList(platform);
+      title.textContent = "Choisir un compte Sigma";
+      await showAccountList();
       
       modal.style.display = 'flex';
       modal.classList.add('modal-opening');
@@ -396,14 +481,6 @@
     
     function closeModal() {
       closeModalWithAnimation('accountModal');
-    }
-
-    let currentPlatform = '';
-
-    function choosePlatform(platform) {
-      currentPlatform = platform;
-      localStorage.setItem('currentPlatform', platform);
-      openModal(platform); 
     }
 
     console.log(`
