@@ -251,18 +251,6 @@ button.delete-button:hover {
   z-index: -1;
 }
 
-.theme-image.bottom {
-  /* Tailles appliquées dynamiquement via JavaScript depuis themes.json */
-}
-
-.theme-image.top-left {
-  /* Tailles appliquées dynamiquement via JavaScript depuis themes.json */
-}
-
-.theme-image.top-right {
-  /* Tailles appliquées dynamiquement via JavaScript depuis themes.json */
-}
-
 /* Animations */
 @keyframes fadeIn {
   from {
