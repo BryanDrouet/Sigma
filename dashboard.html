@@ -48,10 +48,37 @@
       }
     
       const basePath = `assets/events/${themeKey}`;
+      const config = window.themeSystem.getConfig();
+      const theme = config?.themes?.[themeKey];
     
+      // Appliquer les images
       bottomImg.src = `${basePath}/3.png`;
       topLeftImg.src = `${basePath}/2.png`;
       topRightImg.src = `${basePath}/1.png`;
+    
+      // Appliquer les tailles d'images depuis le JSON
+      if (theme?.images) {
+        // Image du bas
+        if (theme.images.bottom) {
+          Object.entries(theme.images.bottom).forEach(([prop, value]) => {
+            bottomImg.style[prop] = value;
+          });
+        }
+        
+        // Image top-left
+        if (theme.images.topLeft) {
+          Object.entries(theme.images.topLeft).forEach(([prop, value]) => {
+            topLeftImg.style[prop] = value;
+          });
+        }
+        
+        // Image top-right
+        if (theme.images.topRight) {
+          Object.entries(theme.images.topRight).forEach(([prop, value]) => {
+            topRightImg.style[prop] = value;
+          });
+        }
+      }
     
       bottomImg.style.display = 'block';
       topLeftImg.style.display = 'block';

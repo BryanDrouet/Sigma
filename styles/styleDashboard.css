@@ -245,28 +245,22 @@ button.delete-button:hover {
 .theme-image {
   position: fixed;
   pointer-events: none;
+  object-fit: contain;
+  margin: 0 !important;
+  padding: 0 !important;
+  z-index: -1;
 }
 
 .theme-image.bottom {
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  max-width: 100%;
-  height: auto;
+  /* Tailles appliquées dynamiquement via JavaScript depuis themes.json */
 }
 
 .theme-image.top-left {
-  top: 0;
-  left: 0;
-  max-width: 30%;
-  height: auto;
+  /* Tailles appliquées dynamiquement via JavaScript depuis themes.json */
 }
 
 .theme-image.top-right {
-  top: 0;
-  right: 0;
-  max-width: 30%;
-  height: auto;
+  /* Tailles appliquées dynamiquement via JavaScript depuis themes.json */
 }
 
 /* Animations */

@@ -26,6 +26,11 @@
       "name": "Noël",
       "startDate": "12-01",
       "endDate": "12-26",
+      "images": {
+        "bottom": { "bottom": "0px", "left": "0", "width": "100vw", "maxWidth": "100vw" },
+        "topLeft": { "top": "0px", "left": "0px", "maxWidth": "25%", "maxHeight": "25%" },
+        "topRight": { "top": "0", "right": "0", "maxWidth": "40%", "maxHeight": "40%" }
+      },
       "colors": {
         "bg1": "#337a4d",
         "bg2": "#f7f7fa",
@@ -50,6 +55,11 @@
       "name": "Halloween",
       "startDate": "10-20",
       "endDate": "11-01",
+      "images": {
+        "bottom": { "bottom": "0px", "left": "0", "width": "100vw", "maxWidth": "100vw" },
+        "topLeft": { "top": "0px", "left": "0px", "maxWidth": "25%", "maxHeight": "25%" },
+        "topRight": { "top": "0", "right": "0", "maxWidth": "40%", "maxHeight": "40%" }
+      },
       "colors": {
         "bg1": "#9e3200",
         "bg2": "#29160d",
@@ -74,6 +84,11 @@
       "name": "Nouvel An",
       "startDate": "12-27",
       "endDate": "01-05",
+      "images": {
+        "bottom": { "bottom": "7px", "left": "0", "width": "100vw", "maxWidth": "100vw" },
+        "topLeft": { "top": "0", "left": "0", "maxWidth": "30%", "maxHeight": "30%" },
+        "topRight": { "top": "0", "right": "0", "maxWidth": "30%", "maxHeight": "30%" }
+      },
       "colors": {
         "bg1": "#f7d801",
         "bg2": "#fffbe7",
@@ -98,6 +113,11 @@
       "name": "Pâques",
       "startDate": "03-20",
       "endDate": "04-20",
+      "images": {
+        "bottom": { "bottom": "-2px", "left": "0", "width": "100vw", "maxWidth": "100vw" },
+        "topLeft": { "top": "0", "left": "0", "maxWidth": "30%", "maxHeight": "30%" },
+        "topRight": { "top": "0", "right": "0", "maxWidth": "30%", "maxHeight": "30%" }
+      },
       "colors": {
         "bg1": "#fbeffb",
         "bg2": "#ffdff0",
@@ -122,6 +142,11 @@
       "name": "Fête de la Musique",
       "startDate": "06-19",
       "endDate": "06-22",
+      "images": {
+        "bottom": { "bottom": "-2px", "left": "0", "width": "100vw", "maxWidth": "100vw" },
+        "topLeft": { "top": "4px", "left": "8px", "maxWidth": "25%", "maxHeight": "25%" },
+        "topRight": { "top": "0", "right": "0", "maxWidth": "40%", "maxHeight": "40%" }
+      },
       "colors": {
         "bg1": "#059790",
         "bg2": "#c5fff2",
@@ -146,6 +171,11 @@
       "name": "ZEvent",
       "startDate": "09-06",
       "endDate": "09-09",
+      "images": {
+        "bottom": { "bottom": "0px", "left": "0", "width": "100vw", "maxWidth": "100vw" },
+        "topLeft": { "top": "0px", "left": "0px", "maxWidth": "25%", "maxHeight": "25%" },
+        "topRight": { "top": "0", "right": "0", "maxWidth": "40%", "maxHeight": "40%" }
+      },
       "colors": {
         "bg1": "#d4004a",
         "bg2": "#ff005c",
@@ -170,6 +200,11 @@
       "name": "Solstice d'Été",
       "startDate": "06-20",
       "endDate": "06-21",
+      "images": {
+        "bottom": { "bottom": "0px", "left": "0", "width": "100vw", "maxWidth": "100vw" },
+        "topLeft": { "top": "0px", "left": "0px", "maxWidth": "25%", "maxHeight": "25%" },
+        "topRight": { "top": "0", "right": "0", "maxWidth": "40%", "maxHeight": "40%" }
+      },
       "colors": {
         "bg1": "#997000",
         "bg2": "#fff69f",
@@ -194,6 +229,11 @@
       "name": "Solstice d'Hiver",
       "startDate": "12-20",
       "endDate": "12-21",
+      "images": {
+        "bottom": { "bottom": "0px", "left": "0", "width": "100vw", "maxWidth": "100vw" },
+        "topLeft": { "top": "0px", "left": "0px", "maxWidth": "25%", "maxHeight": "25%" },
+        "topRight": { "top": "0", "right": "0", "maxWidth": "40%", "maxHeight": "40%" }
+      },
       "colors": {
         "bg1": "#335577",
         "bg2": "#6688aa",
@@ -218,6 +258,11 @@
       "name": "Festival de Cannes",
       "startDate": "05-13",
       "endDate": "05-24",
+      "images": {
+        "bottom": { "bottom": "0px", "left": "0", "width": "100vw", "maxWidth": "100vw" },
+        "topLeft": { "top": "0px", "left": "0px", "maxWidth": "25%", "maxHeight": "25%" },
+        "topRight": { "top": "0", "right": "0", "maxWidth": "40%", "maxHeight": "40%" }
+      },
       "colors": {
         "bg1": "#a07a38",
         "bg2": "#754c24",
@@ -242,6 +287,11 @@
       "name": "Popcorn",
       "startDate": "02-10",
       "endDate": "02-16",
+      "images": {
+        "bottom": { "bottom": "0px", "left": "0", "width": "100vw", "maxWidth": "100vw" },
+        "topLeft": { "top": "0px", "left": "0px", "maxWidth": "25%", "maxHeight": "25%" },
+        "topRight": { "top": "0", "right": "0", "maxWidth": "40%", "maxHeight": "40%" }
+      },
       "colors": {
         "bg1": "#c1992f",
         "bg2": "#f7bf38",
@@ -266,6 +316,11 @@
       "name": "Carnaval de Cholet",
       "startDate": "03-01",
       "endDate": "03-05",
+      "images": {
+        "bottom": { "bottom": "0px", "left": "0", "width": "100vw", "maxWidth": "100vw" },
+        "topLeft": { "top": "0px", "left": "0px", "maxWidth": "25%", "maxHeight": "25%" },
+        "topRight": { "top": "0", "right": "0", "maxWidth": "40%", "maxHeight": "40%" }
+      },
       "colors": {
         "bg1": "#b4253a",
         "bg2": "#fc4a1a",
@@ -290,6 +345,11 @@
       "name": "NRJ Music Awards",
       "startDate": "11-08",
       "endDate": "11-10",
+      "images": {
+        "bottom": { "bottom": "0px", "left": "0", "width": "100vw", "maxWidth": "100vw" },
+        "topLeft": { "top": "0px", "left": "0px", "maxWidth": "25%", "maxHeight": "25%" },
+        "topRight": { "top": "0", "right": "0", "maxWidth": "40%", "maxHeight": "40%" }
+      },
       "colors": {
         "bg1": "#b30065",
         "bg2": "#4c0024",
@@ -314,6 +374,11 @@
       "name": "Puy du Fou",
       "startDate": "04-05",
       "endDate": "11-03",
+      "images": {
+        "bottom": { "bottom": "0px", "left": "0", "width": "100vw", "maxWidth": "100vw" },
+        "topLeft": { "top": "0px", "left": "0px", "maxWidth": "25%", "maxHeight": "25%" },
+        "topRight": { "top": "0", "right": "0", "maxWidth": "40%", "maxHeight": "40%" }
+      },
       "colors": {
         "bg1": "#8c6e2f",
         "bg2": "#b88b44",
@@ -338,6 +403,11 @@
       "name": "Club Radio Mauléon",
       "startDate": "07-15",
       "endDate": "07-18",
+      "images": {
+        "bottom": { "bottom": "0px", "left": "0", "width": "100vw", "maxWidth": "100vw" },
+        "topLeft": { "top": "0px", "left": "0px", "maxWidth": "25%", "maxHeight": "25%" },
+        "topRight": { "top": "0", "right": "0", "maxWidth": "40%", "maxHeight": "40%" }
+      },
       "colors": {
         "bg1": "#4b1d83",
         "bg2": "#350052",
@@ -362,6 +432,11 @@
       "name": "Sleepless Night",
       "startDate": "10-05",
       "endDate": "10-06",
+      "images": {
+        "bottom": { "bottom": "0px", "left": "0", "width": "100vw", "maxWidth": "100vw" },
+        "topLeft": { "top": "0px", "left": "0px", "maxWidth": "25%", "maxHeight": "25%" },
+        "topRight": { "top": "0", "right": "0", "maxWidth": "40%", "maxHeight": "40%" }
+      },
       "colors": {
         "bg1": "#682fcc",
         "bg2": "#321f68",
@@ -386,6 +461,11 @@
       "name": "Fête Nationale",
       "startDate": "07-14",
       "endDate": "07-14",
+      "images": {
+        "bottom": { "bottom": "0px", "left": "0", "width": "100vw", "maxWidth": "100vw" },
+        "topLeft": { "top": "0px", "left": "0px", "maxWidth": "25%", "maxHeight": "25%" },
+        "topRight": { "top": "0", "right": "0", "maxWidth": "40%", "maxHeight": "40%" }
+      },
       "colors": {
         "bg1": "#990000",
         "bg2": "#ffffff",
@@ -410,6 +490,11 @@
       "name": "Les Enfoirés",
       "startDate": "01-20",
       "endDate": "01-26",
+      "images": {
+        "bottom": { "bottom": "0px", "left": "0", "width": "100vw", "maxWidth": "100vw" },
+        "topLeft": { "top": "0px", "left": "0px", "maxWidth": "25%", "maxHeight": "25%" },
+        "topRight": { "top": "0", "right": "0", "maxWidth": "40%", "maxHeight": "40%" }
+      },
       "colors": {
         "bg1": "#aa2b22",
         "bg2": "#560a07",
