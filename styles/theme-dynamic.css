@@ -45,13 +45,13 @@ html {
   background: var(--color-bg1);
   background: linear-gradient(150deg, var(--color-bg2) 0%, var(--color-bg3) 100%);
   background-attachment: fixed;
-  min-height: 100vh;
+  min-height: 100%;
 }
 
 body {
   background: linear-gradient(150deg, var(--color-bg2) 0%, var(--color-bg3) 100%);
   background-attachment: fixed;
-  min-height: 100vh;
+  min-height: 100%;
 }
 
 h1, h2 {
