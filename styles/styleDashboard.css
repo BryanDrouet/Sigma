@@ -11,8 +11,6 @@ html {
 }
 
 body {
-  height: 100%;
-  min-height: 100vh;
   font-family: "Segoe UI", sans-serif;
   margin: 0;
   padding: 0;
@@ -20,12 +18,11 @@ body {
 
 .page {
   position: relative;
-  min-height: 100vh;
 }
 
 #mainContent {
   margin: 50px 15%;
-  padding-bottom: 120px;
+  padding-bottom: 50px;
 }
 
 h1, h2 {
