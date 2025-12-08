@@ -19,6 +19,28 @@
   --color-white: #3a3329;
 }
 
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-main) var(--color-form-bg);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-form-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-main);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-btn-hover);
+}
+
 html {
   background: var(--color-bg1);
   background: linear-gradient(150deg, var(--color-bg2) 0%, var(--color-bg3) 100%);

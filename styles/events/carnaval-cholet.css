@@ -8,6 +8,28 @@
   --modal: rgba(252,74,26,0.3);
 }
 
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--main) var(--c3);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--c3);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--main);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--c1);
+}
+
 html {
   background: var(--c1);
   background: linear-gradient(150deg, var(--c2) 0%, var(--c3) 100%);
