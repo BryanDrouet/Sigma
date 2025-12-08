@@ -49,8 +49,6 @@ html {
 }
 
 body {
-  background: linear-gradient(150deg, var(--color-bg2) 0%, var(--color-bg3) 100%);
-  background-attachment: fixed;
   min-height: 100%;
 }
 
