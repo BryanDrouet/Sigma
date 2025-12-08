@@ -153,31 +153,87 @@ h2.popUp {
 
 @media (max-width: 768px) {
   .container {
-    flex-direction: column;
+    max-width: 95%;
+    padding: 15px;
   }
 
-  .left, .right {
-    width: 100%;
-    height: 50%;
+  .sigma-header h1 {
+    font-size: 2em;
   }
 
-  h2.h2HalfText {
-    font-size: 1.2rem;
-    margin-left: 10px;
-    margin-right: 10px;
+  .sigma-header .tagline {
+    font-size: 0.9em;
   }
 
-  .logo {
-    width: 90px;
+  .logo-sigma {
+    width: 70px;
+    height: 70px;
   }
 
-  .install-button {
-    top: 20px !important;
-    font-size: 0.7rem !important;
+  .auth-form h2 {
+    font-size: 1.3em;
+  }
+
+  .auth-form input,
+  .auth-form button {
+    font-size: 14px;
+    padding: 10px;
   }
 
   .modal-content {
-    width: 70% !important;
+    width: 90% !important;
+    max-width: 90%;
+    padding: 15px;
+  }
+
+  .account-item {
+    padding: 12px;
+  }
+
+  .install-button, #showUpdatesButton, #clearDataButton {
+    font-size: 0.8rem !important;
+    padding: 10px 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    max-width: 98%;
+    padding: 10px;
+  }
+
+  .sigma-header h1 {
+    font-size: 1.8em;
+  }
+
+  .logo-sigma {
+    width: 60px;
+    height: 60px;
+  }
+
+  .auth-form h2 {
+    font-size: 1.2em;
+  }
+
+  .auth-form input,
+  .auth-form button {
+    font-size: 13px;
+    padding: 8px;
+  }
+
+  .modal-content {
+    width: 95% !important;
+    padding: 10px;
+  }
+
+  .account-item {
+    padding: 10px;
+    font-size: 0.9em;
+  }
+
+  .install-button, #showUpdatesButton, #clearDataButton {
+    font-size: 0.7rem !important;
+    padding: 8px 16px;
   }
 }
 

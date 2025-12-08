@@ -285,11 +285,14 @@ button.delete-button:hover {
 /* Responsive */
 @media screen and (max-width: 768px) {
   #mainContent {
-    margin: 30px 5%;
+    margin: 20px 3%;
+    padding-bottom: 30px;
   }
 
   .modal-content {
     width: 95%;
+    max-width: 95%;
+    padding: 15px;
   }
 
   .button-container {
@@ -300,6 +303,67 @@ button.delete-button:hover {
   .theme-image.top-left,
   .theme-image.top-right {
     max-width: 20%;
+  }
+
+  form {
+    padding: 15px;
+  }
+
+  input, select, button {
+    font-size: 14px;
+  }
+
+  h1 {
+    font-size: 1.8em;
+  }
+
+  h2 {
+    font-size: 1.3em;
+  }
+
+  #notesList li {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .button-container-inline {
+    width: 100%;
+    justify-content: flex-start;
+    margin-top: 10px;
+  }
+
+  .delete-button, .edit-button {
+    margin-left: 0;
+    margin-right: 10px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  #mainContent {
+    margin: 15px 2%;
+  }
+
+  h1 {
+    font-size: 1.5em;
+  }
+
+  h2 {
+    font-size: 1.2em;
+  }
+
+  .modal-content {
+    width: 98%;
+    padding: 10px;
+  }
+
+  input, select, button {
+    font-size: 13px;
+    padding: 8px;
+  }
+
+  .theme-image.top-left,
+  .theme-image.top-right {
+    max-width: 15%;
   }
 }
 
