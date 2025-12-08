@@ -2,7 +2,7 @@
 html {
   visibility: hidden;
   background: linear-gradient(150deg, #6a5acd 0%, #483d8b 100%);
-  min-height: 100vh;
+  min-height: 100%;
 }
 
 * {
@@ -15,7 +15,7 @@ body {
   font-family: "Segoe UI", sans-serif;
   margin: 0;
   padding: 0;
-  min-height: 100vh;
+  min-height: 100%;
   background: linear-gradient(150deg, #6a5acd 0%, #483d8b 100%);
   background-attachment: fixed;
 }

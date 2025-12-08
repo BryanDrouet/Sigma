@@ -6,8 +6,8 @@ html * {
 body {
   margin: 0;
   padding: 0;
-  width: 100vw;
-  min-height: 100vh;
+  width: 100%;
+  min-height: 100%;
   font-family: "Segoe UI", sans-serif;
   background: linear-gradient(150deg, #6a5acd 0%, #483d8b 100%);
   display: flex;
