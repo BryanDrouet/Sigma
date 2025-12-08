@@ -62,9 +62,14 @@ form {
 }
 
 label {
-  display: block;
+  display: inline-block;
   margin-top: 10px;
   font-weight: bold;
+}
+
+.required {
+  color: red;
+  display: inline;
 }
 
 input, select {
@@ -241,8 +246,20 @@ button.delete-button:hover {
   margin-bottom: 15px;
 }
 
-.required {
-  color: red;
+.subject-input label,
+.marks-input label,
+.maxMarks-input label,
+.coefficient-input label {
+  display: inline;
+}
+
+.subject-input select,
+.marks-input input,
+.maxMarks-input input,
+.coefficient-input input,
+.description-input input {
+  display: block;
+  width: 100%;
 }
 
 .images {
