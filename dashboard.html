@@ -109,7 +109,7 @@
       </button>
     </div>
 
-    <button class="pwa-install-button" id="installButton" style="display: none;">📲 Installer l'application</button>
+    <button class="pwa-install-button" id="installButton" style="display: none;">Installer l'application</button>
 
     <div id="mainContent">
 
@@ -205,13 +205,13 @@
         <div class="account-actions">
           <h3>Modifier le compte</h3>
           
-          <button class="action-button" onclick="showChangeEmail()">📧 Modifier l'email</button>
-          <button class="action-button" onclick="showChangePassword()">🔒 Modifier le mot de passe</button>
+          <button class="action-button" onclick="showChangeEmail()">Modifier l'email</button>
+          <button class="action-button" onclick="showChangePassword()">Modifier le mot de passe</button>
           
           <hr style="margin: 20px 0; border: none; border-top: 1px solid #ddd;">
           
           <h3 style="color: #dc3545;">Zone de danger</h3>
-          <button class="danger-button" onclick="confirmDeleteAccount()">🗑️ Supprimer le compte</button>
+          <button class="danger-button" onclick="confirmDeleteAccount()">Supprimer le compte</button>
         </div>
 
         <!-- Formulaire changement email -->
@@ -256,7 +256,7 @@
   <!-- Confirm personnalisé -->
   <div id="customConfirm" class="custom-popup" style="display: none;">
     <div class="custom-popup-content">
-      <div class="custom-popup-icon warning">⚠️</div>
+      <div class="custom-popup-icon warning"></div>
       <p id="confirmMessage"></p>
       <div class="popup-buttons">
         <button id="confirmYesBtn" class="popup-btn popup-btn-primary">Confirmer</button>
@@ -268,7 +268,7 @@
   <!-- Prompt personnalisé -->
   <div id="customPrompt" class="custom-popup" style="display: none;">
     <div class="custom-popup-content">
-      <div class="custom-popup-icon info">ℹ️</div>
+      <div class="custom-popup-icon info"></div>
       <p id="promptMessage"></p>
       <input type="text" id="promptInput" class="prompt-input" />
       <div class="popup-buttons">
@@ -557,8 +557,12 @@
 
       if (subjects.length === 0) {
         subjectSelect.style.display = 'none';
+        document.getElementById('labelSubject').style.display = 'none';
+        document.getElementById('requiredSubject').style.display = 'none';
       } else {
         subjectSelect.style.display = 'inline-block';
+        document.getElementById('labelSubject').style.display = 'inline';
+        document.getElementById('requiredSubject').style.display = 'inline';
         subjects.forEach(subject => {
           const option = document.createElement("option");
           option.value = subject;
@@ -1027,28 +1031,6 @@
         showPopup(errorMessage, 'error');
       }
     }
-    
-    // Gestion PWA Install
-    let deferredPrompt;
-    const installButton = document.getElementById("installButton");
-
-    window.addEventListener("beforeinstallprompt", (e) => {
-      e.preventDefault();
-      deferredPrompt = e;
-      installButton.style.display = "block";
-    });
-
-    installButton.addEventListener("click", () => {
-      if (deferredPrompt) {
-        deferredPrompt.prompt();
-        deferredPrompt.userChoice.then((choiceResult) => {
-          if (choiceResult.outcome === 'accepted') {
-            installButton.style.display = "none";
-          }
-          deferredPrompt = null;
-        });
-      }
-    });
   </script>
 </body>
 </html>

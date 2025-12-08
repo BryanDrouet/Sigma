@@ -20,6 +20,15 @@ body {
   position: relative;
 }
 
+.button-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  gap: 15px;
+  z-index: 999;
+}
+
 #mainContent {
   margin: 50px 15%;
   padding-bottom: 50px;
@@ -98,22 +107,35 @@ button[type="submit"]:hover, button[type="button"]:hover, .btn:hover {
 }
 
 .install-button {
-  width: auto;
-  padding: 10px 20px;
-  border-radius: 8px;
+  width: 50px;
+  height: 50px;
+  padding: 0;
+  border-radius: 50%;
   cursor: pointer;
   transition: all 0.3s ease;
   display: none;
+  background: var(--color-btn, rgba(255, 255, 255, 0.15));
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  align-items: center;
+  justify-content: center;
 }
 
 .install-button:hover {
-  transition: all 0.3s ease;
+  background: var(--color-btn-hover, rgba(255, 255, 255, 0.25));
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
 }
 
-.install-button img {
+.install-button:active {
+  transform: scale(0.95);
+}
+
+.install-button img,
+.install-button svg {
   width: 24px;
   height: 24px;
-  vertical-align: middle;
+  filter: brightness(0) invert(1) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
 }
 
 .delete-button, .edit-button {
@@ -147,21 +169,18 @@ button.delete-button:hover {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   display: flex;
   justify-content: space-between;
-  padding: 12px;
+  padding: 15px;
   border-radius: 8px;
   margin-bottom: 10px;
   align-items: center;
-  transition: background-color 0.3s ease, opacity 0.3s ease;
   flex-wrap: wrap;
-}
-
-#notesList li:hover {
-  transition: background-color 0.3s ease;
+  gap: 10px;
 }
 
 #notesList li span {
   font-weight: bold;
   flex: 1;
+  min-width: 150px;
 }
 
 #notesList li .coef {
@@ -173,13 +192,19 @@ button.delete-button:hover {
 #notesList li .noteSur20 {
   font-size: 1.1em;
   margin-right: 10px;
+  font-weight: 600;
 }
 
 #notesList li p {
   width: 100%;
-  margin: 8px 0 0 0;
+  margin: 5px 0 5px 0;
+  padding: 10px;
   color: #555;
   font-style: italic;
+  background-color: rgba(0, 0, 0, 0.03);
+  border-left: 3px solid var(--color-btn, #6a5acd);
+  border-radius: 4px;
+  font-size: 0.95em;
 }
 
 .button-container-inline {
@@ -289,25 +314,30 @@ button.delete-button:hover {
   left: 50%;
   transform: translateX(-50%);
   z-index: 1000;
-  padding: 12px 24px;
+  padding: 14px 28px;
   font-size: 16px;
   font-weight: 600;
-  color: white;
-  background: linear-gradient(135deg, var(--color-bg1, #1e3c72), var(--color-bg2, #2a5298));
-  border: none;
-  border-radius: 25px;
+  color: var(--color-white, white);
+  background: var(--color-btn, linear-gradient(135deg, #6a5acd, #8a7ae0));
+  border: 2px solid var(--color-btn, rgba(255, 255, 255, 0.2));
+  border-radius: 30px;
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
   transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: none;
 }
 
 .pwa-install-button:hover {
-  transform: translateX(-50%) scale(1.05);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+  transform: translateX(-50%);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  background: var(--color-btn-hover, linear-gradient(135deg, #5a4abd, #7a6ad0));
+  border-color: var(--color-btn-hover, rgba(255, 255, 255, 0.4));
 }
 
 .pwa-install-button:active {
-  transform: translateX(-50%) scale(0.98);
+  transform: translateX(-50%) scale(0.95);
 }
 
 /* Gestion du compte */
@@ -530,8 +560,25 @@ button.delete-button:hover {
 
   .pwa-install-button {
     bottom: 15px;
-    padding: 10px 20px;
     font-size: 14px;
+    padding: 10px 20px;
+  }
+
+  .button-container {
+    top: 10px;
+    right: 10px;
+    gap: 10px;
+  }
+
+  .install-button {
+    width: 45px;
+    height: 45px;
+  }
+
+  .install-button img,
+  .install-button svg {
+    width: 20px;
+    height: 20px;
   }
 }
 
@@ -544,7 +591,7 @@ button.delete-button:hover {
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.6);
-  z-index: 10000;
+  z-index: 10001;
   justify-content: center;
   align-items: center;
   animation: fadeIn 0.3s ease;
@@ -559,6 +606,8 @@ button.delete-button:hover {
   max-width: 400px;
   width: 90%;
   animation: slideDown 0.3s ease;
+  position: relative;
+  z-index: 10002;
 }
 
 .custom-popup-icon {
