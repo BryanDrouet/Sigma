@@ -100,7 +100,7 @@
   <!-- Confirm personnalisé -->
   <div id="customConfirm" class="custom-popup" style="display: none;">
     <div class="custom-popup-content">
-      <div class="custom-popup-icon warning">⚠️</div>
+      <div class="custom-popup-icon warning"></div>
       <p id="confirmMessage"></p>
       <div class="popup-buttons">
         <button id="confirmYesBtn" class="popup-btn popup-btn-primary">Confirmer</button>
@@ -140,6 +140,7 @@
       <label for="accountYear">Année scolaire</label>
       <select id="accountYear"></select>
       <button id="createAccountBtn" onclick="createAccount()">Créer un compte</button>
+      <button id="logoutFromModal" class="logout-modal-btn" onclick="logoutFromAccountModal()">Se déconnecter</button>
     </div>
   </div>
 
@@ -637,6 +638,15 @@
     
     function closeModal() {
       closeModalWithAnimation('accountModal');
+    }
+
+    async function logoutFromAccountModal() {
+      const confirmLogout = await showConfirm("Êtes-vous sûr de vouloir vous déconnecter ?");
+      if (!confirmLogout) return;
+      
+      await firebase.auth().signOut();
+      closeModal();
+      document.getElementById('authSection').style.display = 'block';
     }
 
     console.log(`
