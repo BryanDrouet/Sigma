@@ -1,0 +1,114 @@
+/* Thème dynamique - Les variables CSS sont injectées via JavaScript */
+:root {
+  --color-bg1: #6a5acd;
+  --color-bg2: #6a5acd;
+  --color-bg3: #483d8b;
+  --color-main: #ffffff;
+  --color-alt: #e8e4f3;
+  --color-form-bg: #f5f5f5;
+  --color-input-bg: #ffffff;
+  --color-input-border: #6a5acd;
+  --color-btn: #6a5acd;
+  --color-btn-hover: #483d8b;
+  --color-btn-del: #dc3545;
+  --color-modal: rgba(106, 90, 205, 0.4);
+  --color-hover: #e8e4f3;
+  --color-white: #ffffff;
+  --scrollbar-track: #e8e4f3;
+  --scrollbar-thumb: #6a5acd;
+  --scrollbar-thumb-hover: #483d8b;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
+}
+
+html {
+  background: var(--color-bg1);
+  background: linear-gradient(150deg, var(--color-bg2) 0%, var(--color-bg3) 100%);
+  background-attachment: fixed;
+  min-height: 100vh;
+}
+
+body {
+  background: linear-gradient(150deg, var(--color-bg2) 0%, var(--color-bg3) 100%);
+  background-attachment: fixed;
+  min-height: 100vh;
+}
+
+h1, h2 {
+  color: var(--color-main);
+}
+
+h2.popUp {
+  color: var(--color-main);
+}
+
+form, #notesList li, .modal-content {
+  background-color: var(--color-form-bg);
+  color: var(--color-main);
+}
+
+input, select {
+  border: 1px solid var(--color-input-border);
+  background: var(--color-input-bg);
+  color: var(--color-main);
+}
+
+button.edit-button, .btn,
+button[type="submit"], button[type="button"] {
+  background-color: var(--color-btn);
+  color: var(--color-white);
+}
+
+button.edit-button:hover, .btn:hover,
+button[type="submit"]:hover, button[type="button"]:hover {
+  background-color: var(--color-btn-hover);
+}
+
+button.delete-button {
+  background-color: var(--color-btn-del);
+  color: var(--color-white);
+}
+
+button.delete-button:hover {
+  background-color: var(--color-btn-hover);
+}
+
+.modal {
+  background-color: var(--color-modal);
+}
+
+#notesList li:hover {
+  background-color: var(--color-hover);
+}
+
+#accountsList li:hover {
+  background-color: var(--color-hover);
+}
+
+.close {
+  color: var(--color-main);
+}
+
+.close:hover, .close:focus {
+  color: var(--color-btn-del);
+}

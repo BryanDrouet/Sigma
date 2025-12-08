@@ -18,6 +18,7 @@
   <title>Sigma - Dashboard</title>
   <link rel="manifest" href="manifest.json" />
   <link rel="stylesheet" href="styles/styleDashboard.css" />
+  <link rel="stylesheet" href="styles/theme-dynamic.css" />
   <link rel="icon" type="image/png" href="assets/icon.png" />
   
   <!-- Firebase SDK -->
@@ -25,126 +26,18 @@
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
   
+  <!-- Système de thèmes dynamique -->
+  <script src="theme-manager.js"></script>
+  
   <script>
     document.documentElement.classList.add('no-transition');
   
-    function kebabToCamel(str) {
-      return str.replace(/-./g, m => m[1].toUpperCase()); 
-    }
-    function snakeToCamel(str) {
-      return str.replace(/_./g, m => m[1].toUpperCase()); 
-    }
-    function flatLowerToCamel(str) {
-      const map = {
-        'fetemusique': 'feteMusique',
-        'nouvelan': 'nouvelAn',
-        'solsticehiver': 'solsticeHiver',
-        'solsticeete': 'solsticeEte',
-        'fetenationale': 'feteNationale',
-        'festivalcannes': 'festivalCannes',
-        'sleeplessnight': 'sleeplessNight',
-        'carnavalcholet': 'carnavalCholet',
-        'lesenfoires': 'lesEnfoires',
-        'nrjmusicawards': 'nrjMusicAwards',
-        'clubradiomauleon': 'clubRadioMauleon',
-        'puydufou': 'puyDuFou',
-        'halloween': 'halloween',
-        'noel': 'noel',
-        'paques': 'paques',
-        'default': 'default',
-        'zevent': 'zevent',
-        'popcorn': 'popcorn',
-      };
-      return map[str] || str; 
-    }
-
-    async function getForcedThemeFromSettings() {
-      try {
-        const res = await fetch('settings.json');
-        if (!res.ok) throw new Error('Settings file not found');
-        const settings = await res.json();
-        if (settings.forcedTheme && typeof settings.forcedTheme === 'string') {
-          const raw = settings.forcedTheme.trim();
-
-          if (raw === 'none' || raw === 'default') return raw;
-
-          if (raw.includes('-')) return kebabToCamel(raw.toLowerCase()); 
-          if (raw.includes('_')) return snakeToCamel(raw.toLowerCase()); 
-          if (/^[a-z]+$/.test(raw)) return flatLowerToCamel(raw);
-
-          return raw;
-        }
-      } catch (e) {
-        console.warn('Impossible de lire settings.json ou propriété forcedTheme absente');
-      }
-      return null;
-    }
-  
-    async function applyTheme() {
-      const forcedTheme = await getForcedThemeFromSettings();
-      let theme;
-
-      if (typeof forcedTheme === 'string' && forcedTheme !== 'none') {
-        if (forcedTheme === 'default') {
-          theme = 'default';
-        } else if (isRecognizedTheme(forcedTheme)) {
-          theme = forcedTheme;
-        } else {
-          theme = getSeasonalTheme();
-        }
-      } else {
-        theme = getSeasonalTheme();
-      }
-
-      function camelToKebab(str) {
-        return str.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
-      }
-
-      let link = document.getElementById('theme-style');
-      const isDefault = (theme === 'default');
-
-      if (isDefault) {
-        if (link) {
-          link.parentNode && link.parentNode.removeChild(link);
-        }
-      } else {
-        if (!link) {
-          link = document.createElement('link');
-          link.rel = 'stylesheet';
-          link.id = 'theme-style';
-          document.head.appendChild(link);
-        }
-        const timestamp = new Date().getTime();
-        const cssName = camelToKebab(theme);
-        link.href = `styles/events/${cssName}.css?v=${timestamp}`;
-
-        await new Promise((resolve, reject) => {
-          link.onload = resolve;
-          link.onerror = reject;
-        });
-      }
-
-      await updateThemeImages(theme);
-      document.documentElement.style.visibility = 'visible';
-    }
-
-    function isRecognizedTheme(theme) {
-      const recognizedThemes = [
-        'halloween', 'noel', 'nouvelAn', 'feteMusique', 'paques', 'default',
-        'puyDuFou', 'zevent', 'sleeplessNight', 'popcorn',
-        'clubRadioMauleon', 'carnavalCholet', 'feteNationale',
-        'festivalCannes', 'nrjMusicAwards', 'lesEnfoires', 'solsticeHiver',
-        'solsticeEte'
-      ];
-      return recognizedThemes.includes(theme);
-    }
-    
-    async function updateThemeImages(theme) {
+    async function updateThemeImages(themeKey) {
       const bottomImg = document.getElementById('bottom');
       const topLeftImg = document.getElementById('top-left');
       const topRightImg = document.getElementById('top-right');
     
-      if (!isRecognizedTheme(theme) || theme === 'default') {
+      if (themeKey === 'default') {
         bottomImg.style.display = 'none';
         topLeftImg.style.display = 'none';
         topRightImg.style.display = 'none';
@@ -154,12 +47,7 @@
         return;
       }
     
-      function camelToKebab(str) {
-        return str.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
-      }
-    
-      const folderName = camelToKebab(theme);
-      const basePath = `assets/events/${folderName}`;
+      const basePath = `assets/events/${themeKey}`;
     
       bottomImg.src = `${basePath}/3.png`;
       topLeftImg.src = `${basePath}/2.png`;
@@ -170,47 +58,13 @@
       topRightImg.style.display = 'block';
     }
 
-    function getEaster(year) {
-      let a = year % 19;
-      let b = Math.floor(year / 100);
-      let c = year % 100;
-      let d = Math.floor(b / 4);
-      let e = b % 4;
-      let f = Math.floor((b + 8) / 25);
-      let g = Math.floor((b - f + 1) / 3);
-      let h = (19 * a + b - d - g + 15) % 30;
-      let i = Math.floor(c / 4);
-      let k = c % 4;
-      let l = (32 + 2 * e + 2 * i - h - k) % 7;
-      let m = Math.floor((a + 11 * h + 22 * l) / 451);
-      let month = Math.floor((h + l - 7 * m + 114) / 31);
-      let day = ((h + l - 7 * m + 114) % 31) + 1;
-      return { month, day };
-    }
-  
-    function getSeasonalTheme() {
-      const now = new Date();
-      const year = now.getFullYear();
-      const month = now.getMonth() + 1;
-      const day = now.getDate();
-  
-      if (month === 10) return 'halloween';
-      if (month === 12 && day >= 1) return 'noel';
-      if (month === 1 && day <= 7) return 'nouvelAn';
-      if (month === 6 && day === 21) return 'feteMusique';
-  
-      const easter = getEaster(year);
-      if (month === easter.month && day === easter.day) return 'paques';
-  
-      return 'default';
-    }
-
     setTimeout(() => {
       document.documentElement.classList.remove('no-transition');
     }, 125);
   
     (async () => {
-      await applyTheme();
+      const currentTheme = await window.themeSystem.init();
+      await updateThemeImages(currentTheme);
     })();
   </script>
 </head>
